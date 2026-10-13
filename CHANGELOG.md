@@ -19,6 +19,15 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-13 11:18 +07:00 — COMBAT-02: Chốt xác minh Play Mode
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Hoàn tất ghi nhận COMBAT-02 dựa trên kết quả Play Mode do người dùng xác nhận.
+- **Thay đổi:** Xác nhận trạng thái DONE của task trong tài liệu; không thay đổi code.
+- **Kiểm tra:** Người dùng xác nhận Large không bật ngược khi trúng đạn; mỗi viên đạn gây sát thương một lần; Large bị tiêu diệt sau 3 hit; đạn được pool tái sử dụng; bắn trượt vẫn hoạt động bình thường; Console không có lỗi mới. Không chạy automated test mới.
+- **Chưa kiểm tra / Rủi ro:** Không ghi nhận hạng mục COMBAT-02 nào còn chờ xác minh.
+- **Tiếp theo:** `STAR-01`; chưa triển khai.
+
 ## 2026-10-13 11:11 +07:00 — COMBAT-02: Xác nhận kiểm tra Play Mode
 
 - **Trạng thái:** DONE
