@@ -19,6 +19,24 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-13 11:38 +07:00 — STAR-01: Chốt xác minh Star pickup
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt STAR-01 theo kết quả Play Mode do người dùng xác nhận.
+- **Thay đổi:** Đánh dấu STAR-01 hoàn tất; task tiếp theo theo roadmap là `SCORE-01`.
+- **Kiểm tra:** Người dùng xác nhận Small thả 1 Star, Large thả 2–3 Stars; nhặt Star tăng XP mà không đổi Score; Star được thu hồi khi nhặt hoặc rời màn hình; pool tái sử dụng đúng; không có lỗi Console mới. Không chạy kiểm tra tự động mới.
+- **Chưa kiểm tra / Rủi ro:** Không có hạng mục Play Mode STAR-01 nào khác được báo cáo là chưa xác minh.
+- **Tiếp theo:** `SCORE-01`; chưa triển khai.
+
+## 2026-10-13 11:29 +07:00 — STAR-01: Star pickup và XP
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Triển khai Star drop từ Asteroid, pool, drift, pickup nhận XP và thu hồi ngoài màn hình; chưa làm Score hoặc nâng cấp.
+- **Thay đổi:** `Asteroid` báo pool một lần khi HP về 0; Small thả 1 Star, Large thả ngẫu nhiên 2–3. `StarPool` dùng `PrefabPool<StarPickup>` và prewarm 64; `StarPickup` reset vận tốc/trạng thái khi tái sử dụng, trôi sang trái, cộng XP vào `StarXPCollector` của Player rồi về pool, hoặc tự thu hồi khi qua mép trái. Tạo prefab Star tạm bằng sprite placeholder có sẵn, trigger collider và Rigidbody2D. Scene `Gameplay` đã gắn StarPool với prefab/camera, nối AsteroidPool tới StarPool, đồng thời thêm trigger collider và `StarXPCollector` lên Player.
+- **Kiểm tra:** Unity Editor đã biên dịch mã sau khi sửa hai tham chiếu `Random` mơ hồ; editor setup đã lưu prefab và scene. Rà YAML xác nhận tham chiếu prefab/pool/camera, collider trigger và pool prewarm 64. `git diff --check` hoàn tất không lỗi whitespace. Không chạy Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần Play Mode xác nhận Small thả 1 Star, Large thả 2–3, chạm Player tăng XP mà không ảnh hưởng Score, Star được thu hồi sau thu thập/ra khỏi mép trái và pool tái sử dụng không còn vận tốc/trạng thái cũ. Cần kiểm tra Console trong lượt chạy.
+- **Tiếp theo:** Hoàn tất xác minh thủ công `STAR-01`; chưa bắt đầu task sau.
+
 ## 2026-10-13 11:18 +07:00 — COMBAT-02: Chốt xác minh Play Mode
 
 - **Trạng thái:** DONE
