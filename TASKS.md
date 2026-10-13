@@ -8,7 +8,7 @@ One prompt = one task by default.
 
 ## Current
 
-**NEXT:** `COMBAT-02`
+**NEXT:** `STAR-01`
 
 ## Foundation
 
@@ -24,7 +24,7 @@ One prompt = one task by default.
 
 - [x] **AST-01** — Small/Large Asteroid model, HP, movement, rotation, pooling, off-screen recycle. **DONE** · `Depends: ARCH-01` · `Reads: P5,P11`.
 - [x] **AST-02** — Asteroid spawner with controlled spawn randomness. **DONE** · `Depends: AST-01` · `Reads: P5,P8`.
-- [ ] **COMBAT-02** — Bullet-Asteroid collision, damage, death path. `Depends: COMBAT-01,AST-01` · `Reads: P4,P5,P9`.
+- [x] **COMBAT-02** — Bullet-Asteroid collision, damage, death path. **DONE** · `Depends: COMBAT-01,AST-01` · `Reads: P4,P5,P9`.
 - [ ] **STAR-01** — Star drop, pool, drift, collect, off-screen recycle. `Depends: COMBAT-02` · `Reads: P6,P11`.
 - [ ] **SCORE-01** — Score, survival time, clean run reset, result snapshot. `Depends: COMBAT-02` · `Reads: P8`.
 

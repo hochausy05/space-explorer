@@ -1,15 +1,18 @@
 using UnityEngine;
 using SpaceExplorer.Core.Pooling;
+using SpaceExplorer.Asteroids;
 
 namespace SpaceExplorer.Combat
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(CircleCollider2D))]
     public sealed class Bullet : PooledObject
     {
         [SerializeField, Min(0.1f)] private float _speed = 12f;
         [SerializeField, Min(0.1f)] private float _maxLifetime = 5f;
+        [SerializeField, Min(1)] private int _damage = 1;
 
         private Rigidbody2D _rigidbody;
+        private CircleCollider2D _collider;
         private Renderer _renderer;
         private BulletPool _owner;
         private Camera _camera;
@@ -19,9 +22,14 @@ namespace SpaceExplorer.Combat
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            _collider = GetComponent<CircleCollider2D>();
+            if (_collider == null)
+                _collider = gameObject.AddComponent<CircleCollider2D>();
+            _collider.isTrigger = true;
             _renderer = GetComponent<Renderer>();
             _rigidbody.gravityScale = 0f;
             _rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
+            _rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             _rigidbody.constraints |= RigidbodyConstraints2D.FreezeRotation;
         }
 
@@ -75,6 +83,21 @@ namespace SpaceExplorer.Combat
             _remainingLifetime -= Time.fixedDeltaTime;
             if (_remainingLifetime <= 0f || IsOutsideCamera())
                 ReturnToPool();
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (!_isInUse || _owner == null || other == null)
+                return;
+
+            if (!other.TryGetComponent(out Asteroid asteroid))
+                return;
+
+            // Mark consumed before applying damage so additional trigger callbacks are ignored.
+            BulletPool owner = _owner;
+            _isInUse = false;
+            asteroid.TakeDamage(_damage);
+            owner.Release(this);
         }
 
         private bool IsOutsideCamera()

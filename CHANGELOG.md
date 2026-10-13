@@ -19,6 +19,33 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-13 11:11 +07:00 — COMBAT-02: Xác nhận kiểm tra Play Mode
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt trạng thái tài liệu `COMBAT-02` theo xác nhận kiểm tra thủ công của người dùng.
+- **Thay đổi:** Đánh dấu task hoàn tất và chuyển task kế tiếp thành `STAR-01` theo roadmap.
+- **Kiểm tra:** Người dùng xác nhận trong Unity Play Mode: Asteroid Large không bật ngược khi trúng đạn, sát thương hoạt động đúng, Large bị tiêu diệt sau 3 hit, đạn được pool tái sử dụng và Console không có lỗi mới. Không chạy automated test mới.
+- **Chưa kiểm tra / Rủi ro:** Không còn mục xác minh COMBAT-02 được báo cáo.
+- **Tiếp theo:** `STAR-01`; chưa triển khai.
+
+## 2026-10-13 11:06 +07:00 — COMBAT-02: Ngăn Asteroid bật khi trúng đạn
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Chuyển hit detection của Bullet sang trigger để không tạo xung lực vật lý lên Asteroid.
+- **Thay đổi:** Xác nhận nguyên nhân là Bullet và Asteroid đều dùng Rigidbody2D động cùng collider không phải trigger. Bullet nay bật `isTrigger` cho CircleCollider2D và xử lý `OnTriggerEnter2D`; va chạm chỉ gây damage cho component Asteroid, đánh dấu đạn đã dùng trước khi gọi `TakeDamage()`, rồi trả đạn qua pool hiện tại. Không sửa Asteroid, prefab hay thiết lập physics toàn cục.
+- **Kiểm tra:** Đã rà mã xử lý hit và YAML prefab Bullet/Asteroid Large; `git diff --check` hoàn tất không có lỗi whitespace. Không chạy compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần xác minh trong Unity Play Mode rằng Asteroid Large không bị đẩy, nhận damage một lần, Bullet được thu hồi/tái sử dụng và va chạm vật thể khác không gây damage.
+- **Tiếp theo:** Xác minh thủ công `COMBAT-02`; chưa bắt đầu `STAR-01`.
+
+## 2026-10-13 10:59 +07:00 — COMBAT-02: Va chạm đạn và Asteroid
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm xử lý Bullet trúng Asteroid theo damage cơ bản đã tài liệu hóa; chưa mở rộng sang task khác.
+- **Thay đổi:** `Bullet` bảo đảm có CircleCollider2D khi pool tạo instance, bật va chạm liên tục, chỉ nhận Asteroid làm mục tiêu gây damage và tiêu thụ/hoàn trả đạn sau hit hợp lệ đầu tiên. Damage cấu hình mặc định là 1; `Asteroid.TakeDamage()` tiếp tục xử lý máu và vòng đời pool hiện có. Không sửa Asteroid, pool, prefab hoặc scene.
+- **Kiểm tra:** Đã rà cấu hình prefab: Bullet có Rigidbody2D nhưng thiếu collider; Asteroid Small/Large có CircleCollider2D thường và Rigidbody2D động. Đã rà tĩnh luồng callback, guard chống hit lặp và đường trả Bullet qua pool. Không chạy compile hay Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Unity Editor đang mở; compile và kiểm tra thực tế va chạm/thu hồi chưa được xác minh. Cần vào Play Mode, bắn trúng Small/Large để xác nhận trừ đúng 1 HP, đạn chỉ bị tiêu thụ một lần và được pool tái sử dụng; bắn trượt/va vật thể khác không gây damage.
+- **Tiếp theo:** Hoàn tất xác minh `COMBAT-02`; task sau đó theo roadmap là `STAR-01`.
+
 ## 2026-10-13 10:53 +07:00 — AST-02: Xác nhận tích hợp Gameplay
 
 - **Trạng thái:** DONE
