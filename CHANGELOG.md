@@ -19,6 +19,33 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-13 10:53 +07:00 — AST-02: Xác nhận tích hợp Gameplay
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt `AST-02` sau khi xác nhận cấu hình đã lưu trong scene `Gameplay`.
+- **Thay đổi:** Đánh dấu `AST-02` hoàn tất; task kế tiếp theo thứ tự hiện có là `COMBAT-02`.
+- **Kiểm tra:** Rà soát YAML xác nhận `AsteroidSpawner` gắn trên GameObject `AsteroidPool`; tham chiếu `_pool` trỏ tới component `AsteroidPool`, `_camera` trỏ tới `Main Camera`, và hai prefab Small/Large được pool gán hợp lệ. Thông số đã lưu: interval 1,8 giây, Large 20%, vertical inset 0,8, offset mép phải 0,5. Không chạy compile hoặc Play Mode trong lượt này.
+- **Chưa kiểm tra / Rủi ro:** Chưa xác minh hành vi runtime bằng Play Mode.
+- **Tiếp theo:** `COMBAT-02`; chưa triển khai.
+
+## 2026-10-13 10:50 +07:00 — AST-02: Kiểm tra tích hợp Gameplay
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Rà soát yêu cầu chốt `AST-02`; chưa thể xác nhận tích hợp trong scene đang lưu.
+- **Thay đổi:** Cập nhật trạng thái AST-02 và giữ nguyên task kế tiếp. Không sửa code hoặc scene.
+- **Kiểm tra:** Đọc `Gameplay.unity`: có `AsteroidPool`, hai prefab Small/Large và camera được gán; không có component tham chiếu GUID của `AsteroidSpawner`. Không chạy compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần lưu `AsteroidSpawner` trên GameObject trong `Gameplay` trước khi đánh dấu DONE. Không thể ghi nhận tích hợp chưa có trong scene workspace.
+- **Tiếp theo:** Hoàn tất lưu tích hợp scene và xác minh `AST-02`.
+
+## 2026-10-13 10:38 +07:00 — AST-02: Thêm bộ sinh Asteroid
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm component sinh Asteroid tự động; chưa tích hợp component vào scene `Gameplay`.
+- **Thay đổi:** Thêm `AsteroidSpawner`, gọi `AsteroidPool.TrySpawn` theo khoảng 1,8 giây; chọn Large với xác suất Inspector chỉnh được 20% (tài liệu không quy định tỷ lệ), lấy Y ngẫu nhiên trong vùng camera có chừa mép và đặt ngoài cạnh phải. Giới hạn số lượng dựa trên pool hiện có (24 Small, 8 Large). Khi có `GameManager`, chỉ sinh ở trạng thái Playing; scene chưa có GameManager được xem là đang chạy trực tiếp.
+- **Kiểm tra:** Rà soát tĩnh xác nhận dùng pool, khoảng spawn theo P8, bounds camera, giới hạn pool và điều kiện run-state. Unity batch mode thoát mã 1 trước bước import/compile với thông báo access token; compile chưa xác minh. Play Mode: NOT RUN.
+- **Chưa kiểm tra / Rủi ro:** Script chưa có `.meta` do Unity chưa import; cần thêm `AsteroidSpawner` vào GameObject `AsteroidPool` trong `Gameplay`, gán pool/camera rồi kiểm tra compile, nhịp sinh, phân bố loại, giới hạn pool và trạng thái Ready/Paused/Finished trong Play Mode.
+- **Tiếp theo:** Hoàn tất tích hợp và xác minh `AST-02`; chưa bắt đầu task sau.
+
 ## 2026-10-12 19:03 +07:00 — AST-01: Hoàn tất xác minh thủ công
 
 - **Trạng thái:** DONE
