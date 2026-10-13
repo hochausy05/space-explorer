@@ -21,6 +21,7 @@ namespace SpaceExplorer.Asteroids
         private Renderer _renderer;
         private AsteroidPool _owner;
         private Camera _camera;
+        private AsteroidSize _size;
         private int _currentHealth;
         private bool _isInUse;
 
@@ -36,7 +37,7 @@ namespace SpaceExplorer.Asteroids
             _rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         }
 
-        public void BeginRun(AsteroidPool owner, Camera camera)
+        public void BeginRun(AsteroidPool owner, Camera camera, AsteroidSize size)
         {
             if (!_isInUse || owner == null || camera == null || !camera.orthographic)
             {
@@ -47,6 +48,7 @@ namespace SpaceExplorer.Asteroids
 
             _owner = owner;
             _camera = camera;
+            _size = size;
             _currentHealth = Mathf.Max(1, _maximumHealth);
 
             float speed = Random.Range(_minimumSpeed, Mathf.Max(_minimumSpeed, _maximumSpeed));
@@ -66,7 +68,10 @@ namespace SpaceExplorer.Asteroids
 
             _currentHealth = Mathf.Max(0, _currentHealth - amount);
             if (_currentHealth == 0)
+            {
+                _owner?.OnAsteroidDestroyed(_size, transform.position);
                 ReturnToPool();
+            }
         }
 
         protected override void OnTakenFromPool()
@@ -74,6 +79,7 @@ namespace SpaceExplorer.Asteroids
             _owner = null;
             _camera = null;
             _isInUse = true;
+            _size = AsteroidSize.Small;
             _currentHealth = Mathf.Max(1, _maximumHealth);
             if (_rigidbody == null)
                 _rigidbody = GetComponent<Rigidbody2D>();
@@ -87,6 +93,7 @@ namespace SpaceExplorer.Asteroids
             _owner = null;
             _camera = null;
             _currentHealth = Mathf.Max(1, _maximumHealth);
+            _size = AsteroidSize.Small;
             if (_rigidbody != null)
             {
                 _rigidbody.linearVelocity = Vector2.zero;

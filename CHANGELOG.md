@@ -19,6 +19,87 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-13 20:07 +07:00 — UI-01: Đối chiếu HUD Level/XP đã tích hợp
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Đối chiếu xác nhận thủ công của chủ dự án với scene Gameplay đã lưu và tiêu chí UI-01.
+- **Thay đổi:** Xác nhận scene có Canvas, `ProgressionHUD`, LevelText, XPText, XP bar và các serialized references trỏ tới `StarXPCollector` cùng đúng UI components. Không sửa script hoặc scene. Chủ dự án báo HUD đã tích hợp và game đã được kiểm tra thành công; đây là xác nhận của chủ dự án, không phải Play Mode do Codex chạy.
+- **Kiểm tra:** Rà tĩnh wiring/fileID và loại component trong scene. `git diff --check` không đạt do trailing whitespace ở các dòng `m_Name: ` trong diff Gameplay đã tồn tại trước lượt này; không sửa scene. Không chạy automated test, Unity compile hoặc Play Mode. Không có kiểm tra hay triển khai HP bar.
+- **Chưa kiểm tra / Rủi ro:** Scene lưu các phần tử Level/XP quanh tâm màn hình (tọa độ neo gần (24,-24), (24,-62), (24,-100)); text xám đậm. Chưa xác nhận độ dễ đọc và tiêu chí không che các vùng gameplay bằng bố cục hiện tại.
+- **Tiếp theo:** Chỉnh vị trí/độ tương phản trong Unity Editor rồi xác minh lại bố cục; sau đó mới chốt UI-01.
+
+## 2026-10-13 20:24 +07:00 — UI-01: Tích hợp Level/XP HUD vào Gameplay
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Kiểm tra khả năng tích hợp `ProgressionHUD` vào scene Gameplay và giữ task chưa hoàn tất khi thiếu wiring scene.
+- **Thay đổi:** Chưa sửa scene hoặc script; `ProgressionHUD` hiện có nhưng Gameplay chưa có Canvas, Level/XP text, progress bar hay serialized reference tới component.
+- **Kiểm tra:** Đọc scene và tìm các component UI; xác nhận Unity Editor đang chạy với project này. Không chạy compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Không thể điều khiển cửa sổ Unity Editor trong phiên này; chạy batch-mode song song trên cùng project đang mở không an toàn. Theo quy tắc Unity của repository, không tự dựng scene YAML/fileID/reference. Cần tạo Canvas, Level Text, XP Text, fill Image; gắn `ProgressionHUD`, nối Player `StarXPCollector` và ba UI references trong Inspector, rồi lưu Gameplay.
+- **Tiếp theo:** Hoàn tất scene wiring và kiểm tra cập nhật/reset trong Unity Play Mode.
+
+## 2026-10-13 20:16 +07:00 — UI-01: HUD Level và XP
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Bổ sung HUD gameplay hiển thị Level và tiến độ XP; chưa thêm Score, Sector hoặc HUD khác.
+- **Thay đổi:** Thêm `ProgressionHUD` đọc trực tiếp `StarXPCollector`, hiển thị Level, XP hiện tại/yêu cầu và fill bar. Collector phát `ProgressChanged` sau khi nhận XP hoặc reset run để HUD cập nhật; không tính toán trùng progression. Dùng lại `UI-01` trong roadmap.
+- **Kiểm tra:** `git diff --check` và rà tĩnh tham chiếu API; không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Gameplay chưa có Canvas/UI object; cần tạo Canvas và các Text/Image trong scene, gắn `ProgressionHUD`, gán `StarXPCollector` cùng ba UI reference, rồi kiểm tra bố cục, cập nhật XP/Level và reset trong Play Mode.
+- **Tiếp theo:** Tích hợp HUD vào Gameplay và xác minh thủ công.
+
+## 2026-10-13 20:04 +07:00 — PROG-01: Tiến trình XP và cấp độ
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Bổ sung tiến trình cấp độ từ Star XP, giữ XP tách biệt khỏi Score; chưa thêm chọn nâng cấp hoặc độ khó.
+- **Thay đổi:** `StarXPCollector` theo dõi Level, tổng XP, XP trong cấp hiện tại và XP cần cho cấp kế tiếp. Mảng ngưỡng Inspector mặc định là 8/12/16/20/24 XP; giá trị cuối được lặp lại sau phần tử cuối (mặc định là 24 XP từ Level 4). XP dư được giữ và mỗi cấp tăng phát một sự kiện. `CurrentXP` tiếp tục là alias tổng XP. Star prefab vẫn cấp 1 XP. `GameManager.TryBeginRun` phát `RunStarted`, dùng để reset tiến trình đúng lúc bắt đầu run.
+- **Kiểm tra:** `git diff --check` đạt; rà tĩnh các tham chiếu XP hiện có và luồng reset. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần xác minh trong Unity các ngưỡng, XP dư/nhiều cấp tăng từ một lần cộng XP, sự kiện phát đúng một lần mỗi cấp và reset khi bắt đầu run mới.
+- **Tiếp theo:** Xác minh thủ công `PROG-01` trong Unity; sau đó tiếp tục `UPG-01` theo roadmap.
+
+## 2026-10-13 19:51 +07:00 — SCORE-DEBUG-01: Gỡ overlay chẩn đoán tạm
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Gỡ helper Editor Play Mode chỉ dùng để quan sát Score và XP.
+- **Thay đổi:** Xóa script overlay cùng metadata Unity của script và thư mục riêng. Không sửa logic Score hoặc XP, scene hay prefab.
+- **Kiểm tra:** `git diff --check` đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Các kiểm tra gameplay của `SCORE-01` vẫn cần xác minh riêng; overlay không còn trong project.
+- **Tiếp theo:** Tiếp tục xác minh thủ công `SCORE-01` bằng cách quan sát phù hợp trong Unity.
+
+## 2026-10-13 19:40 +07:00 — SCORE-DEBUG-01: Overlay kiểm tra Score và XP
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Hiển thị Score và XP hiện tại để hỗ trợ xác minh SCORE-01 trong Game view của Unity Editor.
+- **Thay đổi:** Thêm overlay tạm chỉ biên dịch trong Editor, tự tạo khi Play Mode bắt đầu và chỉ hiện ở scene Gameplay. Overlay đọc `GameManager.CurrentScore` và `StarXPCollector.CurrentXP`; không thay đổi dữ liệu điểm/XP hoặc scene, prefab.
+- **Kiểm tra:** `git diff --check` đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần xác minh overlay hiển thị trong Game view khi vào Gameplay, cập nhật đúng điểm/XP và không xuất hiện trong bản build.
+- **Tiếp theo:** Dùng overlay để kiểm tra SCORE-01 thủ công; sau đó xóa helper tạm.
+
+## 2026-10-13 19:31 +07:00 — SCORE-01: Theo dõi điểm
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Cộng điểm khi phá Asteroid, tách biệt với XP và reset điểm khi bắt đầu run.
+- **Thay đổi:** Small cộng 10 điểm, Large cộng 30 điểm theo P5. `GameManager.CurrentScore` cung cấp điểm hiện tại; `TryAddScore` chỉ nhận điểm dương khi run đang Playing và điểm được reset trong `TryBeginRun`. Star XP không thay đổi. Chưa tạo snapshot `RunResult`; API hiện tại yêu cầu thêm Level và Survival Time, ngoài phạm vi task này.
+- **Kiểm tra:** `git diff --check` đạt. Không chạy Unity compile vì Unity Editor đang mở; không chạy Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần kiểm tra trong Play Mode điểm tăng đúng một lần khi Small/Large bị phá hủy, không tăng khi Asteroid rời màn hình, XP không làm đổi điểm, và điểm được reset ở run mới. Chưa xác minh biên dịch trong Unity.
+- **Tiếp theo:** Xác minh Unity cho `GM-INTEGRATION-01`; sau đó hoàn tất kiểm tra `SCORE-01`.
+
+## 2026-10-13 19:13 +07:00 — GM-INTEGRATION-01: Nối GameManager với Gameplay
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Nối run state hiện có với vòng đời Gameplay và AsteroidSpawner; không thêm game-over hoặc tính năng mới.
+- **Thay đổi:** Thêm đúng một GameManager vào scene Gameplay. GameManager bắt đầu run khi Gameplay tải, reset trạng thái Finished trước lượt mới; AsteroidSpawner yêu cầu GameManager và chỉ spawn khi trạng thái Playing. Không tìm thấy xử lý player-death/run-finish hiện có để nối.
+- **Kiểm tra:** Kiểm tra tĩnh xác nhận một GameManager trong scene, component/script/SceneRoots liên kết nhất quán và không có fileID YAML trùng; `git diff --check` đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần xác minh scene mở được, chỉ có một GameManager tồn tại, trạng thái chuyển Ready/Finished sang Playing khi vào Gameplay và spawner dừng khi không Playing.
+- **Tiếp theo:** Hoàn tất xác minh Unity cho `GM-INTEGRATION-01`; `SCORE-01` vẫn là task roadmap kế tiếp.
+
+## 2026-10-13 18:52 +07:00 — FIX-BULLET-COLLIDER-01: Lưu collider Bullet
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Sửa cấu hình collider của Bullet và kiểm tra khởi tạo.
+- **Thay đổi:** Thêm một `CircleCollider2D` bán kính `0.5`, bật trigger trong prefab; `Bullet.Awake()` dùng collider đã lưu và báo lỗi, vô hiệu hóa component nếu thiếu collider hoặc collider không phải trigger. Không đổi xử lý bắn, sát thương hay pool.
+- **Kiểm tra:** Đã rà cấu trúc YAML, diff và kiểm tra `git diff --check`. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần xác nhận prefab hiển thị đúng trong Inspector và thử hit/miss trong Play Mode.
+- **Tiếp theo:** `SCORE-01`; chưa triển khai.
+
 ## 2026-10-13 11:38 +07:00 — STAR-01: Chốt xác minh Star pickup
 
 - **Trạng thái:** DONE

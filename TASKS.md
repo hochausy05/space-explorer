@@ -8,17 +8,19 @@ One prompt = one task by default.
 
 ## Current
 
-**NEXT:** `SCORE-01`
+**NEXT:** `GM-INTEGRATION-01` (Unity verification pending)
 
 ## Foundation
 
 - [x] **SETUP-01** — Unity baseline: folders, 3 scenes, 16:9, build config. `Reads: P1,P2,P14` · Verify: compile + open scenes.
 - [x] **ARCH-01** — Core runtime skeleton: run state, RunResult, SceneLoader, pooling base. `Depends: SETUP-01` · `Reads: P2,P8,P11,P12` · Verify: compile.
+- [ ] **GM-INTEGRATION-01** — Integrate the persistent GameManager with Gameplay run start and asteroid spawning. **PARTIAL** · `Reads: P2,P8,P9,P12` · Verify: Unity scene load and run-state behavior.
 
 ## Player & Shooting
 
 - [x] **PLAYER-01** — Smooth 4-direction movement, acceleration/deceleration, bounds, Rigidbody2D. **DONE** · `Depends: SETUP-01` · `Reads: P3` · Verify: movement playtest.
 - [x] **COMBAT-01** — Hold-to-fire + Bullet pool + off-screen/lifetime recycle. **DONE** · `Depends: PLAYER-01,ARCH-01` · `Reads: P4,P11` · Verify: fire spam + pool observation.
+- [x] **FIX-BULLET-COLLIDER-01** — Save Bullet trigger collider in the prefab and validate its configuration. **DONE** · `Reads: P4`.
 
 ## Asteroids & Stars
 
@@ -26,10 +28,12 @@ One prompt = one task by default.
 - [x] **AST-02** — Asteroid spawner with controlled spawn randomness. **DONE** · `Depends: AST-01` · `Reads: P5,P8`.
 - [x] **COMBAT-02** — Bullet-Asteroid collision, damage, death path. **DONE** · `Depends: COMBAT-01,AST-01` · `Reads: P4,P5,P9`.
 - [x] **STAR-01** — Star drop, pool, drift, collect, off-screen recycle. **DONE** · `Depends: COMBAT-02` · `Reads: P6,P11`.
-- [ ] **SCORE-01** — Score, survival time, clean run reset, result snapshot. `Depends: COMBAT-02` · `Reads: P8`.
+- [ ] **SCORE-01** — Score, survival time, clean run reset, result snapshot. **PARTIAL** · `Depends: COMBAT-02` · `Reads: P8`.
+- [x] **SCORE-DEBUG-01** — Temporary Editor Play Mode overlay for Score/XP diagnostics; removed after the diagnostic task. **DONE** · `Depends: SCORE-01`.
 
 ## Leveling & Upgrades
 
+- [ ] **PROG-01** — Configurable Star XP thresholds, level progression, overflow, and new-run reset. **PARTIAL** · `Depends: STAR-01` · `Reads: P6,P7`.
 - [ ] **UPG-01** — Star XP, level-up pause, up to 3 unique valid choices. `Depends: STAR-01` · `Reads: P6,P7,P13`.
 - [ ] **UPG-02** — Multi Shot, Rapid Fire, Damage Up. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7`.
 - [ ] **UPG-03** — Up to 2 smooth-follow auto-fire Drones using shared Bullet pool. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
@@ -40,7 +44,7 @@ One prompt = one task by default.
 
 - [ ] **DIFF-01** — Sector timer and difficulty scaling with spawn floor. `Depends: AST-02` · `Reads: P8`.
 - [ ] **GAME-01** — Player-Asteroid Shield/death branches + EndGame transition. `Depends: SCORE-01,UPG-04` · `Reads: P8,P9`.
-- [ ] **UI-01** — HUD: Score, Level, XP bar, Sector; optional Shield/Time. `Depends: SCORE-01,UPG-01,DIFF-01` · `Reads: P13`.
+- [ ] **UI-01** — HUD: Score, Level, XP bar, Sector; optional Shield/Time. **PARTIAL** — Gameplay đã có Level/XP HUD và serialized references; cần chỉnh layout khỏi vùng giữa màn hình, tăng độ tương phản text để đáp ứng tiêu chí dễ đọc/không che gameplay. `Depends: SCORE-01,UPG-01,DIFF-01` · `Reads: P13`.
 - [ ] **SCENE-01** — MainMenu: Play, Instructions, Quit. `Depends: SETUP-01,ARCH-01` · `Reads: P2`.
 - [ ] **SCENE-02** — EndGame: Score, Level, Time, Play Again, Main Menu, Quit. `Depends: GAME-01` · `Reads: P2,P8`.
 

@@ -1,5 +1,7 @@
 using System;
+using SpaceExplorer.Core;
 using SpaceExplorer.Core.Pooling;
+using SpaceExplorer.Pickups;
 using UnityEngine;
 
 namespace SpaceExplorer.Asteroids
@@ -24,6 +26,7 @@ namespace SpaceExplorer.Asteroids
 
         [Header("References")]
         [SerializeField] private Camera _camera;
+        [SerializeField] private StarPool _starPool;
 
         private PrefabPool<Asteroid> _smallPool;
         private PrefabPool<Asteroid> _largePool;
@@ -43,6 +46,12 @@ namespace SpaceExplorer.Asteroids
             if (_camera == null || !_camera.orthographic)
             {
                 FailConfiguration("AsteroidPool needs an orthographic gameplay camera assigned.");
+                return;
+            }
+
+            if (_starPool == null)
+            {
+                FailConfiguration("AsteroidPool needs a StarPool assigned so destroyed asteroids can drop Stars.");
                 return;
             }
 
@@ -77,8 +86,22 @@ namespace SpaceExplorer.Asteroids
             if (asteroid == null)
                 return null;
 
-            asteroid.BeginRun(this, _camera);
+            asteroid.BeginRun(this, _camera, size);
             return asteroid;
+        }
+
+        internal void OnAsteroidDestroyed(AsteroidSize size, Vector3 position)
+        {
+            GameManager manager = GameManager.Instance;
+            int scoreValue = size == AsteroidSize.Small ? 10 : 30;
+            manager?.TryAddScore(scoreValue);
+
+            if (_starPool == null || !_starPool.IsReady)
+                return;
+
+            int dropCount = size == AsteroidSize.Small ? 1 : UnityEngine.Random.Range(2, 4);
+            for (int i = 0; i < dropCount; i++)
+                _starPool.TrySpawn(position);
         }
 
         internal bool Release(Asteroid asteroid)

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SpaceExplorer.Core
 {
@@ -9,7 +10,9 @@ namespace SpaceExplorer.Core
 
         public RunState State { get; private set; } = RunState.Ready;
         public RunResult? LastResult { get; private set; }
+        public int CurrentScore { get; private set; }
 
+        public static event Action RunStarted;
         public event Action<RunResult> RunFinished;
 
         private void Awake()
@@ -22,10 +25,36 @@ namespace SpaceExplorer.Core
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += HandleSceneLoaded;
+        }
+
+        private void Start()
+        {
+            if (SceneManager.GetActiveScene().name == SceneLoader.Gameplay)
+                BeginRunForGameplay();
+        }
+
+        private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name == SceneLoader.Gameplay)
+                BeginRunForGameplay();
+        }
+
+        private void BeginRunForGameplay()
+        {
+            if (State == RunState.Finished && !TryResetRun(out string resetError))
+            {
+                Debug.LogError(resetError, this);
+                return;
+            }
+
+            if (State == RunState.Ready && !TryBeginRun(out string beginError))
+                Debug.LogError(beginError, this);
         }
 
         private void OnDestroy()
         {
+            SceneManager.sceneLoaded -= HandleSceneLoaded;
             if (Instance == this)
                 Instance = null;
         }
@@ -36,8 +65,19 @@ namespace SpaceExplorer.Core
                 return RejectTransition("begin a run", RunState.Ready, out error);
 
             LastResult = null;
+            CurrentScore = 0;
             State = RunState.Playing;
+            RunStarted?.Invoke();
             error = null;
+            return true;
+        }
+
+        public bool TryAddScore(int amount)
+        {
+            if (State != RunState.Playing || amount <= 0)
+                return false;
+
+            CurrentScore += amount;
             return true;
         }
 

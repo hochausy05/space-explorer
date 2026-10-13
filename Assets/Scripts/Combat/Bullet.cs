@@ -12,7 +12,6 @@ namespace SpaceExplorer.Combat
         [SerializeField, Min(1)] private int _damage = 1;
 
         private Rigidbody2D _rigidbody;
-        private CircleCollider2D _collider;
         private Renderer _renderer;
         private BulletPool _owner;
         private Camera _camera;
@@ -22,10 +21,19 @@ namespace SpaceExplorer.Combat
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _collider = GetComponent<CircleCollider2D>();
-            if (_collider == null)
-                _collider = gameObject.AddComponent<CircleCollider2D>();
-            _collider.isTrigger = true;
+            CircleCollider2D bulletCollider = GetComponent<CircleCollider2D>();
+            if (bulletCollider == null)
+            {
+                FailConfiguration("Bullet prefab is missing its serialized CircleCollider2D component.");
+                return;
+            }
+
+            if (!bulletCollider.isTrigger)
+            {
+                FailConfiguration("Bullet prefab CircleCollider2D must be configured as a trigger.");
+                return;
+            }
+
             _renderer = GetComponent<Renderer>();
             _rigidbody.gravityScale = 0f;
             _rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
@@ -123,6 +131,12 @@ namespace SpaceExplorer.Combat
 
             _isInUse = false;
             _owner.Release(this);
+        }
+
+        private void FailConfiguration(string message)
+        {
+            Debug.LogError(message, this);
+            enabled = false;
         }
     }
 }

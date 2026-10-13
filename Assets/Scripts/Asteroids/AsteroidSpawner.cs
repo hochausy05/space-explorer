@@ -51,6 +51,12 @@ namespace SpaceExplorer.Asteroids
                 return;
             }
 
+            if (GameManager.Instance == null)
+            {
+                FailConfiguration("AsteroidSpawner requires a GameManager in the Gameplay scene.");
+                return;
+            }
+
             _timeUntilNextSpawn = _spawnInterval;
         }
 
@@ -77,8 +83,7 @@ namespace SpaceExplorer.Asteroids
         private bool IsRunActive()
         {
             GameManager manager = GameManager.Instance;
-            // Gameplay can be run directly before scene flow creates the central manager.
-            return manager == null || manager.State == RunState.Playing;
+            return manager != null && manager.State == RunState.Playing;
         }
 
         private void SpawnOne()
