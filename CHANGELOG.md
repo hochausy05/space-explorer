@@ -19,6 +19,15 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-16 17:31 +07:00 — PROG-01: Xác nhận hoàn tất tiến trình XP
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt tài liệu cho ngưỡng XP, lên cấp, XP dư và reset tiến trình khi bắt đầu run mới.
+- **Thay đổi:** Đánh dấu `PROG-01` hoàn tất trong `TASKS.md` theo xác nhận của người dùng.
+- **Kiểm tra:** Người dùng xác nhận đã kiểm tra thủ công trong Unity: trạng thái ban đầu, các ngưỡng XP, lên cấp, giữ XP dư, nhiều lần lên cấp từ một lần cộng XP, sự kiện lên cấp và reset khi bắt đầu run mới đều đạt.
+- **Chưa kiểm tra / Rủi ro:** Codex không chạy Unity, Play Mode hoặc kiểm tra tự động trong lượt này.
+- **Tiếp theo:** `UPG-01`.
+
 ## 2026-10-13 20:07 +07:00 — UI-01: Đối chiếu HUD Level/XP đã tích hợp
 
 - **Trạng thái:** PARTIAL

@@ -30,6 +30,8 @@ Source of truth for game logic. Keep this file compact; task details live in `TA
 - Hold Space to auto-fire right.
 - Base: 1 bullet, damage 1, fire interval about `0.30–0.40s`.
 - Multi Shot uses symmetric spread.
+- Keep the configured base firing interval; Rapid Fire reduces it by `0.04s` per upgrade to a minimum of `0.14s`.
+- Damage Up adds 1 damage per projectile, to a maximum of 5 damage.
 - Bullets use Object Pooling.
 - Return Bullet on hit, off-screen right, or lifetime expiry.
 - Player and Drone share the same Bullet pool when possible.
@@ -65,27 +67,27 @@ If off-screen left: return to pool with no penalty.
 
 ## P7 — Leveling & Upgrades
 
-Suggested XP rule:
+XP thresholds, overflow, and level state are owned by `StarXPCollector` and defined by PROG-01. Upgrade flow consumes its level-up event; it must not recalculate XP or levels.
 
-`RequiredStars = 5 + (Level - 1) * 3`
+Shared level-up flow:
 
-On level-up:
+1. Queue every level-up event and process requests sequentially.
+2. Pause through a GameManager-owned request/token; only one selection panel may be active.
+3. Offer up to 3 distinct upgrades that are registered with implemented effects and remain eligible. Fewer choices are valid when fewer eligible upgrades remain.
+4. Never show capped or otherwise ineligible upgrades. Do not invent rarity, weights, or extra effects.
+5. Apply the selected registered effect exactly once, close the panel, then process the next queued level-up.
+6. Resume only while the run is active and no other pause owner remains. On Game Over, close the panel, clear queued choices, and do not resume.
+7. Reset run-specific upgrade state when a new run starts.
+8. If a queued level-up has no eligible registered effect, safely dismiss that choice request without creating placeholder choices, then continue processing and release only the upgrade flow's pause request when appropriate.
 
-1. keep overflow XP;
-2. pause gameplay;
-3. show up to 3 unique valid upgrades;
-4. exclude maxed upgrades;
-5. apply selected upgrade;
-6. resume.
+Concrete upgrade definitions and ownership:
 
-Standard upgrades:
-
-- **Multi Shot** — more bullets per volley; suggested cap 5.
-- **Rapid Fire** — lower fire interval; keep a safe minimum around `0.12–0.16s`.
-- **Damage Up** — increase bullet damage.
-- **Drone Wing** — add up to 2 follow-and-fire Drones.
-- **Energy Shield** — absorbs one collision; suggested cooldown levels `12s / 9s / 6s`.
-- **Star Magnet** — increase attraction radius; suggested 3 levels.
+- **Multi Shot (UPG-02)** — each selection adds one projectile per volley with symmetric spread; maximum 5 projectiles including the base projectile.
+- **Rapid Fire (UPG-02)** — each selection reduces the configured firing interval by `0.04s`; minimum `0.14s`. Exclude when another reduction cannot improve the interval.
+- **Damage Up (UPG-02)** — each selection adds 1 damage per projectile; maximum 5 damage, from base damage 1.
+- **Drone Wing (UPG-03)** — each selection adds one follow-and-fire Drone; maximum 2. Drones fire right using the shared Bullet pool and inherit Damage Up only, not Multi Shot or Rapid Fire.
+- **Energy Shield (UPG-04)** — absorbs one Player-Asteroid collision, then reactivates automatically after cooldown. Upgrade levels use cooldowns `12s`, `9s`, and `6s`. Upgrading during cooldown does not change the current timer; the new level applies to the next cycle.
+- **Star Magnet (UPG-05)** — smoothly attracts Stars within radii of `3`, `4`, and `5` world units at levels 1–3; exclude at level 3. Stars must never teleport to the Player.
 
 ## P8 — Score, Run Result & Difficulty
 
@@ -122,8 +124,9 @@ Avoid unnecessary pairs such as Bullet-Bullet or Star-Star.
 
 Player-Asteroid:
 
-- Shield active -> consume Shield, Player survives.
-- No Shield -> disable movement/fire, capture run result, transition to EndGame.
+- Active Shield -> absorb one collision, Player survives, and Shield enters its current cooldown.
+- Unavailable Shield or no Shield -> disable movement/fire, capture run result, and transition to EndGame.
+- Shield cooldown levels and upgrade-during-cooldown behavior are defined in P7.
 
 No multi-HP Player system in the standard midterm scope.
 
@@ -165,7 +168,7 @@ Pools may grow safely if needed.
 
 Recommended responsibilities:
 
-- `GameManager` — run state / top-level coordination
+- `GameManager` — run state / top-level coordination; sole owner of `Time.timeScale` and pause-request ownership
 - `PlayerController` — input / movement / bounds
 - `WeaponController` — fire timing / spread / weapon stats
 - `Bullet` — projectile lifecycle
@@ -173,7 +176,8 @@ Recommended responsibilities:
 - `Asteroid` — HP / movement / damage / death
 - `AsteroidSpawner` — spawning / difficulty input
 - `StarPickup` — drift / magnet / collect
-- `UpgradeManager` — XP / level-up / upgrade choices
+- `StarXPCollector` — XP, thresholds, level state, and level-up events (PROG-01)
+- `UpgradeManager` — registered upgrade definitions/effects, queued level-up choices, and selection flow; it consumes `StarXPCollector` events without owning XP or level calculations
 - `DroneController` — follow / auto-fire
 - `ShieldController` — shield / cooldown
 - `HUDController` — display state only
@@ -191,6 +195,8 @@ HUD minimum:
 - Level
 - Star XP bar
 - Sector
+
+Level-up choices use a separate selection UI with one selectable control per offered upgrade. Keep the panel readable and avoid obscuring essential gameplay context.
 
 Optional:
 

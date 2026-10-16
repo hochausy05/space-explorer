@@ -33,12 +33,12 @@ One prompt = one task by default.
 
 ## Leveling & Upgrades
 
-- [ ] **PROG-01** — Configurable Star XP thresholds, level progression, overflow, and new-run reset. **PARTIAL** · `Depends: STAR-01` · `Reads: P6,P7`.
-- [ ] **UPG-01** — Star XP, level-up pause, up to 3 unique valid choices. `Depends: STAR-01` · `Reads: P6,P7,P13`.
-- [ ] **UPG-02** — Multi Shot, Rapid Fire, Damage Up. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7`.
-- [ ] **UPG-03** — Up to 2 smooth-follow auto-fire Drones using shared Bullet pool. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
-- [ ] **UPG-04** — Energy Shield with 1-hit absorb and cooldown. `Depends: UPG-01` · `Reads: P7,P9`.
-- [ ] **UPG-05** — Star Magnet with smooth attraction and light distance checks. `Depends: UPG-01,STAR-01` · `Reads: P6,P7`.
+- [x] **PROG-01** — Configurable Star XP thresholds, level progression, overflow, and new-run reset. **DONE** · `Depends: STAR-01` · `Reads: P6,P7`.
+- [ ] **UPG-01** — Upgrade definition/registration contract; queue `StarXPCollector` level-up events and show one sequential panel with up to 3 distinct registered, implemented, eligible choices; filter capped/ineligible options; apply the selected effect exactly once; safely handle no eligible choices; own/release only its pause request, clear pending choices on Game Over, reset run-specific upgrade state, and resume only when allowed by `GameManager`. Wire the Gameplay UI and manually verify sequential level-ups, single application, capped/empty choices, Game Over while open, and new-run reset. `Depends: STAR-01` · `Reads: P6,P7,P9,P12,P13`.
+- [ ] **UPG-02** — Implement Multi Shot (one additional symmetric projectile per selection, cap 5 including base), Rapid Fire (-0.04s per selection, minimum 0.14s, preserve configured base interval), and Damage Up (+1 damage per projectile, cap 5 from base 1), including eligibility and visible effects. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
+- [ ] **UPG-03** — Add one follow-and-fire Drone per selection, maximum 2; fire right through shared Bullet pool; inherit Damage Up only, not Multi Shot or Rapid Fire. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
+- [ ] **UPG-04** — Shield absorbs one Player-Asteroid collision and automatically reactivates after cooldown; levels use 12s/9s/6s cooldowns. Upgrading during cooldown leaves the current timer unchanged and affects the next cycle; unavailable Shield follows Game Over. `Depends: UPG-01` · `Reads: P7,P9,P12`.
+- [ ] **UPG-05** — Smoothly attract Stars within level radii 3/4/5 world units; maximum level 3 and no teleporting. `Depends: UPG-01,STAR-01` · `Reads: P6,P7,P12`.
 
 ## Difficulty & Scene Flow
 
