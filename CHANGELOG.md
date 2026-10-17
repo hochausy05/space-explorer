@@ -19,6 +19,96 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-17 15:14 +07:00 — UPG-02, UPG-RANDOM-01, UPG-03: Chốt xác minh nâng cấp
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt trạng thái tài liệu cho ba task nâng cấp đã được người dùng xác nhận kiểm thử thủ công thành công trong Unity Play Mode.
+- **Thay đổi:** Đánh dấu UPG-02, UPG-RANDOM-01 và UPG-03 là DONE trong `TASKS.md`; ghi nhận trạng thái xác minh trong `PLAN.md`; chuyển `NEXT` sang UPG-04 — Energy Shield. Giữ nguyên mô tả và ranh giới UPG-04/UPG-05.
+- **Kiểm tra:** Người dùng xác nhận kiểm thử Unity Play Mode thành công cho chọn ngẫu nhiên, Drone Wing và ba nâng cấp Multi Shot/Rapid Fire/Damage Up. Không chạy automated test hoặc build mới.
+- **Chưa kiểm tra / Rủi ro:** Không ghi nhận xác minh chi tiết nào ngoài kết quả thành công được người dùng báo cáo.
+- **Tiếp theo:** `UPG-04` — Energy Shield.
+
+## 2026-10-17 15:02 +07:00 — UPG-RANDOM-01: Chọn ngẫu nhiên nâng cấp
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Cập nhật `UpgradeManager` để chọn ngẫu nhiên các nâng cấp đủ điều kiện; tách yêu cầu này khỏi phạm vi UPG-01 ban đầu.
+- **Thay đổi:** Lọc toàn bộ registry trước khi chọn, dùng Fisher–Yates cho mẫu đều không hoàn lại, và khi trùng bộ ID với lượt hiển thị trước thì chọn đều từ các tổ hợp còn lại. Lượt có tối đa ba lựa chọn vẫn hiển thị tất cả. Queue tiếp tục tính eligibility mới cho từng cấp; trạng thái lựa chọn production và Editor mock được theo dõi riêng, xóa khi bắt đầu/kết thúc run.
+- **Kiểm tra:** Rà soát source và luồng queue; `git diff --check -- PLAN.md TASKS.md CHANGELOG.md` đạt. `git diff --check` toàn repo báo trailing whitespace trong `Gameplay.unity` đã có thay đổi trước task; không sửa scene. Không chạy Unity compile, Play Mode hoặc automated test.
+- **Chưa kiểm tra / Rủi ro:** Cần Unity xác minh phân bố mẫu, tránh lặp bộ lựa chọn, lượt queue liên tiếp và reset theo vòng đời run. Registry hiện có thể chỉ có ba upgrade eligible nên cần ít nhất bốn lựa chọn hợp lệ để quan sát các bộ khác nhau.
+- **Tiếp theo:** Xác minh UPG-RANDOM-01 trong Unity Play Mode; sau đó tiếp tục wiring và kiểm tra UPG-03.
+
+## 2026-10-17 14:46 +07:00 — UPG-03: Triển khai Drone Wing
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm Drone Wing giới hạn hai drone, không triển khai Energy Shield hoặc Star Magnet.
+- **Thay đổi:** Thêm `DroneWingController`, `DroneController` và `DroneUpgradeDefinition`. Drone dùng sprite Player làm hình tạm, bám theo bằng vị trí con có offset chỉnh được, bắn một viên sang phải qua BulletPool dùng chung theo base fire interval, và đọc sát thương hiện tại để chỉ kế thừa Damage Up. Multi Shot/Rapid Fire không được dùng. Số drone và trạng thái hoạt động reset khi bắt đầu run mới; tối đa hai đối tượng con được giữ lại để tái sử dụng trong run sau. `WeaponController` cung cấp tham chiếu BulletPool dùng chung.
+- **Kiểm tra:** Rà soát source và lifecycle; scoped `git diff --check` cho code/tài liệu đạt. `git diff --check` toàn repo báo trailing whitespace trong `Gameplay.unity` đã có thay đổi trước task; không sửa scene. Không chạy Unity compile, Play Mode hoặc automated test.
+- **Chưa kiểm tra / Rủi ro:** Chưa gắn `DroneWingController` vào Player hoặc đăng ký asset production trong scene; chưa xác minh compile hay gameplay thực tế.
+- **Tiếp theo:** Trong Unity thêm `DroneWingController` lên Player; tạo asset qua `Assets > Create > Space Explorer > Upgrades > Drone Wing`, đặt Id `drone_wing`, Display Name `Drone Wing`, rồi thêm vào `UpgradeManager > Production Upgrade Registry` mà vẫn giữ các asset UPG-02 hiện có. Lưu scene và chạy checklist Play Mode trong báo cáo.
+
+## 2026-10-17 14:42 +07:00 — UPG-02: Xác nhận hoàn tất nâng cấp vũ khí
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt UPG-02 theo xác nhận kiểm tra thủ công của người dùng; không bắt đầu UPG-03.
+- **Thay đổi:** Đánh dấu UPG-02 hoàn tất và chuyển `NEXT` sang UPG-03.
+- **Kiểm tra:** Người dùng xác nhận đã kiểm tra thủ công trong Unity và cả ba nâng cấp vũ khí hoạt động đúng. Codex không chạy Unity hoặc kiểm tra tự động mới.
+- **Chưa kiểm tra / Rủi ro:** Không có thêm edge case nào được báo cáo hoặc ghi nhận trong lần xác nhận này.
+- **Tiếp theo:** `UPG-03`.
+
+## 2026-10-17 12:58 +07:00 — UPG-02: Thêm ba nâng cấp vũ khí
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Triển khai effect và điều kiện hợp lệ cho Multi Shot, Rapid Fire và Damage Up; không triển khai UPG-03 đến UPG-05.
+- **Thay đổi:** `WeaponController` theo dõi cấp nâng cấp theo run, bắn volley đối xứng tối đa 5 viên, giảm khoảng bắn 0,04 giây đến tối thiểu 0,14 giây mà giữ nguyên interval Inspector, và tăng sát thương mỗi viên từ 1 đến tối đa 5. `BulletPool` chuyển hướng và sát thương cho từng viên; `Bullet` reset sát thương khi tái sử dụng. Thêm `WeaponUpgradeDefinition` với ba loại effect, eligibility và menu tạo asset.
+- **Kiểm tra:** Rà soát mã và luồng pool bằng source inspection. `git diff --check` toàn bộ diff phát hiện trailing whitespace ở scene Gameplay đã có thay đổi trước task; không chỉnh scene này. Không chạy Unity compile, Play Mode hoặc automated test.
+- **Chưa kiểm tra / Rủi ro:** Chưa tạo ba `WeaponUpgradeDefinition` asset hoặc đăng ký chúng trong `UpgradeManager` của Gameplay; chưa xác minh thực tế effect, eligibility/cap, reset run và bắn đạn trong Unity.
+- **Tiếp theo:** Trong Unity tạo ba asset tại `Assets > Create > Space Explorer > Upgrades > Weapon Upgrade`; đặt lần lượt Id/Display Name/Type là `multi_shot`/`Multi Shot`/`MultiShot`, `rapid_fire`/`Rapid Fire`/`RapidFire`, `damage_up`/`Damage Up`/`DamageUp`. Kéo cả ba vào `UpgradeManager > Production Upgrade Registry > Registered Upgrades`, lưu scene rồi kiểm tra Play Mode.
+
+## 2026-10-17 12:53 +07:00 — UPG-01: Xác nhận hoàn tất framework chọn nâng cấp
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt UPG-01 theo kết quả kiểm thử Play Mode do người dùng xác nhận; không triển khai effect thuộc UPG-02–UPG-05.
+- **Thay đổi:** Đánh dấu UPG-01 hoàn tất và chuyển `NEXT` sang `UPG-02`. Rà scene Gameplay xác nhận `UpgradeManager` nối `StarXPCollector`/panel và panel có ba cặp Button/Text; registry production hiện không đăng ký nâng cấp giả.
+- **Kiểm tra:** Người dùng xác nhận trong Unity Play Mode: ba mock upgrade hợp lệ được chọn tuần tự, panel đóng và gameplay tiếp tục; mock trùng và chưa triển khai bị lọc; yêu cầu không có lựa chọn được xử lý an toàn; pause token riêng giữ game tạm dừng đến khi được nhả; kết thúc run khi panel mở đóng panel và không resume; bắt đầu run mới hoạt động. Codex không chạy Unity compile, Play Mode hay automated test.
+- **Chưa kiểm tra / Rủi ro:** Không kiểm thử hoặc triển khai hiệu ứng nâng cấp cụ thể; phần đó thuộc UPG-02–UPG-05.
+- **Tiếp theo:** `UPG-02`.
+
+## 2026-10-16 19:24 +07:00 — UPG-01: Bind GameManager singleton an toàn
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Xác minh và sửa cách `UpgradeManager` tham chiếu GameManager persistent; không thay đổi run-state contract hoặc wiring scene.
+- **Thay đổi:** Bỏ tham chiếu GameManager serialized có thể trỏ tới scene duplicate đã bị hủy. `UpgradeManager` bind/unbind instance authoritative theo runtime, thử lại nếu singleton chưa khởi tạo, đồng bộ trạng thái Finished khi bind và bảo đảm event subscription không trùng. Theo dõi `RunStarted` trong lifetime component để reset queue khi component tạm disable.
+- **Kiểm tra:** Rà tĩnh vòng đời `Awake`/`OnEnable`/`Update`/`OnDisable`/`OnDestroy`, xác nhận `GameManager.Instance` là nguồn binding duy nhất và các event được gỡ đúng lúc. Chưa chạy Unity compile, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần Unity xác minh load Gameplay lần đầu, reload Gameplay với GameManager persistent, và disable/re-enable UpgradeManager trong lúc run cùng qua một lần bắt đầu run mới. UPG-01 vẫn PARTIAL.
+- **Tiếp theo:** Wire Gameplay UI rồi xác minh các trường hợp binding và flow UPG-01 trong Unity Editor/Play Mode.
+
+## 2026-10-16 19:10 +07:00 — UPG-01: Cứng hóa vòng đời và hàng đợi
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Gia cố lifecycle, xử lý lỗi cấu hình UI và cô lập yêu cầu test của UPG-01 trước khi nối scene.
+- **Thay đổi:** Giữ yêu cầu level-up ở đầu queue cho tới khi được chọn; giữ queue khi component bị disable, vô hiệu callback cũ và nhả đúng pause token. Panel lỗi cấu hình được retry có backoff, không giữ pause trong lúc chờ; yêu cầu không có lựa chọn hợp lệ vẫn được tiêu thụ an toàn. Harness Editor từ chối khi còn yêu cầu gameplay/queue đang xử lý và gắn nhãn riêng yêu cầu mock. Panel chỉ gỡ listener runtime của chính nó; tài liệu yêu cầu Button không có `On Click()` Inspector handler xung đột.
+- **Kiểm tra:** `git diff --check` đạt; kiểm tra trailing whitespace và rà tĩnh callback/listener, queue, pause token, retry backoff và Editor-only mock request. Không tìm thấy project `.sln`/`.csproj` để compile độc lập; không chạy Unity compile, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Scene Gameplay chưa được nối; hành vi runtime và sửa cấu hình panel cần xác minh trong Unity Editor. UPG-01 vẫn PARTIAL.
+- **Tiếp theo:** Nối UI trong Gameplay và xác minh UPG-01 bằng Unity Editor/Play Mode.
+
+## 2026-10-16 18:38 +07:00 — UPG-01: Thêm khung chọn nâng cấp
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Triển khai framework chọn nâng cấp theo level-up; không thêm hiệu ứng cụ thể UPG-02–UPG-05.
+- **Thay đổi:** Thêm contract `IUpgradeOption`/`UpgradeDefinition`, `UpgradeManager` xử lý queue tuần tự và lọc lựa chọn, panel UI dùng Unity UI hiện có, pause request token do `GameManager` quản lý, và Editor-only harness với mock một lần. Chặn `WeaponController` bắn khi run không Playing. Không sửa scene/prefab và không đăng ký lựa chọn giả vào production.
+- **Kiểm tra:** `git diff --check` đạt; rà tĩnh xác nhận `GameManager` là nơi duy nhất ghi `Time.timeScale`, lựa chọn rỗng không mở panel/giữ pause và Editor harness chỉ hoạt động trong Editor. Không chạy Unity compile, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Gameplay scene chưa được nối. Sau khi Unity import script và sinh `.meta`, thêm panel dưới Canvas với nền, tối đa 3 Button/Legacy Text; gán Button/Text arrays; thêm `UpgradeManager` và nối Player `StarXPCollector`, `GameManager`, `UpgradeSelectionPanel`. Để registry production trống cho tới khi có effect thật. Chạy menu `Tools/Space Explorer/UPG-01` để kiểm tra mock, queue, lọc, pause token và Game Over; sau đó kiểm tra wiring/no-choice/new-run trong Play Mode.
+- **Tiếp theo:** Hoàn tất scene wiring và xác minh UPG-01; chưa bắt đầu UPG-02.
+
+## 2026-10-16 17:54 +07:00 — UPG-01: Chốt phụ thuộc và chiến lược kiểm thử
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Cập nhật tài liệu và task tracking trước khi triển khai UPG-01; không triển khai gameplay.
+- **Thay đổi:** Bổ sung phụ thuộc `PROG-01`, quy tắc test mock chỉ trong harness/test assembly, cách xử lý an toàn khi không có lựa chọn hợp lệ; xác nhận `GM-INTEGRATION-01` DONE theo xác minh Unity thủ công do chủ dự án báo cáo và chuyển `NEXT` sang `UPG-01`. UPG-01 vẫn chưa hoàn tất.
+- **Kiểm tra:** Rà tĩnh GameManager, AsteroidSpawner và wiring trong Gameplay; người dùng xác nhận runtime đã kiểm tra thủ công trong Unity. Codex không chạy Unity, Play Mode hay automated test.
+- **Chưa kiểm tra / Rủi ro:** Chưa triển khai hoặc kiểm thử UPG-01.
+- **Tiếp theo:** `UPG-01`.
+
 ## 2026-10-16 17:31 +07:00 — PROG-01: Xác nhận hoàn tất tiến trình XP
 
 - **Trạng thái:** DONE

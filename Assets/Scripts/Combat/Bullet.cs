@@ -15,6 +15,7 @@ namespace SpaceExplorer.Combat
         private Renderer _renderer;
         private BulletPool _owner;
         private Camera _camera;
+        private int _configuredDamage;
         private float _remainingLifetime;
         private bool _isInUse;
 
@@ -35,6 +36,7 @@ namespace SpaceExplorer.Combat
             }
 
             _renderer = GetComponent<Renderer>();
+            _configuredDamage = Mathf.Max(1, _damage);
             _rigidbody.gravityScale = 0f;
             _rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
             _rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
@@ -42,6 +44,16 @@ namespace SpaceExplorer.Combat
         }
 
         public void Launch(BulletPool owner, Camera camera)
+        {
+            Launch(owner, camera, Vector2.right);
+        }
+
+        public void Launch(BulletPool owner, Camera camera, Vector2 direction)
+        {
+            Launch(owner, camera, direction, _damage);
+        }
+
+        public void Launch(BulletPool owner, Camera camera, Vector2 direction, int damage)
         {
             if (!_isInUse || owner == null || camera == null)
             {
@@ -52,9 +64,12 @@ namespace SpaceExplorer.Combat
 
             _owner = owner;
             _camera = camera;
+            _damage = Mathf.Max(1, damage);
             _remainingLifetime = _maxLifetime;
             _rigidbody.position = transform.position;
-            _rigidbody.linearVelocity = Vector2.right * _speed;
+            if (direction.sqrMagnitude < 0.0001f)
+                direction = Vector2.right;
+            _rigidbody.linearVelocity = direction.normalized * _speed;
         }
 
         protected override void OnTakenFromPool()
@@ -66,6 +81,7 @@ namespace SpaceExplorer.Combat
             _camera = null;
             _remainingLifetime = _maxLifetime;
             _isInUse = true;
+            _damage = _configuredDamage;
             _rigidbody.linearVelocity = Vector2.zero;
             _rigidbody.angularVelocity = 0f;
         }
@@ -76,6 +92,7 @@ namespace SpaceExplorer.Combat
             _owner = null;
             _camera = null;
             _remainingLifetime = 0f;
+            _damage = _configuredDamage;
             if (_rigidbody != null)
             {
                 _rigidbody.linearVelocity = Vector2.zero;

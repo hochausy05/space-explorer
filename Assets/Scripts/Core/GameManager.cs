@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,9 +12,28 @@ namespace SpaceExplorer.Core
         public RunState State { get; private set; } = RunState.Ready;
         public RunResult? LastResult { get; private set; }
         public int CurrentScore { get; private set; }
+        public int ActivePauseRequestCount => _pauseRequests.Count;
 
         public static event Action RunStarted;
         public event Action<RunResult> RunFinished;
+
+        private readonly HashSet<int> _pauseRequests = new HashSet<int>();
+        private int _nextPauseRequestId = 1;
+        private PauseRequestToken? _legacyPauseRequest;
+
+        public readonly struct PauseRequestToken
+        {
+            internal readonly GameManager Owner;
+            internal readonly int Id;
+
+            internal PauseRequestToken(GameManager owner, int id)
+            {
+                Owner = owner;
+                Id = id;
+            }
+
+            public bool IsValid => Owner != null && Id > 0;
+        }
 
         private void Awake()
         {
@@ -66,7 +86,10 @@ namespace SpaceExplorer.Core
 
             LastResult = null;
             CurrentScore = 0;
+            _pauseRequests.Clear();
+            _legacyPauseRequest = null;
             State = RunState.Playing;
+            ApplyTimeScale();
             RunStarted?.Invoke();
             error = null;
             return true;
@@ -83,20 +106,71 @@ namespace SpaceExplorer.Core
 
         public bool TryPauseRun(out string error)
         {
-            if (State != RunState.Playing)
+            if (State != RunState.Playing && State != RunState.Paused)
                 return RejectTransition("pause the run", RunState.Playing, out error);
 
-            State = RunState.Paused;
-            error = null;
+            if (_legacyPauseRequest.HasValue)
+            {
+                error = "The legacy pause request is already active.";
+                return false;
+            }
+
+            if (!TryAcquirePauseRequest(out PauseRequestToken token, out error))
+                return false;
+
+            _legacyPauseRequest = token;
             return true;
         }
 
         public bool TryResumeRun(out string error)
         {
-            if (State != RunState.Paused)
-                return RejectTransition("resume the run", RunState.Paused, out error);
+            if (State != RunState.Paused || !_legacyPauseRequest.HasValue)
+            {
+                error = $"Cannot resume the run while the game is {State} or without an owned pause request.";
+                return false;
+            }
 
-            State = RunState.Playing;
+            PauseRequestToken token = _legacyPauseRequest.Value;
+            _legacyPauseRequest = null;
+            return TryReleasePauseRequest(token, out error);
+        }
+
+        public bool TryAcquirePauseRequest(out PauseRequestToken token, out string error)
+        {
+            token = default;
+            if (State != RunState.Playing && State != RunState.Paused)
+            {
+                error = $"Cannot pause while the game is {State}. A run must be Playing or Paused.";
+                return false;
+            }
+
+            int id = _nextPauseRequestId++;
+            if (_nextPauseRequestId <= 0)
+                _nextPauseRequestId = 1;
+
+            _pauseRequests.Add(id);
+            token = new PauseRequestToken(this, id);
+            State = RunState.Paused;
+            ApplyTimeScale();
+            error = null;
+            return true;
+        }
+
+        public bool TryReleasePauseRequest(PauseRequestToken token, out string error)
+        {
+            if (token.Owner != this || token.Id <= 0 || !_pauseRequests.Remove(token.Id))
+            {
+                error = "The pause request is invalid, already released, or owned by another GameManager.";
+                return false;
+            }
+
+            if (_legacyPauseRequest.HasValue && _legacyPauseRequest.Value.Id == token.Id)
+                _legacyPauseRequest = null;
+
+            if (State == RunState.Paused && _pauseRequests.Count == 0)
+                State = RunState.Playing;
+
+            ApplyTimeScale();
             error = null;
             return true;
         }
@@ -111,6 +185,9 @@ namespace SpaceExplorer.Core
 
             LastResult = result;
             State = RunState.Finished;
+            _pauseRequests.Clear();
+            _legacyPauseRequest = null;
+            ApplyTimeScale();
             error = null;
             RunFinished?.Invoke(result);
             return true;
@@ -123,8 +200,16 @@ namespace SpaceExplorer.Core
 
             LastResult = null;
             State = RunState.Ready;
+            _pauseRequests.Clear();
+            _legacyPauseRequest = null;
+            ApplyTimeScale();
             error = null;
             return true;
+        }
+
+        private void ApplyTimeScale()
+        {
+            Time.timeScale = State == RunState.Paused || State == RunState.Finished ? 0f : 1f;
         }
 
         private bool RejectTransition(string action, RunState requiredState, out string error)

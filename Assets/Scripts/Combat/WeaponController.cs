@@ -1,3 +1,4 @@
+using SpaceExplorer.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,9 +6,18 @@ namespace SpaceExplorer.Combat
 {
     public sealed class WeaponController : MonoBehaviour
     {
+        private const int BaseProjectileCount = 1;
+        private const int MaximumProjectileCount = 5;
+        private const int BaseProjectileDamage = 1;
+        private const int MaximumProjectileDamage = 5;
+        private const float RapidFireReduction = 0.04f;
+        private const float MinimumFireInterval = 0.14f;
+        private const float RapidFireComparisonTolerance = 0.0001f;
+
         [Header("Weapon")]
         [SerializeField, Min(0.05f)] private float _fireInterval = 0.35f;
         [SerializeField, Min(0f)] private float _muzzleOffset = 0.65f;
+        [SerializeField, Min(0f)] private float _multiShotAngleStepDegrees = 15f;
 
         [Header("References")]
         [SerializeField] private InputActionAsset _inputActions;
@@ -15,6 +25,31 @@ namespace SpaceExplorer.Combat
 
         private InputAction _fireAction;
         private double _nextFireTime;
+        private int _projectilesPerVolley = BaseProjectileCount;
+        private int _damagePerProjectile = BaseProjectileDamage;
+        private int _rapidFireUpgradeCount;
+        private bool _runStartedSubscribed;
+
+        public int ProjectilesPerVolley => _projectilesPerVolley;
+        public int DamagePerProjectile => _damagePerProjectile;
+        public float BaseFireInterval => _fireInterval;
+        public BulletPool SharedBulletPool => _bulletPool;
+        public float EffectiveFireInterval => _rapidFireUpgradeCount == 0
+            ? _fireInterval
+            : Mathf.Max(_fireInterval - RapidFireReduction * _rapidFireUpgradeCount, MinimumFireInterval);
+        public bool CanUpgradeMultiShot => _projectilesPerVolley < MaximumProjectileCount;
+        public bool CanUpgradeRapidFire
+        {
+            get
+            {
+                float currentInterval = EffectiveFireInterval;
+                float nextInterval = Mathf.Max(
+                    _fireInterval - RapidFireReduction * (_rapidFireUpgradeCount + 1),
+                    MinimumFireInterval);
+                return nextInterval < currentInterval - RapidFireComparisonTolerance;
+            }
+        }
+        public bool CanUpgradeDamage => _damagePerProjectile < MaximumProjectileDamage;
 
         private void Awake()
         {
@@ -37,6 +72,12 @@ namespace SpaceExplorer.Combat
 
         private void OnEnable()
         {
+            if (!_runStartedSubscribed)
+            {
+                GameManager.RunStarted += ResetRunUpgrades;
+                _runStartedSubscribed = true;
+            }
+
             _fireAction?.Enable();
         }
 
@@ -45,18 +86,70 @@ namespace SpaceExplorer.Combat
             _fireAction?.Disable();
         }
 
+        private void OnDestroy()
+        {
+            if (_runStartedSubscribed)
+            {
+                GameManager.RunStarted -= ResetRunUpgrades;
+                _runStartedSubscribed = false;
+            }
+        }
+
         private void Update()
         {
-            if (_fireAction == null || _bulletPool == null || !_bulletPool.IsReady || !_fireAction.IsPressed())
+            GameManager manager = GameManager.Instance;
+            if (manager == null || manager.State != RunState.Playing
+                || _fireAction == null || _bulletPool == null || !_bulletPool.IsReady || !_fireAction.IsPressed())
                 return;
 
             double now = Time.timeAsDouble;
             if (now < _nextFireTime)
                 return;
 
-            _nextFireTime = now + _fireInterval;
+            _nextFireTime = now + EffectiveFireInterval;
             Vector3 muzzlePosition = transform.position + Vector3.right * _muzzleOffset;
-            _bulletPool.TrySpawn(muzzlePosition);
+            float centerIndex = (_projectilesPerVolley - 1) * 0.5f;
+            for (int i = 0; i < _projectilesPerVolley; i++)
+            {
+                float angle = (i - centerIndex) * _multiShotAngleStepDegrees;
+                Vector2 direction = Quaternion.Euler(0f, 0f, angle) * Vector2.right;
+                _bulletPool.TrySpawn(muzzlePosition, direction, _damagePerProjectile);
+            }
+        }
+
+        public bool TryApplyMultiShot()
+        {
+            if (!CanUpgradeMultiShot)
+                return false;
+
+            _projectilesPerVolley++;
+            return true;
+        }
+
+        public bool TryApplyRapidFire()
+        {
+            if (!CanUpgradeRapidFire)
+                return false;
+
+            _rapidFireUpgradeCount++;
+            return true;
+        }
+
+        public bool TryApplyDamageUp()
+        {
+            if (!CanUpgradeDamage)
+                return false;
+
+            _damagePerProjectile++;
+            return true;
+        }
+
+        private void ResetRunUpgrades()
+        {
+            _projectilesPerVolley = BaseProjectileCount;
+            _damagePerProjectile = BaseProjectileDamage;
+            _rapidFireUpgradeCount = 0;
+            _nextFireTime = 0d;
         }
 
         private void FailConfiguration(string message)

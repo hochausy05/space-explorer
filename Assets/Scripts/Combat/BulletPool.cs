@@ -52,6 +52,19 @@ namespace SpaceExplorer.Combat
 
         public bool TrySpawn(Vector3 position)
         {
+            return TrySpawn(position, Vector2.right, hasDamageOverride: false, damage: 0);
+        }
+
+        public bool TrySpawn(Vector3 position, Vector2 direction, int damage)
+        {
+            if (damage < 1)
+                return false;
+
+            return TrySpawn(position, direction, true, damage);
+        }
+
+        private bool TrySpawn(Vector3 position, Vector2 direction, bool hasDamageOverride, int damage)
+        {
             if (_pool == null || _camera == null)
                 return false;
 
@@ -59,7 +72,10 @@ namespace SpaceExplorer.Combat
             if (bullet == null)
                 return false;
 
-            bullet.Launch(this, _camera);
+            if (hasDamageOverride)
+                bullet.Launch(this, _camera, direction, damage);
+            else
+                bullet.Launch(this, _camera, direction);
             return true;
         }
 

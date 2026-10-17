@@ -8,13 +8,13 @@ One prompt = one task by default.
 
 ## Current
 
-**NEXT:** `GM-INTEGRATION-01` (Unity verification pending)
+**NEXT:** `UPG-04`
 
 ## Foundation
 
 - [x] **SETUP-01** — Unity baseline: folders, 3 scenes, 16:9, build config. `Reads: P1,P2,P14` · Verify: compile + open scenes.
 - [x] **ARCH-01** — Core runtime skeleton: run state, RunResult, SceneLoader, pooling base. `Depends: SETUP-01` · `Reads: P2,P8,P11,P12` · Verify: compile.
-- [ ] **GM-INTEGRATION-01** — Integrate the persistent GameManager with Gameplay run start and asteroid spawning. **PARTIAL** · `Reads: P2,P8,P9,P12` · Verify: Unity scene load and run-state behavior.
+- [x] **GM-INTEGRATION-01** — Integrate the persistent GameManager with Gameplay run start and asteroid spawning. **DONE** — runtime behavior manually verified by the project owner in Unity. `Reads: P2,P8,P9,P12`.
 
 ## Player & Shooting
 
@@ -34,9 +34,10 @@ One prompt = one task by default.
 ## Leveling & Upgrades
 
 - [x] **PROG-01** — Configurable Star XP thresholds, level progression, overflow, and new-run reset. **DONE** · `Depends: STAR-01` · `Reads: P6,P7`.
-- [ ] **UPG-01** — Upgrade definition/registration contract; queue `StarXPCollector` level-up events and show one sequential panel with up to 3 distinct registered, implemented, eligible choices; filter capped/ineligible options; apply the selected effect exactly once; safely handle no eligible choices; own/release only its pause request, clear pending choices on Game Over, reset run-specific upgrade state, and resume only when allowed by `GameManager`. Wire the Gameplay UI and manually verify sequential level-ups, single application, capped/empty choices, Game Over while open, and new-run reset. `Depends: STAR-01` · `Reads: P6,P7,P9,P12,P13`.
-- [ ] **UPG-02** — Implement Multi Shot (one additional symmetric projectile per selection, cap 5 including base), Rapid Fire (-0.04s per selection, minimum 0.14s, preserve configured base interval), and Damage Up (+1 damage per projectile, cap 5 from base 1), including eligibility and visible effects. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
-- [ ] **UPG-03** — Add one follow-and-fire Drone per selection, maximum 2; fire right through shared Bullet pool; inherit Damage Up only, not Multi Shot or Rapid Fire. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
+- [x] **UPG-01** — Upgrade definition/registration contract; queue `StarXPCollector` level-up events and show one sequential panel with up to 3 distinct registered, implemented, eligible choices; filter capped/ineligible options; apply the selected effect exactly once; safely dismiss requests with no eligible choices without an empty panel or permanent pause; own/release only its pause request, clear pending choices on Game Over, reset run-specific upgrade state, and resume only when allowed by `GameManager`. Resolve the authoritative persistent `GameManager` at runtime; do not rely on a serialized scene reference. Test UI display/selection with mock definitions only in an isolated harness or Unity test assembly; never register mocks, fake choices, placeholders, or empty handlers in production. Choice Buttons must not have conflicting serialized Inspector `On Click()` handlers. Wire the Gameplay UI and verify sequential level-ups, single application, capped/empty choices, Game Over while open, and new-run reset. **DONE** — Gameplay wiring and required UPG-01 flow manually verified by the project owner in Unity Play Mode; no concrete upgrade effects were part of this verification. `Depends: STAR-01,PROG-01` · `Reads: P6,P7,P9,P12,P13`.
+- [x] **UPG-02** — Implement Multi Shot (one additional symmetric projectile per selection, cap 5 including base), Rapid Fire (-0.04s per selection, minimum 0.14s, preserve configured base interval), and Damage Up (+1 damage per projectile, cap 5 from base 1), including eligibility and visible effects. **DONE** — the project owner manually verified all three upgrades in Unity. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
+- [x] **UPG-RANDOM-01** — Uniformly sample up to three distinct eligible upgrades without replacement; show all when three or fewer are eligible; avoid the same unordered ID set in consecutive rounds whenever multiple valid sets exist; recalculate for queued levels and reset tracking on run start/finish. **DONE** — the project owner confirmed successful Unity Play Mode verification. This is a follow-up behavior and was not part of the initial UPG-01 implementation. `Depends: UPG-01` · `Reads: P7`.
+- [x] **UPG-03** — Add one follow-and-fire Drone per selection, maximum 2; fire right through shared Bullet pool; inherit Damage Up only, not Multi Shot or Rapid Fire. **DONE** — the project owner confirmed successful Unity Play Mode verification. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
 - [ ] **UPG-04** — Shield absorbs one Player-Asteroid collision and automatically reactivates after cooldown; levels use 12s/9s/6s cooldowns. Upgrading during cooldown leaves the current timer unchanged and affects the next cycle; unavailable Shield follows Game Over. `Depends: UPG-01` · `Reads: P7,P9,P12`.
 - [ ] **UPG-05** — Smoothly attract Stars within level radii 3/4/5 world units; maximum level 3 and no teleporting. `Depends: UPG-01,STAR-01` · `Reads: P6,P7,P12`.
 

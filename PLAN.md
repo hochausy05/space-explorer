@@ -78,7 +78,17 @@ Shared level-up flow:
 5. Apply the selected registered effect exactly once, close the panel, then process the next queued level-up.
 6. Resume only while the run is active and no other pause owner remains. On Game Over, close the panel, clear queued choices, and do not resume.
 7. Reset run-specific upgrade state when a new run starts.
-8. If a queued level-up has no eligible registered effect, safely dismiss that choice request without creating placeholder choices, then continue processing and release only the upgrade flow's pause request when appropriate.
+8. If a queued level-up has no eligible registered effect, dismiss that request without showing an empty panel or leaving gameplay paused; continue processing the queue and release only the upgrade flow's pause request when appropriate.
+
+Testing strategy: production gameplay may register only upgrades with implemented effects. Never register fake choices, placeholder upgrades, or empty handlers in production. UI selection tests may use mock definitions/handlers only through an isolated test harness or Unity test assembly; test display and selection there without registering those mocks in normal gameplay.
+
+Randomized selection policy (introduced separately under UPG-RANDOM-01; it was not part of the initial UPG-01 implementation):
+
+- Gather all registered upgrades with implemented effects that are currently eligible, retaining unique-ID filtering.
+- Uniformly select up to 3 distinct choices without replacement. If 3 or fewer are eligible, show all of them.
+- Avoid the same unordered set of upgrade IDs in consecutive displayed selection rounds within a run whenever more than one valid set exists. If the first uniform sample repeats the previous set, uniformly choose among the remaining valid sets without retry loops.
+- Recalculate eligibility for each queued level-up. Reset previous-set tracking on run start and clear it on run finish.
+- Keep Editor-only mock selection state isolated from production selection state; mocks remain outside the production registry.
 
 Concrete upgrade definitions and ownership:
 
@@ -88,6 +98,8 @@ Concrete upgrade definitions and ownership:
 - **Drone Wing (UPG-03)** — each selection adds one follow-and-fire Drone; maximum 2. Drones fire right using the shared Bullet pool and inherit Damage Up only, not Multi Shot or Rapid Fire.
 - **Energy Shield (UPG-04)** — absorbs one Player-Asteroid collision, then reactivates automatically after cooldown. Upgrade levels use cooldowns `12s`, `9s`, and `6s`. Upgrading during cooldown does not change the current timer; the new level applies to the next cycle.
 - **Star Magnet (UPG-05)** — smoothly attracts Stars within radii of `3`, `4`, and `5` world units at levels 1–3; exclude at level 3. Stars must never teleport to the Player.
+
+Owner-reported Unity Play Mode verification status (2026-10-17): UPG-02 (Multi Shot, Rapid Fire, Damage Up), UPG-RANDOM-01 (random upgrade selection), and UPG-03 (Drone Wing) are verified DONE. This records the project owner's manual confirmation; no automated test or build result is implied. UPG-04 and UPG-05 remain separate tasks with their specifications above unchanged.
 
 ## P8 — Score, Run Result & Difficulty
 
