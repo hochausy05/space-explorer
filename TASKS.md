@@ -8,7 +8,7 @@ One prompt = one task by default.
 
 ## Current
 
-**NEXT:** `UPG-04`
+**NEXT:** `FIX-PLAYER-BOUNDS-01`
 
 ## Foundation
 
@@ -18,6 +18,7 @@ One prompt = one task by default.
 
 ## Player & Shooting
 
+- [ ] **FIX-PLAYER-BOUNDS-01** — Calculate Player movement limits from its existing Collider2D world bounds, including collider-center offset from Rigidbody2D; preserve the left-half horizontal restriction. **PARTIAL** — collider-based bounds code is integrated and the owner confirms the updated gameplay setup works; individual edge-clamp and firing-reach checks were not specifically confirmed. `Depends: PLAYER-01` · `Reads: P3`.
 - [x] **PLAYER-01** — Smooth 4-direction movement, acceleration/deceleration, bounds, Rigidbody2D. **DONE** · `Depends: SETUP-01` · `Reads: P3` · Verify: movement playtest.
 - [x] **COMBAT-01** — Hold-to-fire + Bullet pool + off-screen/lifetime recycle. **DONE** · `Depends: PLAYER-01,ARCH-01` · `Reads: P4,P11` · Verify: fire spam + pool observation.
 - [x] **FIX-BULLET-COLLIDER-01** — Save Bullet trigger collider in the prefab and validate its configuration. **DONE** · `Reads: P4`.
@@ -28,7 +29,7 @@ One prompt = one task by default.
 - [x] **AST-02** — Asteroid spawner with controlled spawn randomness. **DONE** · `Depends: AST-01` · `Reads: P5,P8`.
 - [x] **COMBAT-02** — Bullet-Asteroid collision, damage, death path. **DONE** · `Depends: COMBAT-01,AST-01` · `Reads: P4,P5,P9`.
 - [x] **STAR-01** — Star drop, pool, drift, collect, off-screen recycle. **DONE** · `Depends: COMBAT-02` · `Reads: P6,P11`.
-- [ ] **SCORE-01** — Score, survival time, clean run reset, result snapshot. **PARTIAL** · `Depends: COMBAT-02` · `Reads: P8`.
+- [x] **SCORE-01** — Score, survival time, clean run reset, result snapshot. **DONE** — the project owner confirmed successful manual Unity verification of the implemented SCORE-01 behavior. The EndGame result UI/display remains scoped to SCENE-02. · `Depends: COMBAT-02` · `Reads: P8`.
 - [x] **SCORE-DEBUG-01** — Temporary Editor Play Mode overlay for Score/XP diagnostics; removed after the diagnostic task. **DONE** · `Depends: SCORE-01`.
 
 ## Leveling & Upgrades
@@ -38,16 +39,16 @@ One prompt = one task by default.
 - [x] **UPG-02** — Implement Multi Shot (one additional symmetric projectile per selection, cap 5 including base), Rapid Fire (-0.04s per selection, minimum 0.14s, preserve configured base interval), and Damage Up (+1 damage per projectile, cap 5 from base 1), including eligibility and visible effects. **DONE** — the project owner manually verified all three upgrades in Unity. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
 - [x] **UPG-RANDOM-01** — Uniformly sample up to three distinct eligible upgrades without replacement; show all when three or fewer are eligible; avoid the same unordered ID set in consecutive rounds whenever multiple valid sets exist; recalculate for queued levels and reset tracking on run start/finish. **DONE** — the project owner confirmed successful Unity Play Mode verification. This is a follow-up behavior and was not part of the initial UPG-01 implementation. `Depends: UPG-01` · `Reads: P7`.
 - [x] **UPG-03** — Add one follow-and-fire Drone per selection, maximum 2; fire right through shared Bullet pool; inherit Damage Up only, not Multi Shot or Rapid Fire. **DONE** — the project owner confirmed successful Unity Play Mode verification. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
-- [ ] **UPG-04** — Shield absorbs one Player-Asteroid collision and automatically reactivates after cooldown; levels use 12s/9s/6s cooldowns. Upgrading during cooldown leaves the current timer unchanged and affects the next cycle; unavailable Shield follows Game Over. `Depends: UPG-01` · `Reads: P7,P9,P12`.
+- [x] **UPG-04** — Shield absorbs one Player-Asteroid collision and automatically reactivates after cooldown; levels use 12s/9s/6s cooldowns. Upgrading during cooldown leaves the current timer unchanged and affects the next cycle; unavailable Shield follows Game Over. **DONE** — setup and Play Mode behavior manually verified by the project owner in Unity. `Depends: UPG-01` · `Reads: P7,P9,P12`.
 - [ ] **UPG-05** — Smoothly attract Stars within level radii 3/4/5 world units; maximum level 3 and no teleporting. `Depends: UPG-01,STAR-01` · `Reads: P6,P7,P12`.
 
 ## Difficulty & Scene Flow
 
 - [ ] **DIFF-01** — Sector timer and difficulty scaling with spawn floor. `Depends: AST-02` · `Reads: P8`.
-- [ ] **GAME-01** — Player-Asteroid Shield/death branches + EndGame transition. `Depends: SCORE-01,UPG-04` · `Reads: P8,P9`.
+- [x] **GAME-01** — Player-Asteroid Shield/death branches + EndGame transition. **DONE** — setup and Play Mode behavior manually verified by the project owner in Unity. The Player trigger handler consumes a ready Shield charge or disables movement/fire, captures Score/Level/survival time in `RunResult`, finishes the run through `GameManager`, and loads EndGame through `SceneLoader`; duplicate collision handling is guarded by collider `EntityId` and physics step. `Depends: SCORE-01,UPG-04` · `Reads: P8,P9`.
 - [ ] **UI-01** — HUD: Score, Level, XP bar, Sector; optional Shield/Time. **PARTIAL** — Gameplay đã có Level/XP HUD và serialized references; cần chỉnh layout khỏi vùng giữa màn hình, tăng độ tương phản text để đáp ứng tiêu chí dễ đọc/không che gameplay. `Depends: SCORE-01,UPG-01,DIFF-01` · `Reads: P13`.
 - [ ] **SCENE-01** — MainMenu: Play, Instructions, Quit. `Depends: SETUP-01,ARCH-01` · `Reads: P2`.
-- [ ] **SCENE-02** — EndGame: Score, Level, Time, Play Again, Main Menu, Quit. `Depends: GAME-01` · `Reads: P2,P8`.
+- [ ] **SCENE-02** — EndGame: display final Score, Level reached, and Survival Time; provide Play Again, Main Menu, and Quit actions. **PARTIAL** — added `EndGamePresenter`; attach it to the EndGame Canvas, assign three result labels and three buttons, clear persistent Inspector `On Click()` callbacks, save, and verify in Unity. `Depends: GAME-01` · `Reads: P2,P8`.
 
 ## World & Polish
 

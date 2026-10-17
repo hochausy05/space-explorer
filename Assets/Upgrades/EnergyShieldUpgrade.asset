@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dfa7d7da0c484f4d8818df54848de73, type: 3}
+  m_Name: EnergyShieldUpgrade
+  m_EditorClassIdentifier: Assembly-CSharp::SpaceExplorer.Upgrades.EnergyShieldUpgradeDefinition
+  _id: energy_shield
+  _displayName: Energy Shield

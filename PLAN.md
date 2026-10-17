@@ -15,13 +15,15 @@ Source of truth for game logic. Keep this file compact; task details live in `TA
 - `Gameplay`: Player, shooting, Asteroids, Stars, upgrades, difficulty, HUD, background.
 - `EndGame`: Final Score, Level, Survival Time, Play Again, Main Menu, Quit.
 
+SCENE-02 implementation note (PARTIAL): `EndGamePresenter` reads the persistent `GameManager.LastResult`, formats Score/Level/Survival Time, and routes Play Again/Main Menu through `SceneLoader`; Quit calls `Application.Quit()` in a player build. It displays placeholders if no snapshot exists and guards repeated scene transitions. The EndGame scene still needs Canvas/UI object wiring and Unity Play Mode/standalone verification.
+
 ## P3 — Player Movement
 
 - Arrow Keys, 4 directions.
 - Player faces right and mainly stays in the left half of the screen.
 - Normalize diagonal input.
 - Use short acceleration/deceleration; responsive, not slippery.
-- Clamp to camera bounds.
+- Clamp the Player's existing `Collider2D.bounds` to the visible camera area; account for the collider bounds center offset from the Rigidbody2D position. Keep the horizontal limit at the screen midpoint.
 - Prefer Rigidbody2D with interpolation.
 - Suggested tuning: speed `6.5–8`, acceleration `18–26`, deceleration `22–32`.
 
@@ -99,7 +101,9 @@ Concrete upgrade definitions and ownership:
 - **Energy Shield (UPG-04)** — absorbs one Player-Asteroid collision, then reactivates automatically after cooldown. Upgrade levels use cooldowns `12s`, `9s`, and `6s`. Upgrading during cooldown does not change the current timer; the new level applies to the next cycle.
 - **Star Magnet (UPG-05)** — smoothly attracts Stars within radii of `3`, `4`, and `5` world units at levels 1–3; exclude at level 3. Stars must never teleport to the Player.
 
-Owner-reported Unity Play Mode verification status (2026-10-17): UPG-02 (Multi Shot, Rapid Fire, Damage Up), UPG-RANDOM-01 (random upgrade selection), and UPG-03 (Drone Wing) are verified DONE. This records the project owner's manual confirmation; no automated test or build result is implied. UPG-04 and UPG-05 remain separate tasks with their specifications above unchanged.
+Owner-reported Unity Play Mode verification status (2026-10-17): UPG-02 (Multi Shot, Rapid Fire, Damage Up), UPG-RANDOM-01 (random upgrade selection), UPG-03 (Drone Wing), and UPG-04 (Energy Shield) are verified DONE. This records the project owner's manual confirmation; no automated test or build result is implied. UPG-05 remains a separate unfinished task with its specification above unchanged.
+
+UPG-04 implementation note: `EnergyShieldController` provides level, readiness/cooldown state, one-hit consumption, and new-run reset; `EnergyShieldUpgradeDefinition` registers its capped upgrade. `PlayerAsteroidCollisionHandler` consumes the shield through `TryAbsorbAsteroidCollision()` and sends an unabsorbed hit through the GAME-01 run-finish path. The project owner confirmed successful Unity setup and Play Mode verification for UPG-04; this is manual verification, not an automated test or build result. The controller does not duplicate collision or Game Over handling.
 
 ## P8 — Score, Run Result & Difficulty
 
@@ -124,6 +128,8 @@ Suggested spawn interval starts around `1.8s` and should not go below about `0.7
 
 A new run resets all run-scoped state.
 
+SCORE-01 implementation note (DONE): Existing code awards `+10` for Small and `+30` for Large through the asteroid destruction callback; `GameManager.TryBeginRun()` resets `CurrentScore` and clears `LastResult`. `PlayerAsteroidCollisionHandler` measures run time from `RunStarted` using scaled Unity time and submits the final score, level, and survival time once through `TryFinishRun()`. `RunResult` is an immutable value and `GameManager.LastResult` retains it through the EndGame scene load; the next Gameplay run clears it. The project owner confirmed successful manual Unity verification of the implemented SCORE-01 behavior; this records owner-reported runtime verification, not an automated test or build. EndGame result presentation remains part of SCENE-02.
+
 ## P9 — Collision & Game Over
 
 Required collision pairs:
@@ -139,6 +145,8 @@ Player-Asteroid:
 - Active Shield -> absorb one collision, Player survives, and Shield enters its current cooldown.
 - Unavailable Shield or no Shield -> disable movement/fire, capture run result, and transition to EndGame.
 - Shield cooldown levels and upgrade-during-cooldown behavior are defined in P7.
+
+Implementation note (GAME-01 — DONE): `PlayerAsteroidCollisionHandler` is integrated with the Player's existing trigger collider, ignores non-Asteroid contacts, consumes one ready Shield charge, and otherwise disables movement/fire, captures score/level/survival time, finishes the run via `GameManager`, then loads `EndGame` through `SceneLoader`. The project owner confirmed successful Unity setup and Play Mode verification; this is manual verification, not an automated test or build result.
 
 No multi-HP Player system in the standard midterm scope.
 

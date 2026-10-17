@@ -19,6 +19,87 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-17 20:33 +07:00 — Visual assets và chỉnh sửa Player
+
+- **Trạng thái:** PARTIAL — `FIX-PLAYER-BOUNDS-01` vẫn chờ xác minh chi tiết.
+- **Phạm vi:** Ghi nhận tích hợp hình ảnh và các chỉnh sửa Player đã được chủ dự án xác nhận.
+- **Thay đổi:** Chủ dự án xác nhận background sci-fi xanh navy đậm; fighter xanh xám có ánh sáng cyan hướng sang phải; đạn năng lượng xanh cyan; Star vàng năm cánh; Asteroid Small và Large tối màu có điểm nhấn cyan đã được nhập, gán sprite và tinh chỉnh trong Unity. Sprite Player được thay mới; kích thước và PolygonCollider2D được chỉnh theo hình tàu, bật `Is Trigger`; tiếp xúc Asteroid không còn đẩy vật lý ngoài ý muốn và hành vi va chạm hoạt động. `PlayerController` dùng bounds Collider2D cùng độ lệch tâm để giới hạn di chuyển, giữ giới hạn nửa trái.
+- **Kiểm tra:** Chủ dự án xác nhận gameplay sau cập nhật hoạt động thành công; đây là xác nhận thủ công, không phải kiểm tra tự động. Không tuyên bố đã chạy Unity compile hoặc Play Mode trong lượt này.
+- **Chưa kiểm tra / Rủi ro:** Chưa có xác nhận riêng cho từng biên camera hoặc khả năng bắn trúng mục tiêu sát mép trên/dưới; `FIX-PLAYER-BOUNDS-01` tiếp tục PARTIAL cho đến khi các trường hợp đó được kiểm tra.
+- **Tiếp theo:** Xác minh riêng giới hạn collider ở các biên và tầm bắn tại sát mép dọc trong Unity.
+
+## 2026-10-17 19:37 +07:00 — FIX-PLAYER-BOUNDS-01: Giới hạn di chuyển theo collider
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Chuyển tính giới hạn Player từ bounds của renderer sang collider hiện có.
+- **Thay đổi:** `PlayerController` cache Collider2D, dùng bounds thế giới của collider và bù độ lệch tâm collider so với Rigidbody2D khi tính biên camera; giữ nguyên giới hạn ngang ở nửa trái và các thông số/chuyển động vật lý. Cập nhật P3 và thêm task follow-up.
+- **Kiểm tra:** Rà source, xác nhận Gameplay có PolygonCollider2D trên Player và muzzle chỉ lệch theo trục X; `git diff --check` cho code/tài liệu đạt. Không sửa scene/prefab. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần kiểm tra Play Mode tại bốn biên. Collider-based clamp giữ muzzle ở trong camera nhưng không đưa muzzle lên sát mép dọc: WeaponController bắn ngang tại Y của Player, nên mục tiêu sát mép trên/dưới có thể ngoài tầm đường đạn; cần quan sát với kích thước collider thực tế.
+- **Tiếp theo:** Xác minh `FIX-PLAYER-BOUNDS-01` trong Unity: giữ Player ở biên trên/dưới/trái/nửa phải và kiểm tra collider không vượt khung; thử bắn mục tiêu gần hai mép dọc.
+
+## 2026-10-17 16:10 +07:00 — SCENE-02: Thêm presenter kết quả EndGame
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm controller hiển thị kết quả run và điều hướng EndGame; chưa chỉnh scene.
+- **Thay đổi:** Thêm `EndGamePresenter` dùng `GameManager.LastResult`/`RunResult` để hiển thị Score, Level, Survival Time dạng `HH:MM:SS` không quay vòng giờ; xử lý thiếu snapshot bằng nhãn dự phòng. Play Again và Main Menu dùng `SceneLoader`; Quit gọi `Application.Quit()` trong build. Listener được quản lý theo vòng đời component và khóa chuyển scene lặp.
+- **Kiểm tra:** Rà soát code, API kết quả/scene loader và cấu trúc EndGame; `git diff --check` scoped cho TASKS/PLAN/CHANGELOG đạt, kiểm tra trailing whitespace của script/meta không có lỗi. Kiểm tra toàn working tree báo trailing whitespace trong `Gameplay.unity` đã có thay đổi trước task này; không sửa scene. Không chạy Unity compile, Play Mode hoặc automated test.
+- **Chưa kiểm tra / Rủi ro:** EndGame scene chưa có Canvas/UI hoặc wiring. Cần gắn presenter, nối nhãn/nút và kiểm thử trong Editor; Quit cần kiểm tra standalone.
+- **Tiếp theo:** Trong Unity tạo/gán ba Text legacy và ba Button, để trống Inspector `On Click()`, lưu scene; chạy checklist Play Mode và standalone ở báo cáo.
+
+## 2026-10-17 16:03 +07:00 — SCORE-01: Chốt xác minh và chuẩn bị SCENE-02
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt SCORE-01 theo xác nhận kiểm thử thủ công của chủ dự án; chuyển NEXT sang SCENE-02.
+- **Thay đổi:** Đánh dấu SCORE-01 hoàn tất trong TASKS và PLAN. Phần hiển thị kết quả EndGame tiếp tục thuộc SCENE-02, không gộp vào SCORE-01. Làm rõ SCENE-02: hiển thị Score cuối, Level đạt được, Survival Time và cung cấp Play Again, Main Menu, Quit.
+- **Kiểm tra:** Chủ dự án xác nhận các kiểm tra Unity cho phần SCORE-01 đã hoàn tất thành công. Đây là xác nhận thủ công; không tuyên bố automated test hoặc build.
+- **Chưa kiểm tra / Rủi ro:** SCENE-02 chưa triển khai; chưa chạy kiểm tra Unity trong lượt tài liệu này.
+- **Tiếp theo:** `SCENE-02` — dựng EndGame presentation/navigation; phụ thuộc `GAME-01` (đã DONE), theo `P2,P8`.
+
+## 2026-10-17 16:01 +07:00 — SCORE-01: Rà soát điểm, thời gian và snapshot kết quả
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Rà soát và ghi nhận luồng Score/run-result hiện có; không sửa gameplay code hoặc scene.
+- **Thay đổi:** Xác nhận trong source rằng Asteroid Small/Large cộng lần lượt 10/30 khi bị phá hủy; bắt đầu run reset Score và xóa `LastResult`; GAME-01 chụp Score/Level/thời gian vào `RunResult` bất biến và GameManager giữ snapshot qua scene load. Cập nhật TASKS và P8. Scene EndGame hiện không có object hoặc presenter hiển thị kết quả.
+- **Kiểm tra:** Đọc các script liên quan và kiểm tra cấu trúc `EndGame.unity`; không chạy Unity compile, Play Mode hoặc automated test.
+- **Chưa kiểm tra / Rủi ro:** Chưa xác minh runtime score/reset/time/result; chưa có EndGame result display. Giữ PARTIAL cho tới khi kiểm tra Unity và hoàn tất presenter trong phạm vi scene EndGame.
+- **Tiếp theo:** Kiểm tra Small +10/Large +30 đúng một lần, reset khi bắt đầu run mới, thời gian run mới, dữ liệu snapshot và giá trị hiển thị ở EndGame; phối hợp phần hiển thị với `SCENE-02`.
+
+## 2026-10-17 15:52 +07:00 — GAME-01, UPG-04: Chốt xác minh Unity
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt GAME-01 và UPG-04 theo xác nhận kiểm thử thủ công của chủ dự án.
+- **Thay đổi:** Cập nhật TASKS và PLAN: nhánh va chạm Player–Asteroid dùng Energy Shield sẵn sàng để hấp thụ một hit; khi Shield không hấp thụ, luồng kết thúc run ghi Score/Level/thời gian vào `RunResult`, kết thúc qua `GameManager` và chuyển sang `EndGame` qua `SceneLoader`. Ghi nhận Shield cooldown và tích hợp đã được xác minh; không thay đổi code/gameplay.
+- **Kiểm tra:** Chủ dự án xác nhận Unity setup và Play Mode cho GAME-01, UPG-04 hoàn tất thành công. Không tuyên bố automated test hoặc build đã chạy.
+- **Chưa kiểm tra / Rủi ro:** Không có kiểm tra tự động mới trong lượt cập nhật tài liệu này.
+- **Tiếp theo:** `SCORE-01` — hoàn thiện Score, survival time, reset run và snapshot kết quả; phụ thuộc `COMBAT-02`.
+
+## 2026-10-17 15:40 +07:00 — GAME-01: Sửa định danh va chạm theo EntityId
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Sửa tương thích Unity cho guard chống xử lý trùng collider trong `PlayerAsteroidCollisionHandler`.
+- **Thay đổi:** Đổi trường định danh sang `EntityId`, lấy giá trị bằng `Collider2D.GetEntityId()`, so sánh bằng `EntityId.Equals()` và reset thành `EntityId.None`. Giữ nguyên kiểm tra cùng physics step và nhánh Shield/Game Over; GAME-01 và UPG-04 vẫn PARTIAL.
+- **Kiểm tra:** Xác nhận API `EntityId.None`, `GetEntityId()` và `Equals(EntityId)` trong metadata API Unity 6000.5.9f1; rà soát diff và `git diff --check`. Không chạy Unity compile, Play Mode hoặc automated test.
+- **Chưa kiểm tra / Rủi ro:** Cần Unity compile/runtime verification sau khi Editor import thay đổi.
+- **Tiếp theo:** Xác minh compile và hoàn tất wiring/Play Mode cho GAME-01 và UPG-04.
+
+## 2026-10-17 15:26 +07:00 — GAME-01: Nối va chạm Player và Game Over
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm nhánh va chạm Player–Asteroid dùng Shield hiện có hoặc kết thúc run; không sửa scene/prefab.
+- **Thay đổi:** Thêm `PlayerAsteroidCollisionHandler` cho trigger Player. Va chạm Asteroid chỉ được xử lý một lần trong cùng physics step; Shield sẵn sàng gọi API `TryAbsorbAsteroidCollision()`, còn hit không được hấp thụ sẽ khóa movement/fire, chụp Score/Level/thời gian run, gọi `GameManager.TryFinishRun()` rồi chuyển `EndGame` qua `SceneLoader`. Cập nhật trạng thái GAME-01/UPG-04 và mô tả P9.
+- **Kiểm tra:** Rà soát API Shield, run lifecycle, result capture và luồng scene loader; xác nhận Gameplay/EndGame có trong Build Settings. `git diff --check` cho tài liệu đạt, kiểm tra trailing whitespace source đạt. Không chạy Unity compile, Play Mode hoặc automated test.
+- **Chưa kiểm tra / Rủi ro:** Chưa gắn handler/`EnergyShieldController` vào Player trong Gameplay, chưa tạo/đăng ký asset Energy Shield, và chưa xác minh hành vi runtime.
+- **Tiếp theo:** Trong Unity gắn hai component lên Player, tạo/đăng ký Energy Shield asset, lưu Gameplay, rồi kiểm tra hấp thụ, cooldown, Game Over, dữ liệu `RunResult` và chuyển EndGame.
+
+## 2026-10-17 15:21 +07:00 — UPG-04: Triển khai lõi Energy Shield
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm trạng thái Shield theo cấp, cooldown và định nghĩa nâng cấp; không thay đổi scene, prefab hoặc hệ thống nâng cấp khác.
+- **Thay đổi:** Thêm `EnergyShieldController` với cấp tối đa 3, cooldown Inspector mặc định 12/9/6 giây, API hấp thụ một va chạm khi sẵn sàng, và reset cấp/cooldown khi bắt đầu run mới. Thêm `EnergyShieldUpgradeDefinition` cùng menu tạo asset. Nâng cấp trong cooldown chỉ đổi cấp, không sửa bộ đếm hiện tại.
+- **Kiểm tra:** Rà soát source, references và cấu hình collider: Player dùng trigger, Asteroid dùng collider thường. Chưa chạy Unity compile, Play Mode hoặc automated test.
+- **Chưa kiểm tra / Rủi ro:** Chưa có Player-Asteroid collision/death handler trong code; API Shield chưa được gọi khi va chạm và nhánh Shield hết sẵn sàng chưa nối với Game Over. UPG-04 giữ PARTIAL cho tới khi GAME-01 cung cấp luồng này, asset được đăng ký và kiểm thử Unity hoàn tất.
+- **Tiếp theo:** Gắn `EnergyShieldController` lên Player, tạo asset `EnergyShieldUpgradeDefinition` (`Id: energy_shield`, `Display Name: Energy Shield`) và thêm vào `UpgradeManager` registry; sau đó tích hợp collision API với GAME-01 và chạy checklist Play Mode.
+
 ## 2026-10-17 15:14 +07:00 — UPG-02, UPG-RANDOM-01, UPG-03: Chốt xác minh nâng cấp
 
 - **Trạng thái:** DONE

@@ -1,0 +1,1131 @@
+fileFormatVersion: 2
+guid: 27ca93d446ebf6f4583b82602cad7081
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7855220890749421885
+    second: StarPickup_0
+  - first:
+      213: 7498647357378037737
+    second: StarPickup_1
+  - first:
+      213: 657156291726919574
+    second: StarPickup_2
+  - first:
+      213: -5494484490264982749
+    second: StarPickup_3
+  - first:
+      213: 102264977789455453
+    second: StarPickup_4
+  - first:
+      213: 7331448055685610861
+    second: StarPickup_5
+  - first:
+      213: -5816808436815227182
+    second: StarPickup_6
+  - first:
+      213: 4054128072104595516
+    second: StarPickup_7
+  - first:
+      213: -5119796398929750708
+    second: StarPickup_8
+  - first:
+      213: -7552272630699307204
+    second: StarPickup_9
+  - first:
+      213: -6690747458306635562
+    second: StarPickup_10
+  - first:
+      213: -1929822612104508499
+    second: StarPickup_11
+  - first:
+      213: 2602243432933854157
+    second: StarPickup_12
+  - first:
+      213: -221249452718490899
+    second: StarPickup_13
+  - first:
+      213: -4154611707857054015
+    second: StarPickup_14
+  - first:
+      213: -3435429010784866294
+    second: StarPickup_15
+  - first:
+      213: -7293138203026123465
+    second: StarPickup_16
+  - first:
+      213: 4323635915806196706
+    second: StarPickup_17
+  - first:
+      213: 2919183660924217674
+    second: StarPickup_18
+  - first:
+      213: 1718333002693978098
+    second: StarPickup_19
+  - first:
+      213: -7680995386916056578
+    second: StarPickup_20
+  - first:
+      213: 482751050966261922
+    second: StarPickup_21
+  - first:
+      213: 6453409662722986231
+    second: StarPickup_22
+  - first:
+      213: -5358144523473195501
+    second: StarPickup_23
+  - first:
+      213: 4699943790285487411
+    second: StarPickup_24
+  - first:
+      213: -7443568183287731912
+    second: StarPickup_25
+  - first:
+      213: -1233711715196257546
+    second: StarPickup_26
+  - first:
+      213: -1035594579099285629
+    second: StarPickup_27
+  - first:
+      213: -8333280566778681523
+    second: StarPickup_28
+  - first:
+      213: 6704213758114906836
+    second: StarPickup_29
+  - first:
+      213: 1173578526124532208
+    second: StarPickup_30
+  - first:
+      213: -243983010835211764
+    second: StarPickup_31
+  - first:
+      213: 7693425004913154703
+    second: StarPickup_32
+  - first:
+      213: 5503849975255503791
+    second: StarPickup_33
+  - first:
+      213: 9191336478656756459
+    second: StarPickup_34
+  - first:
+      213: -2100555776398251935
+    second: StarPickup_35
+  - first:
+      213: 2630911889273697497
+    second: StarPickup_36
+  - first:
+      213: 6104161231113028278
+    second: StarPickup_37
+  - first:
+      213: -6214340768574616091
+    second: StarPickup_38
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 1000
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: StarPickup_0
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 1191
+        width: 25
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c637a6f736acf290800000000000000
+      internalID: -7855220890749421885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_1
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 1205
+        width: 40
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e78070ca0c801860800000000000000
+      internalID: 7498647357378037737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_2
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 1146
+        width: 180
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 697cb426a20be1900800000000000000
+      internalID: 657156291726919574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_3
+      rect:
+        serializedVersion: 2
+        x: 667
+        y: 1181
+        width: 76
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32bccd5977bafb3b0800000000000000
+      internalID: -5494484490264982749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_4
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 1207
+        width: 74
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5c8a1a94715b6100800000000000000
+      internalID: 102264977789455453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1241
+        height: 1186
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6d7e58b9298eb560800000000000000
+      internalID: 7331448055685610861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_6
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 1157
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d61225ab8b864fa0800000000000000
+      internalID: -5816808436815227182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_7
+      rect:
+        serializedVersion: 2
+        x: 747
+        y: 1058
+        width: 96
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c30dbbb7008234830800000000000000
+      internalID: 4054128072104595516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_8
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 1140
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c45d77f0d44d2f8b0800000000000000
+      internalID: -5119796398929750708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_9
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 1124
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3f43485e00f03790800000000000000
+      internalID: -7552272630699307204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_10
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 1095
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d809c1c2a0b523a0800000000000000
+      internalID: -6690747458306635562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_11
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 891
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dab8ef51f84e735e0800000000000000
+      internalID: -1929822612104508499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_12
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 834
+        width: 27
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcb8d1f6d960d1420800000000000000
+      internalID: 2602243432933854157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_13
+      rect:
+        serializedVersion: 2
+        x: 1139
+        y: 826
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: deaf6f38bc6fdecf0800000000000000
+      internalID: -221249452718490899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_14
+      rect:
+        serializedVersion: 2
+        x: 1147
+        y: 833
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c6508de9aad756c0800000000000000
+      internalID: -4154611707857054015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_15
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 610
+        width: 26
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a00b8113487e250d0800000000000000
+      internalID: -3435429010784866294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_16
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 617
+        width: 17
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7351ccee17199ca90800000000000000
+      internalID: -7293138203026123465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_17
+      rect:
+        serializedVersion: 2
+        x: 1057
+        y: 542
+        width: 116
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e3cfb335f3a00c30800000000000000
+      internalID: 4323635915806196706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_18
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 208
+        width: 7
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a492387b216038820800000000000000
+      internalID: 2919183660924217674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_19
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 185
+        width: 37
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f7a76703ceb8d710800000000000000
+      internalID: 1718333002693978098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_20
+      rect:
+        serializedVersion: 2
+        x: 1073
+        y: 195
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef15479246f976590800000000000000
+      internalID: -7680995386916056578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_21
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 200
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a06acbe58313b600800000000000000
+      internalID: 482751050966261922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_22
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 176
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f05da885ed1f8950800000000000000
+      internalID: 6453409662722986231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_23
+      rect:
+        serializedVersion: 2
+        x: 1037
+        y: 181
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31eec2fc1fb04a5b0800000000000000
+      internalID: -5358144523473195501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_24
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 162
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33df444d9fd893140800000000000000
+      internalID: 4699943790285487411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_25
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 167
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8392cbdcc2223b890800000000000000
+      internalID: -7443568183287731912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_26
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 162
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fa3d744bb9f0eee0800000000000000
+      internalID: -1233711715196257546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_27
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 160
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38787759734d0a1f0800000000000000
+      internalID: -1035594579099285629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_28
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 163
+        width: 7
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d47ad73e97d3a5c80800000000000000
+      internalID: -8333280566778681523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_29
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 160
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d2c9be74e62a0d50800000000000000
+      internalID: 6704213758114906836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_30
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 142
+        width: 9
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f1edad9373694010800000000000000
+      internalID: 1173578526124532208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_31
+      rect:
+        serializedVersion: 2
+        x: 977
+        y: 142
+        width: 11
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0adfeb8eb23d9cf0800000000000000
+      internalID: -243983010835211764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_32
+      rect:
+        serializedVersion: 2
+        x: 987
+        y: 142
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8ad4fbc74984ca60800000000000000
+      internalID: 7693425004913154703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_33
+      rect:
+        serializedVersion: 2
+        x: 1140
+        y: 137
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa39520546a916c40800000000000000
+      internalID: 5503849975255503791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_34
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 111
+        width: 11
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: beafc6d54df2e8f70800000000000000
+      internalID: 9191336478656756459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_35
+      rect:
+        serializedVersion: 2
+        x: 860
+        y: 79
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16823ec86a359d2e0800000000000000
+      internalID: -2100555776398251935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_36
+      rect:
+        serializedVersion: 2
+        x: 378
+        y: 95
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d4b2839c60e28420800000000000000
+      internalID: 2630911889273697497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_37
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 79
+        width: 17
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b204386c4656b450800000000000000
+      internalID: 6104161231113028278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarPickup_38
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 39
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5edc1e7fef932c9a0800000000000000
+      internalID: -6214340768574616091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      StarPickup_0: -7855220890749421885
+      StarPickup_1: 7498647357378037737
+      StarPickup_10: -6690747458306635562
+      StarPickup_11: -1929822612104508499
+      StarPickup_12: 2602243432933854157
+      StarPickup_13: -221249452718490899
+      StarPickup_14: -4154611707857054015
+      StarPickup_15: -3435429010784866294
+      StarPickup_16: -7293138203026123465
+      StarPickup_17: 4323635915806196706
+      StarPickup_18: 2919183660924217674
+      StarPickup_19: 1718333002693978098
+      StarPickup_2: 657156291726919574
+      StarPickup_20: -7680995386916056578
+      StarPickup_21: 482751050966261922
+      StarPickup_22: 6453409662722986231
+      StarPickup_23: -5358144523473195501
+      StarPickup_24: 4699943790285487411
+      StarPickup_25: -7443568183287731912
+      StarPickup_26: -1233711715196257546
+      StarPickup_27: -1035594579099285629
+      StarPickup_28: -8333280566778681523
+      StarPickup_29: 6704213758114906836
+      StarPickup_3: -5494484490264982749
+      StarPickup_30: 1173578526124532208
+      StarPickup_31: -243983010835211764
+      StarPickup_32: 7693425004913154703
+      StarPickup_33: 5503849975255503791
+      StarPickup_34: 9191336478656756459
+      StarPickup_35: -2100555776398251935
+      StarPickup_36: 2630911889273697497
+      StarPickup_37: 6104161231113028278
+      StarPickup_38: -6214340768574616091
+      StarPickup_4: 102264977789455453
+      StarPickup_5: 7331448055685610861
+      StarPickup_6: -5816808436815227182
+      StarPickup_7: 4054128072104595516
+      StarPickup_8: -5119796398929750708
+      StarPickup_9: -7552272630699307204
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

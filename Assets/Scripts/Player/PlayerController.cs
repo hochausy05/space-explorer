@@ -14,9 +14,9 @@ namespace SpaceExplorer.Player
         [Header("References")]
         [SerializeField] private InputActionAsset _inputActions;
         [SerializeField] private Camera _camera;
-        [SerializeField] private Renderer _boundsRenderer;
 
         private Rigidbody2D _rigidbody;
+        private Collider2D _playerCollider;
         private InputAction _moveAction;
         private Vector2 _moveInput;
         private Vector2 _velocity;
@@ -25,6 +25,7 @@ namespace SpaceExplorer.Player
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            _playerCollider = GetComponent<Collider2D>();
             _rigidbody.gravityScale = 0f;
             _rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
             _rigidbody.constraints |= RigidbodyConstraints2D.FreezeRotation;
@@ -55,10 +56,8 @@ namespace SpaceExplorer.Player
                 return;
             }
 
-            if (_boundsRenderer == null)
-                _boundsRenderer = GetComponentInChildren<Renderer>();
-            if (_boundsRenderer == null)
-                FailConfiguration("Player movement needs a Renderer to measure the player's visible extents.");
+            if (_playerCollider == null || !_playerCollider.enabled)
+                FailConfiguration("Player movement needs the Player's enabled Collider2D to calculate movement bounds.");
         }
 
         private void OnEnable()
@@ -83,7 +82,7 @@ namespace SpaceExplorer.Player
 
         private void FixedUpdate()
         {
-            if (_rigidbody == null || _camera == null || _boundsRenderer == null)
+            if (_rigidbody == null || _camera == null || _playerCollider == null || !_playerCollider.enabled)
             {
                 FailConfiguration("A required player movement reference was lost at runtime.");
                 return;
@@ -112,23 +111,25 @@ namespace SpaceExplorer.Player
 
         private bool TryGetMovementBounds(out Vector2 minimum, out Vector2 maximum)
         {
-            Vector3 extents = _boundsRenderer.bounds.extents;
+            Bounds colliderBounds = _playerCollider.bounds;
+            Vector2 colliderOffset = (Vector2)colliderBounds.center - _rigidbody.position;
+            Vector3 extents = colliderBounds.extents;
             float halfHeight = _camera.orthographicSize;
             float halfWidth = halfHeight * _camera.aspect;
             Vector3 cameraPosition = _camera.transform.position;
 
             // The right edge of the allowed area is the screen midpoint, keeping play on the left half.
-            minimum = new Vector2(cameraPosition.x - halfWidth + extents.x,
-                                  cameraPosition.y - halfHeight + extents.y);
-            maximum = new Vector2(cameraPosition.x - extents.x,
-                                  cameraPosition.y + halfHeight - extents.y);
+            minimum = new Vector2(cameraPosition.x - halfWidth + extents.x - colliderOffset.x,
+                                  cameraPosition.y - halfHeight + extents.y - colliderOffset.y);
+            maximum = new Vector2(cameraPosition.x - extents.x - colliderOffset.x,
+                                  cameraPosition.y + halfHeight - extents.y - colliderOffset.y);
 
             if (minimum.x <= maximum.x && minimum.y <= maximum.y)
                 return true;
 
             if (!_boundsErrorLogged)
             {
-                Debug.LogError("Player visible extents do not fit inside the camera's movement area.", this);
+                Debug.LogError("Player collider bounds do not fit inside the camera's movement area.", this);
                 _boundsErrorLogged = true;
             }
 
