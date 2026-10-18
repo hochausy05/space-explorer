@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceExplorer.Upgrades.EnergyShieldUpgradeDefinition
   _id: energy_shield
   _displayName: Energy Shield
+  _description: "Ch\u1EB7n m\u1ED9t va ch\u1EA1m r\u1ED3i h\u1ED3i l\u1EA1i sau m\u1ED9t
+    kho\u1EA3ng th\u1EDDi gian, gi\u1EA3m th\u1EDDi gian sau m\u1ED7i l\u1EA7n ch\u1ECDn
+    l\u1EA1i n\xE2ng c\u1EA5p n\xE0y."
+  _icon: {fileID: 21300000, guid: 03d75a9199c4d6140b6ca574cbe59ff9, type: 3}

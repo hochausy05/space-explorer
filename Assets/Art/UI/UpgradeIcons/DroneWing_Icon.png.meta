@@ -1,0 +1,819 @@
+fileFormatVersion: 2
+guid: 931278c4cea3b224984b686227f0ca28
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -363072679953803275
+    second: DroneWing_Icon_0
+  - first:
+      213: -1736894543194783836
+    second: DroneWing_Icon_1
+  - first:
+      213: -3099811958774574166
+    second: DroneWing_Icon_2
+  - first:
+      213: -1047837207191149078
+    second: DroneWing_Icon_3
+  - first:
+      213: 7193598354345797280
+    second: DroneWing_Icon_4
+  - first:
+      213: -6499592332778427828
+    second: DroneWing_Icon_5
+  - first:
+      213: -5176335831289265609
+    second: DroneWing_Icon_6
+  - first:
+      213: -5889504552540319252
+    second: DroneWing_Icon_7
+  - first:
+      213: -7540112428980576501
+    second: DroneWing_Icon_8
+  - first:
+      213: -5282279613700468987
+    second: DroneWing_Icon_9
+  - first:
+      213: 2241252541988556475
+    second: DroneWing_Icon_10
+  - first:
+      213: 3174329425584007159
+    second: DroneWing_Icon_11
+  - first:
+      213: -2585124720995416553
+    second: DroneWing_Icon_12
+  - first:
+      213: 5544277323249718014
+    second: DroneWing_Icon_13
+  - first:
+      213: 3925570974167011074
+    second: DroneWing_Icon_14
+  - first:
+      213: -6816444204192369404
+    second: DroneWing_Icon_15
+  - first:
+      213: 4678720487264653295
+    second: DroneWing_Icon_16
+  - first:
+      213: -2541256794289669426
+    second: DroneWing_Icon_17
+  - first:
+      213: 51184719493649173
+    second: DroneWing_Icon_18
+  - first:
+      213: 1837377746322017659
+    second: DroneWing_Icon_19
+  - first:
+      213: 3034840883141645041
+    second: DroneWing_Icon_20
+  - first:
+      213: -6335117268378678578
+    second: DroneWing_Icon_21
+  - first:
+      213: 6558509425420551695
+    second: DroneWing_Icon_22
+  - first:
+      213: -7947997933495739589
+    second: DroneWing_Icon_23
+  - first:
+      213: 8883478982459973682
+    second: DroneWing_Icon_24
+  - first:
+      213: 8878799363420305119
+    second: DroneWing_Icon_25
+  - first:
+      213: 7167299189939733295
+    second: DroneWing_Icon_26
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: DroneWing_Icon_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1249
+        height: 1228
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f754bb325b16faf0800000000000000
+      internalID: -363072679953803275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_1
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 1207
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4af7f8c8d9f45e7e0800000000000000
+      internalID: -1736894543194783836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_2
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 1171
+        width: 48
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa3dbbe62714bf4d0800000000000000
+      internalID: -3099811958774574166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_3
+      rect:
+        serializedVersion: 2
+        x: 545
+        y: 1147
+        width: 123
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae52fea9c955571f0800000000000000
+      internalID: -1047837207191149078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_4
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 1223
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a6ad97079bc4d360800000000000000
+      internalID: 7193598354345797280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_5
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 1203
+        width: 17
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4aa3eba53fccc5a0800000000000000
+      internalID: -6499592332778427828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_6
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 1181
+        width: 15
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73280e1acf5f928b0800000000000000
+      internalID: -5176335831289265609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_7
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 1204
+        width: 24
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce1d9ca30d6444ea0800000000000000
+      internalID: -5889504552540319252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_8
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 1164
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0fda10f1b32c5790800000000000000
+      internalID: -7540112428980576501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_9
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 1164
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50f88159da291b6b0800000000000000
+      internalID: -5282279613700468987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_10
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 1171
+        width: 9
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbe4b21ff478a1f10800000000000000
+      internalID: 2241252541988556475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_11
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 1140
+        width: 19
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f721045bcb7d0c20800000000000000
+      internalID: 3174329425584007159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_12
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 66
+        width: 37
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 716ccf843cacf1cd0800000000000000
+      internalID: -2585124720995416553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_13
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 97
+        width: 17
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef29d84c9da31fc40800000000000000
+      internalID: 5544277323249718014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_14
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 89
+        width: 73
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20f0fcf900e6a7630800000000000000
+      internalID: 3925570974167011074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_15
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 51
+        width: 37
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 405f7d18c102761a0800000000000000
+      internalID: -6816444204192369404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_16
+      rect:
+        serializedVersion: 2
+        x: 697
+        y: 79
+        width: 58
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fef80c68e772ee040800000000000000
+      internalID: 4678720487264653295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_17
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 50
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecaf055e864abbcd0800000000000000
+      internalID: -2541256794289669426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_18
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 51
+        width: 10
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 513d85f2b38d5b000800000000000000
+      internalID: 51184719493649173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_19
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 53
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7d4bbf435daf7910800000000000000
+      internalID: 1837377746322017659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_20
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 49
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f29d7534bbed1a20800000000000000
+      internalID: 3034840883141645041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_21
+      rect:
+        serializedVersion: 2
+        x: 539
+        y: 23
+        width: 49
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eca88d7c8642518a0800000000000000
+      internalID: -6335117268378678578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_22
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 47
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f064e3ee291840b50800000000000000
+      internalID: 6558509425420551695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_23
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 27
+        width: 21
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3b92726df903b190800000000000000
+      internalID: -7947997933495739589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_24
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 25
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 230ec2f5115784b70800000000000000
+      internalID: 8883478982459973682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_25
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 31
+        width: 11
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd6b1a8aaf4d73b70800000000000000
+      internalID: 8878799363420305119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DroneWing_Icon_26
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 45
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f238d47a3ac577360800000000000000
+      internalID: 7167299189939733295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      DroneWing_Icon_0: -363072679953803275
+      DroneWing_Icon_1: -1736894543194783836
+      DroneWing_Icon_10: 2241252541988556475
+      DroneWing_Icon_11: 3174329425584007159
+      DroneWing_Icon_12: -2585124720995416553
+      DroneWing_Icon_13: 5544277323249718014
+      DroneWing_Icon_14: 3925570974167011074
+      DroneWing_Icon_15: -6816444204192369404
+      DroneWing_Icon_16: 4678720487264653295
+      DroneWing_Icon_17: -2541256794289669426
+      DroneWing_Icon_18: 51184719493649173
+      DroneWing_Icon_19: 1837377746322017659
+      DroneWing_Icon_2: -3099811958774574166
+      DroneWing_Icon_20: 3034840883141645041
+      DroneWing_Icon_21: -6335117268378678578
+      DroneWing_Icon_22: 6558509425420551695
+      DroneWing_Icon_23: -7947997933495739589
+      DroneWing_Icon_24: 8883478982459973682
+      DroneWing_Icon_25: 8878799363420305119
+      DroneWing_Icon_26: 7167299189939733295
+      DroneWing_Icon_3: -1047837207191149078
+      DroneWing_Icon_4: 7193598354345797280
+      DroneWing_Icon_5: -6499592332778427828
+      DroneWing_Icon_6: -5176335831289265609
+      DroneWing_Icon_7: -5889504552540319252
+      DroneWing_Icon_8: -7540112428980576501
+      DroneWing_Icon_9: -5282279613700468987
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

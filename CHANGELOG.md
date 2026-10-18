@@ -19,6 +19,69 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-18 18:48 +07:00 — Gỡ nội dung Core Hub chưa được phê duyệt
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Sửa tài liệu để khôi phục đúng luồng Main Menu → Play → Gameplay; không có chọn Core trước run.
+- **Thay đổi:** Gỡ mục Core Hub khỏi TASKS và PLAN, sửa entry đồng bộ trước đó để không mô tả tính năng này là đã duyệt, khôi phục NEXT về `FIX-PLAYER-BOUNDS-01` theo giá trị có trong TASKS trước thay đổi HUB.
+- **Kiểm tra:** `git diff --check` trên TASKS.md, PLAN.md và CHANGELOG.md đạt; xác nhận không còn HUB-01 hoặc mô tả Core Selection Hub trong lộ trình hiện hành. Không chạy Unity.
+- **Chưa kiểm tra / Rủi ro:** Không có thay đổi runtime; các trạng thái hoàn tất khác được giữ nguyên.
+- **Tiếp theo:** Tiếp tục `FIX-PLAYER-BOUNDS-01` theo lộ trình đã có.
+
+## 2026-10-18 18:40 +07:00 — Đồng bộ tài liệu hoàn tất gameplay và UI
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Đồng bộ trạng thái UPG-05, UPG-03-VISUAL-01, UI-BUILD-01 và UPG-UI-01 theo xác nhận Play Mode của chủ dự án.
+- **Thay đổi:** Ghi nhận Star Magnet cấp 3; sprite Drone riêng, fallback và đội hình đã chỉnh; BuildStatusPanel dạng text trong Canvas Gameplay; panel nâng cấp với sáu icon, tên và mô tả động. UI-BUILD-01 và UPG-UI-01 được đánh dấu DONE. Không thêm task icon cho Build HUD.
+- **Kiểm tra:** Chủ dự án xác nhận đã kiểm tra thủ công các tính năng trên trong Unity Play Mode. Đây không phải automated test; không chạy Unity compile, build hoặc Play Mode trong lượt đồng bộ tài liệu này.
+- **Chưa kiểm tra / Rủi ro:** Các task còn lại giữ nguyên trạng thái tại thời điểm đồng bộ.
+- **Tiếp theo:** Tiếp tục theo task kế tiếp đã có trong roadmap.
+
+## 2026-10-18 18:19 +07:00 — UPG-UI-01: Hiển thị icon, tên và mô tả nâng cấp
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Liên kết dữ liệu trình bày của các lựa chọn ngẫu nhiên với ba thẻ UI nâng cấp đang có.
+- **Thay đổi:** Thêm trường Description và Sprite Icon vào `UpgradeDefinition`; `UpgradeSelectionPanel` hiển thị tên, mô tả, icon theo đúng definition được chọn, xóa nội dung cũ và ẩn icon thiếu. Giữ nguyên interface mock, lựa chọn ngẫu nhiên, giới hạn/candidate, callback Inspector và luồng pause. Thêm task UPG-UI-01 và ghi chú P7.
+- **Kiểm tra:** Rà soát lựa chọn qua index/token và cách panel quản lý runtime listeners; `git diff --check` trên script/tài liệu task đạt. Kiểm tra scene Gameplay riêng báo trailing whitespace trên scene đang có thay đổi trước task; không sửa scene. Không chạy Unity compile, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Chưa gán ba mảng Description Text/Icon Image trong Inspector, chưa nhập mô tả và sáu icon vào các asset nâng cấp, chưa kiểm tra trong Unity; task giữ PARTIAL.
+- **Tiếp theo:** Trong Gameplay, gán ba DescriptionText và ba UpgradeIcon cho `UpgradeSelectionPanel`, giữ nguyên ba name Text; trong sáu asset `MultiShot`, `RapidFire`, `DamageUp`, `DroneWingUpgrade`, `EnergyShieldUpgrade`, `StarMagnet`, nhập mô tả theo bảng task và gán icon PNG tương ứng. Lưu scene/assets rồi chạy checklist Play Mode.
+
+## 2026-10-18 15:20 +07:00 — UI-BUILD-01: HUD trạng thái build trong Gameplay
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm panel chỉ hiển thị số Drone, trạng thái Shield, sát thương mỗi viên đạn, chu kỳ bắn hiệu lực và số đạn mỗi loạt của Player.
+- **Thay đổi:** Thêm `BuildStatusHUD` đọc API hiện có; thêm event thông báo thay đổi chỉ số từ `WeaponController`, `DroneWingController` và `EnergyShieldController`. Cập nhật P13 và thêm task UI-BUILD-01. Ghi nhận UPG-03-VISUAL-01 DONE theo xác nhận kiểm tra Unity của chủ dự án.
+- **Kiểm tra:** Rà soát source và wiring hiện có; `git diff --check` trong phạm vi các file liên quan đạt, kiểm tra whitespace của `BuildStatusHUD.cs` đạt. Kiểm tra toàn repo báo trailing whitespace sẵn có trong Gameplay.unity (dòng 1671); không sửa scene. Không chạy Unity compile, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Chưa tạo panel con dưới Canvas hiện có, gán năm Legacy UI Text, bố trí giao diện hoặc xác minh cập nhật trong Play Mode; UI-BUILD-01 giữ PARTIAL.
+- **Tiếp theo:** Trong Canvas Gameplay hiện có, tạo panel gọn ở góc dưới trái với năm hàng icon tùy chọn, nhãn và Legacy UI Text; gắn `BuildStatusHUD`, gán Player GameObject và đủ năm Text references, lưu scene, rồi kiểm tra các thay đổi nâng cấp, cooldown Shield, pause và reset run.
+
+## 2026-10-18 14:52 +07:00 — UPG-03-VISUAL-01: Sprite Drone chỉnh được
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Cho phép chọn sprite riêng cho Drone Wing, không đổi logic bay/bắn.
+- **Thay đổi:** Thêm trường Inspector `Drone Sprite`; cả hai Drone dùng sprite được gán, nếu để trống thì dùng sprite Player như trước. Giữ nguyên scale, vị trí, tint và sorting; tắt flip để giữ hướng phải của sprite.
+- **Kiểm tra:** Rà soát đường khởi tạo Drone và fallback; `git diff --check` cho file code/tài liệu đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Chưa xác minh hai Drone nhận sprite riêng hoặc fallback trong Unity.
+- **Tiếp theo:** Gán sprite hướng phải vào `Player > Drone Wing Controller > Drone Sprite`, chạy thử hai Drone; để trống trường này để kiểm tra fallback.
+
+## 2026-10-18 14:44 +07:00 — UPG-05: Chốt Star Magnet
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt UPG-05 theo xác nhận kiểm thử thủ công của chủ dự án trong Unity Play Mode.
+- **Thay đổi:** Chủ dự án xác nhận `StarMagnetController` đã gắn lên Player, asset `StarMagnetUpgradeDefinition` đã tạo và đăng ký; bán kính ba cấp 3/4/5 world units hoạt động cùng Star pickup, XP, pooling và lựa chọn nâng cấp ngẫu nhiên.
+- **Kiểm tra:** Chủ dự án xác nhận chạy Play Mode thành công. Đây là xác minh thủ công do người dùng báo cáo; không ghi nhận automated test hoặc build.
+- **Chưa kiểm tra / Rủi ro:** Không có kiểm tra tự động mới trong lượt cập nhật tài liệu này.
+- **Tiếp theo:** Tiếp tục theo task kế tiếp đã có trong roadmap.
+
+## 2026-10-18 14:25 +07:00 — UPG-05: Triển khai Star Magnet
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm lực hút Star theo cấp vào luồng nâng cấp hiện có; không sửa scene hoặc prefab.
+- **Thay đổi:** Thêm `StarMagnetController` với bán kính 3/4/5 world units, giới hạn cấp 3, tốc độ chỉnh được, reset khi bắt đầu run mới và dừng hút khi run kết thúc. `StarPickup` đăng ký các Star đang dùng trong pool, chuyển động có gia tốc về Player khi trong bán kính, giới hạn bước để tránh vượt mục tiêu và trở về drift khi ra ngoài; logic thu XP/thu hồi pool giữ nguyên. Thêm `StarMagnetUpgradeDefinition` với menu tạo asset, dùng eligibility/cap của framework hiện có.
+- **Kiểm tra:** Rà soát API nâng cấp, vòng đời pool, collider trigger và run/pause state; chưa chạy Unity compile, automated test hoặc Play Mode. Unity Editor đang mở nên không chạy batch mode.
+- **Chưa kiểm tra / Rủi ro:** Chưa gắn `StarMagnetController` lên Player, chưa tạo/đăng ký asset production và chưa kiểm tra runtime; UPG-05 tiếp tục PARTIAL.
+- **Tiếp theo:** Trong Unity thêm `StarMagnetController` vào Player; tạo asset qua `Assets > Create > Space Explorer > Upgrades > Star Magnet`, đặt Id `star_magnet`, Display Name `Star Magnet`, thêm asset vào `UpgradeManager > Production Upgrade Registry` mà giữ nguyên entries hiện có; lưu Gameplay và chạy checklist Play Mode.
+
 ## 2026-10-17 20:33 +07:00 — Visual assets và chỉnh sửa Player
 
 - **Trạng thái:** PARTIAL — `FIX-PLAYER-BOUNDS-01` vẫn chờ xác minh chi tiết.

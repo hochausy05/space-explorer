@@ -1,0 +1,2379 @@
+fileFormatVersion: 2
+guid: 3cfc24aba235c2946a457b19f8aebfcb
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5620898121825779971
+    second: RapidFire_Icon_0
+  - first:
+      213: 2275764644800955818
+    second: RapidFire_Icon_1
+  - first:
+      213: -8415201917645981413
+    second: RapidFire_Icon_2
+  - first:
+      213: 7559828762205060571
+    second: RapidFire_Icon_3
+  - first:
+      213: -2109277115722281451
+    second: RapidFire_Icon_4
+  - first:
+      213: -8210324741424981693
+    second: RapidFire_Icon_5
+  - first:
+      213: -4868278453265688146
+    second: RapidFire_Icon_6
+  - first:
+      213: -7910927167290604571
+    second: RapidFire_Icon_7
+  - first:
+      213: 4685980618523866991
+    second: RapidFire_Icon_8
+  - first:
+      213: 543963467675520497
+    second: RapidFire_Icon_9
+  - first:
+      213: 6472878099462978658
+    second: RapidFire_Icon_10
+  - first:
+      213: 8690994381532812219
+    second: RapidFire_Icon_11
+  - first:
+      213: 183787768536368110
+    second: RapidFire_Icon_12
+  - first:
+      213: 4576975938695721918
+    second: RapidFire_Icon_13
+  - first:
+      213: -5408742194448535408
+    second: RapidFire_Icon_14
+  - first:
+      213: -4273003943927237641
+    second: RapidFire_Icon_15
+  - first:
+      213: -5933663667365202348
+    second: RapidFire_Icon_16
+  - first:
+      213: -3320580036971263941
+    second: RapidFire_Icon_17
+  - first:
+      213: 5939641492306332174
+    second: RapidFire_Icon_18
+  - first:
+      213: -5874397747659051550
+    second: RapidFire_Icon_19
+  - first:
+      213: -1299707915100994533
+    second: RapidFire_Icon_20
+  - first:
+      213: -2955994994253181785
+    second: RapidFire_Icon_21
+  - first:
+      213: 3326858421605911365
+    second: RapidFire_Icon_22
+  - first:
+      213: 161423847345546385
+    second: RapidFire_Icon_23
+  - first:
+      213: 3414046882958949638
+    second: RapidFire_Icon_24
+  - first:
+      213: -7908593594964527595
+    second: RapidFire_Icon_25
+  - first:
+      213: 5357736967287721707
+    second: RapidFire_Icon_26
+  - first:
+      213: 5462217055587801516
+    second: RapidFire_Icon_27
+  - first:
+      213: -4567017086165980621
+    second: RapidFire_Icon_28
+  - first:
+      213: 8926891658867179937
+    second: RapidFire_Icon_29
+  - first:
+      213: 2805687492788548222
+    second: RapidFire_Icon_30
+  - first:
+      213: -8013400662542718277
+    second: RapidFire_Icon_31
+  - first:
+      213: 1701442790624583560
+    second: RapidFire_Icon_32
+  - first:
+      213: -5255041602255425509
+    second: RapidFire_Icon_33
+  - first:
+      213: -2888734106798979363
+    second: RapidFire_Icon_34
+  - first:
+      213: 4880778873624382481
+    second: RapidFire_Icon_35
+  - first:
+      213: -50730783998963107
+    second: RapidFire_Icon_36
+  - first:
+      213: 7616341612533121120
+    second: RapidFire_Icon_37
+  - first:
+      213: 8061902435235531247
+    second: RapidFire_Icon_38
+  - first:
+      213: -8619164615460365601
+    second: RapidFire_Icon_39
+  - first:
+      213: 2204619664529690651
+    second: RapidFire_Icon_40
+  - first:
+      213: 1260180424169301697
+    second: RapidFire_Icon_41
+  - first:
+      213: -6834496634299538295
+    second: RapidFire_Icon_42
+  - first:
+      213: 551326104879126116
+    second: RapidFire_Icon_43
+  - first:
+      213: 3251735075288323667
+    second: RapidFire_Icon_44
+  - first:
+      213: -113717000358670965
+    second: RapidFire_Icon_45
+  - first:
+      213: 2104608492652995701
+    second: RapidFire_Icon_46
+  - first:
+      213: -1237467623879783292
+    second: RapidFire_Icon_47
+  - first:
+      213: -9042939066729059415
+    second: RapidFire_Icon_48
+  - first:
+      213: 2129901210720551648
+    second: RapidFire_Icon_49
+  - first:
+      213: -1566410933293342524
+    second: RapidFire_Icon_50
+  - first:
+      213: 1690409200993059109
+    second: RapidFire_Icon_51
+  - first:
+      213: -7771619167829261322
+    second: RapidFire_Icon_52
+  - first:
+      213: -3007743217549837461
+    second: RapidFire_Icon_53
+  - first:
+      213: -3146984089894341928
+    second: RapidFire_Icon_54
+  - first:
+      213: 6934554713296323223
+    second: RapidFire_Icon_55
+  - first:
+      213: 2977158593591506250
+    second: RapidFire_Icon_56
+  - first:
+      213: 5565565601358744644
+    second: RapidFire_Icon_57
+  - first:
+      213: -2785028231000915833
+    second: RapidFire_Icon_58
+  - first:
+      213: -5733702930807181817
+    second: RapidFire_Icon_59
+  - first:
+      213: 7489283023342290996
+    second: RapidFire_Icon_60
+  - first:
+      213: -2175642774355155978
+    second: RapidFire_Icon_61
+  - first:
+      213: -8130821592588582475
+    second: RapidFire_Icon_62
+  - first:
+      213: -6832694459177593380
+    second: RapidFire_Icon_63
+  - first:
+      213: -689787659438001955
+    second: RapidFire_Icon_64
+  - first:
+      213: -1193249170268212799
+    second: RapidFire_Icon_65
+  - first:
+      213: -9148685109277761099
+    second: RapidFire_Icon_66
+  - first:
+      213: -8883447414714016904
+    second: RapidFire_Icon_67
+  - first:
+      213: -321773337144137276
+    second: RapidFire_Icon_68
+  - first:
+      213: -1817808999711368229
+    second: RapidFire_Icon_69
+  - first:
+      213: 7328972945809173025
+    second: RapidFire_Icon_70
+  - first:
+      213: 8499800549435367166
+    second: RapidFire_Icon_71
+  - first:
+      213: -3660008275364366627
+    second: RapidFire_Icon_72
+  - first:
+      213: 2139901502691894059
+    second: RapidFire_Icon_73
+  - first:
+      213: 6821343300645850764
+    second: RapidFire_Icon_74
+  - first:
+      213: -5854516966318151631
+    second: RapidFire_Icon_75
+  - first:
+      213: -8872004769635938136
+    second: RapidFire_Icon_76
+  - first:
+      213: -3049981470660293128
+    second: RapidFire_Icon_77
+  - first:
+      213: 8893362931201481635
+    second: RapidFire_Icon_78
+  - first:
+      213: -7051897931427278012
+    second: RapidFire_Icon_79
+  - first:
+      213: 7961203717112076039
+    second: RapidFire_Icon_80
+  - first:
+      213: -480448660584091784
+    second: RapidFire_Icon_81
+  - first:
+      213: -1477349490893667594
+    second: RapidFire_Icon_82
+  - first:
+      213: -3969028591261879252
+    second: RapidFire_Icon_83
+  - first:
+      213: -2236005574773274265
+    second: RapidFire_Icon_84
+  - first:
+      213: -1648820805985986579
+    second: RapidFire_Icon_85
+  - first:
+      213: -9162612673783105544
+    second: RapidFire_Icon_86
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: RapidFire_Icon_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1058
+        width: 250
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfef9e160fe8ef1b0800000000000000
+      internalID: -5620898121825779971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1098
+        width: 43
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa501cd03e3259f10800000000000000
+      internalID: 2275764644800955818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1254
+        height: 1059
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1976890172373b80800000000000000
+      internalID: -8415201917645981413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_3
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 1044
+        width: 7
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdd730e9438e9e860800000000000000
+      internalID: 7559828762205060571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_4
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 1142
+        width: 51
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51e438083a75ab2e0800000000000000
+      internalID: -2109277115722281451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_5
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 1060
+        width: 14
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34953c8d5211f0e80800000000000000
+      internalID: -8210324741424981693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_6
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 1057
+        width: 135
+        height: 175
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea9196d3a86607cb0800000000000000
+      internalID: -4868278453265688146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_7
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 1050
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e308adb7adb63290800000000000000
+      internalID: -7910927167290604571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_8
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 1096
+        width: 70
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f67fa7f8b82f70140800000000000000
+      internalID: 4685980618523866991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_9
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 1084
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fdc69d44eb8c8700800000000000000
+      internalID: 543963467675520497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_10
+      rect:
+        serializedVersion: 2
+        x: 627
+        y: 1058
+        width: 305
+        height: 174
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26c75e0365844d950800000000000000
+      internalID: 6472878099462978658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_11
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 1060
+        width: 21
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb3dd28d75d9c9870800000000000000
+      internalID: 8690994381532812219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_12
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 1066
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee30ca17002fc8200800000000000000
+      internalID: 183787768536368110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_13
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 1084
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb3f77bcd5fa48f30800000000000000
+      internalID: 4576975938695721918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_14
+      rect:
+        serializedVersion: 2
+        x: 689
+        y: 1042
+        width: 11
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0907a3281a940f4b0800000000000000
+      internalID: -5408742194448535408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_15
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 1074
+        width: 50
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f3bf566d8d33b4c0800000000000000
+      internalID: -4273003943927237641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_16
+      rect:
+        serializedVersion: 2
+        x: 705
+        y: 1060
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4563e0a155467ada0800000000000000
+      internalID: -5933663667365202348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_17
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 1044
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b380310bc0eeae1d0800000000000000
+      internalID: -3320580036971263941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_18
+      rect:
+        serializedVersion: 2
+        x: 764
+        y: 1132
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0a071ab778dd6250800000000000000
+      internalID: 5939641492306332174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_19
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 1110
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ed6d655f52f97ea0800000000000000
+      internalID: -5874397747659051550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_20
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 1068
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1444a0998286fde0800000000000000
+      internalID: -1299707915100994533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_21
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 1033
+        width: 33
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7acc4b9d6323af6d0800000000000000
+      internalID: -2955994994253181785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_22
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 1058
+        width: 18
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54b46d5ab106b2e20800000000000000
+      internalID: 3326858421605911365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_23
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 1068
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 194ee47422e7d3200800000000000000
+      internalID: 161423847345546385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_24
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 1022
+        width: 178
+        height: 210
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60d3c493d81216f20800000000000000
+      internalID: 3414046882958949638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_25
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 1046
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 516b533e6080f3290800000000000000
+      internalID: -7908593594964527595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_26
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 1044
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: beec92f92618a5a40800000000000000
+      internalID: 5357736967287721707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_27
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 1044
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca91464d871bdcb40800000000000000
+      internalID: 5462217055587801516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_28
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 1048
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33aefef3822be90c0800000000000000
+      internalID: -4567017086165980621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_29
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 1047
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a10d23caa0b2eb70800000000000000
+      internalID: 8926891658867179937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_30
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 993
+        width: 60
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e72fa66d8edcfe620800000000000000
+      internalID: 2805687492788548222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_31
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 1034
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbae242ed8eaac090800000000000000
+      internalID: -8013400662542718277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_32
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 1036
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88fd3d4143dbc9710800000000000000
+      internalID: 1701442790624583560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_33
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 1014
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b107aa151875217b0800000000000000
+      internalID: -5255041602255425509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_34
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 1010
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd601b192a729e7d0800000000000000
+      internalID: -2888734106798979363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_35
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 1012
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11ccc9da6820cb340800000000000000
+      internalID: 4880778873624382481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_36
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 966
+        width: 75
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d529098ee94cb4ff0800000000000000
+      internalID: -50730783998963107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_37
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 992
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 060001fe75ea2b960800000000000000
+      internalID: 7616341612533121120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_38
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 1000
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe902121d81a1ef60800000000000000
+      internalID: 8061902435235531247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_39
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 176
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fda5ed2d273926880800000000000000
+      internalID: -8619164615460365601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_40
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 141
+        width: 85
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b10122187e1689e10800000000000000
+      internalID: 2204619664529690651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_41
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 110
+        width: 158
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c623874b6f0d7110800000000000000
+      internalID: 1260180424169301697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_42
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 169
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98429f5958df621a0800000000000000
+      internalID: -6834496634299538295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_43
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 158
+        width: 38
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46658bcdb24b6a700800000000000000
+      internalID: 551326104879126116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_44
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 177
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3561d3292db702d20800000000000000
+      internalID: 3251735075288323667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_45
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 131
+        width: 33
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8dc2bc9dfefb6ef0800000000000000
+      internalID: -113717000358670965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_46
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 148
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5742adbf542153d10800000000000000
+      internalID: 2104608492652995701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_47
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 144
+        width: 11
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48c4991a0c1a3dee0800000000000000
+      internalID: -1237467623879783292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_48
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 142
+        width: 45
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9abac1294d6018280800000000000000
+      internalID: -9042939066729059415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_49
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 116
+        width: 37
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e24cafcdddee8d10800000000000000
+      internalID: 2129901210720551648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_50
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 128
+        width: 11
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c023cc2e8df24ae0800000000000000
+      internalID: -1566410933293342524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_51
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 134
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5214e3e463a857710800000000000000
+      internalID: 1690409200993059109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_52
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 126
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f38bebea89a52490800000000000000
+      internalID: -7771619167829261322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_53
+      rect:
+        serializedVersion: 2
+        x: 890
+        y: 101
+        width: 25
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6bf956ba795246d0800000000000000
+      internalID: -3007743217549837461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_54
+      rect:
+        serializedVersion: 2
+        x: 938
+        y: 128
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d2ba08c4aaa354d0800000000000000
+      internalID: -3146984089894341928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_55
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 114
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 792c98955cc7c3060800000000000000
+      internalID: 6934554713296323223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_56
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 113
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a45f50b97fdf05920800000000000000
+      internalID: 2977158593591506250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_57
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 95
+        width: 11
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44c0f134d6cdc3d40800000000000000
+      internalID: 5565565601358744644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_58
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 85
+        width: 17
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78081c164979959d0800000000000000
+      internalID: -2785028231000915833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_59
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 84
+        width: 26
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70e2f99109bcd60b0800000000000000
+      internalID: -5733702930807181817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_60
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 114
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4384ea4da374fe760800000000000000
+      internalID: 7489283023342290996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_61
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 114
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f36a6c7c609ec1e0800000000000000
+      internalID: -2175642774355155978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_62
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 109
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b18ea927d4892f80800000000000000
+      internalID: -8130821592588582475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_63
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 95
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd590fd27946d21a0800000000000000
+      internalID: -6832694459177593380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_64
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 95
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd0ffb447c16d66f0800000000000000
+      internalID: -689787659438001955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_65
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 81
+        width: 15
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c132a5a33ab07fe0800000000000000
+      internalID: -1193249170268212799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_66
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 93
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b1e79b6d57590180800000000000000
+      internalID: -9148685109277761099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_67
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 91
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87bdb1194a7a7b480800000000000000
+      internalID: -8883447414714016904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_68
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 95
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c9e45dcad4d88bf0800000000000000
+      internalID: -321773337144137276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_69
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 103
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdb12be8858d5c6e0800000000000000
+      internalID: -1817808999711368229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_70
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 97
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12a676b401eb5b560800000000000000
+      internalID: 7328972945809173025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_71
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 77
+        width: 19
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efed3cad09b55f570800000000000000
+      internalID: 8499800549435367166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_72
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 77
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd6bae77dd9053dc0800000000000000
+      internalID: -3660008275364366627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_73
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 82
+        width: 8
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b23664a341572bd10800000000000000
+      internalID: 2139901502691894059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_74
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 85
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8e8cf547974aae50800000000000000
+      internalID: 6821343300645850764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_75
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 59
+        width: 19
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 138eb1376d390cea0800000000000000
+      internalID: -5854516966318151631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_76
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 77
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a0574cfaae40e480800000000000000
+      internalID: -8872004769635938136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_77
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 82
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fd05cd030a4ca5d0800000000000000
+      internalID: -3049981470660293128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_78
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 63
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ab14e487729b6b70800000000000000
+      internalID: 8893362931201481635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_79
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 62
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44317f4a130a22e90800000000000000
+      internalID: -7051897931427278012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_80
+      rect:
+        serializedVersion: 2
+        x: 731
+        y: 65
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7071cf6b990eb7e60800000000000000
+      internalID: 7961203717112076039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_81
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 65
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87fa21d1d7a1559f0800000000000000
+      internalID: -480448660584091784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_82
+      rect:
+        serializedVersion: 2
+        x: 496
+        y: 33
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f2cd2227766f7be0800000000000000
+      internalID: -1477349490893667594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_83
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 38
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c24777a668d2be8c0800000000000000
+      internalID: -3969028591261879252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_84
+      rect:
+        serializedVersion: 2
+        x: 729
+        y: 33
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76988dfc6cc18f0e0800000000000000
+      internalID: -2236005574773274265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_85
+      rect:
+        serializedVersion: 2
+        x: 563
+        y: 17
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de79ee876363e19e0800000000000000
+      internalID: -1648820805985986579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RapidFire_Icon_86
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 17
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f77aac915cd7d080800000000000000
+      internalID: -9162612673783105544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      RapidFire_Icon_0: -5620898121825779971
+      RapidFire_Icon_1: 2275764644800955818
+      RapidFire_Icon_10: 6472878099462978658
+      RapidFire_Icon_11: 8690994381532812219
+      RapidFire_Icon_12: 183787768536368110
+      RapidFire_Icon_13: 4576975938695721918
+      RapidFire_Icon_14: -5408742194448535408
+      RapidFire_Icon_15: -4273003943927237641
+      RapidFire_Icon_16: -5933663667365202348
+      RapidFire_Icon_17: -3320580036971263941
+      RapidFire_Icon_18: 5939641492306332174
+      RapidFire_Icon_19: -5874397747659051550
+      RapidFire_Icon_2: -8415201917645981413
+      RapidFire_Icon_20: -1299707915100994533
+      RapidFire_Icon_21: -2955994994253181785
+      RapidFire_Icon_22: 3326858421605911365
+      RapidFire_Icon_23: 161423847345546385
+      RapidFire_Icon_24: 3414046882958949638
+      RapidFire_Icon_25: -7908593594964527595
+      RapidFire_Icon_26: 5357736967287721707
+      RapidFire_Icon_27: 5462217055587801516
+      RapidFire_Icon_28: -4567017086165980621
+      RapidFire_Icon_29: 8926891658867179937
+      RapidFire_Icon_3: 7559828762205060571
+      RapidFire_Icon_30: 2805687492788548222
+      RapidFire_Icon_31: -8013400662542718277
+      RapidFire_Icon_32: 1701442790624583560
+      RapidFire_Icon_33: -5255041602255425509
+      RapidFire_Icon_34: -2888734106798979363
+      RapidFire_Icon_35: 4880778873624382481
+      RapidFire_Icon_36: -50730783998963107
+      RapidFire_Icon_37: 7616341612533121120
+      RapidFire_Icon_38: 8061902435235531247
+      RapidFire_Icon_39: -8619164615460365601
+      RapidFire_Icon_4: -2109277115722281451
+      RapidFire_Icon_40: 2204619664529690651
+      RapidFire_Icon_41: 1260180424169301697
+      RapidFire_Icon_42: -6834496634299538295
+      RapidFire_Icon_43: 551326104879126116
+      RapidFire_Icon_44: 3251735075288323667
+      RapidFire_Icon_45: -113717000358670965
+      RapidFire_Icon_46: 2104608492652995701
+      RapidFire_Icon_47: -1237467623879783292
+      RapidFire_Icon_48: -9042939066729059415
+      RapidFire_Icon_49: 2129901210720551648
+      RapidFire_Icon_5: -8210324741424981693
+      RapidFire_Icon_50: -1566410933293342524
+      RapidFire_Icon_51: 1690409200993059109
+      RapidFire_Icon_52: -7771619167829261322
+      RapidFire_Icon_53: -3007743217549837461
+      RapidFire_Icon_54: -3146984089894341928
+      RapidFire_Icon_55: 6934554713296323223
+      RapidFire_Icon_56: 2977158593591506250
+      RapidFire_Icon_57: 5565565601358744644
+      RapidFire_Icon_58: -2785028231000915833
+      RapidFire_Icon_59: -5733702930807181817
+      RapidFire_Icon_6: -4868278453265688146
+      RapidFire_Icon_60: 7489283023342290996
+      RapidFire_Icon_61: -2175642774355155978
+      RapidFire_Icon_62: -8130821592588582475
+      RapidFire_Icon_63: -6832694459177593380
+      RapidFire_Icon_64: -689787659438001955
+      RapidFire_Icon_65: -1193249170268212799
+      RapidFire_Icon_66: -9148685109277761099
+      RapidFire_Icon_67: -8883447414714016904
+      RapidFire_Icon_68: -321773337144137276
+      RapidFire_Icon_69: -1817808999711368229
+      RapidFire_Icon_7: -7910927167290604571
+      RapidFire_Icon_70: 7328972945809173025
+      RapidFire_Icon_71: 8499800549435367166
+      RapidFire_Icon_72: -3660008275364366627
+      RapidFire_Icon_73: 2139901502691894059
+      RapidFire_Icon_74: 6821343300645850764
+      RapidFire_Icon_75: -5854516966318151631
+      RapidFire_Icon_76: -8872004769635938136
+      RapidFire_Icon_77: -3049981470660293128
+      RapidFire_Icon_78: 8893362931201481635
+      RapidFire_Icon_79: -7051897931427278012
+      RapidFire_Icon_8: 4685980618523866991
+      RapidFire_Icon_80: 7961203717112076039
+      RapidFire_Icon_81: -480448660584091784
+      RapidFire_Icon_82: -1477349490893667594
+      RapidFire_Icon_83: -3969028591261879252
+      RapidFire_Icon_84: -2236005574773274265
+      RapidFire_Icon_85: -1648820805985986579
+      RapidFire_Icon_86: -9162612673783105544
+      RapidFire_Icon_9: 543963467675520497
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

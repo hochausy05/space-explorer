@@ -1,3 +1,4 @@
+using System;
 using SpaceExplorer.Combat;
 using SpaceExplorer.Core;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace SpaceExplorer.Upgrades
         [SerializeField, Min(0.01f)] private float _droneScale = 0.45f;
         [SerializeField, Min(0f)] private float _muzzleForwardOffset = 0.4f;
         [SerializeField] private Color _droneTint = new Color(0.45f, 0.9f, 1f, 1f);
+        [SerializeField] private Sprite _droneSprite;
 
         private readonly DroneController[] _drones = new DroneController[MaximumDroneCount];
         private WeaponController _weaponController;
@@ -24,14 +26,16 @@ namespace SpaceExplorer.Upgrades
 
         public int DroneCount => _droneCount;
         public bool CanAddDrone => isActiveAndEnabled && _droneCount < MaximumDroneCount;
+        public event Action StatsChanged;
 
         private void Awake()
         {
             _weaponController = GetComponent<WeaponController>();
             _sourceRenderer = GetComponent<SpriteRenderer>();
-            if (_weaponController == null || _sourceRenderer == null || _sourceRenderer.sprite == null
+            if (_weaponController == null || _sourceRenderer == null
+                || (_droneSprite == null && _sourceRenderer.sprite == null)
                 || _weaponController.SharedBulletPool == null)
-                FailConfiguration("DroneWingController needs the Player SpriteRenderer and a WeaponController with its shared BulletPool assigned.");
+                FailConfiguration("DroneWingController needs a Drone Sprite or Player sprite fallback, a Player SpriteRenderer, and a WeaponController with its shared BulletPool assigned.");
         }
 
         private void OnEnable()
@@ -71,6 +75,7 @@ namespace SpaceExplorer.Upgrades
             drone.PrepareForActivation();
             drone.gameObject.SetActive(true);
             _droneCount++;
+            StatsChanged?.Invoke();
             return true;
         }
 
@@ -85,7 +90,9 @@ namespace SpaceExplorer.Upgrades
             droneTransform.localScale = Vector3.one * _droneScale;
 
             SpriteRenderer droneRenderer = droneObject.AddComponent<SpriteRenderer>();
-            droneRenderer.sprite = _sourceRenderer.sprite;
+            droneRenderer.sprite = _droneSprite != null ? _droneSprite : _sourceRenderer.sprite;
+            droneRenderer.flipX = false;
+            droneRenderer.flipY = false;
             droneRenderer.color = _droneTint;
             droneRenderer.sortingLayerID = _sourceRenderer.sortingLayerID;
             droneRenderer.sortingOrder = _sourceRenderer.sortingOrder + 1;
@@ -106,6 +113,8 @@ namespace SpaceExplorer.Upgrades
                 _drones[i].ResetForNewRun();
                 _drones[i].gameObject.SetActive(false);
             }
+
+            StatsChanged?.Invoke();
         }
 
         private void FailConfiguration(string message)

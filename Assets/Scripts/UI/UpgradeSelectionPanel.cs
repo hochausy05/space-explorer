@@ -12,17 +12,21 @@ namespace SpaceExplorer.UI
         [Header("Choice Buttons")]
         [SerializeField] private Button[] _buttons;
         [SerializeField] private Text[] _labels;
+        [SerializeField] private Text[] _descriptions;
+        [SerializeField] private Image[] _icons;
 
         public bool IsConfigured
         {
             get
             {
-                if (!enabled || _buttons == null || _labels == null || _buttons.Length == 0 || _buttons.Length != _labels.Length)
+                if (!enabled || _buttons == null || _labels == null || _descriptions == null || _icons == null
+                    || _buttons.Length == 0 || _buttons.Length != _labels.Length
+                    || _buttons.Length != _descriptions.Length || _buttons.Length != _icons.Length)
                     return false;
 
                 for (int i = 0; i < _buttons.Length; i++)
                 {
-                    if (_buttons[i] == null || _labels[i] == null)
+                    if (_buttons[i] == null || _labels[i] == null || _descriptions[i] == null || _icons[i] == null)
                         return false;
                 }
 
@@ -50,7 +54,8 @@ namespace SpaceExplorer.UI
 
             for (int i = 0; i < choiceCount; i++)
             {
-                if (!_buttons[i].enabled || !_buttons[i].interactable || !_labels[i].enabled)
+                if (!_buttons[i].enabled || !_buttons[i].interactable
+                    || !_labels[i].enabled || !_descriptions[i].enabled)
                     return false;
             }
 
@@ -66,9 +71,17 @@ namespace SpaceExplorer.UI
                 bool isVisible = i < choiceCount;
                 _buttons[i].gameObject.SetActive(isVisible);
                 if (!isVisible)
+                {
+                    ClearPresentation(i);
                     continue;
+                }
 
                 _labels[i].text = choices[i].DisplayName;
+                UpgradeDefinition definition = choices[i] as UpgradeDefinition;
+                _descriptions[i].text = definition != null && !string.IsNullOrEmpty(definition.Description)
+                    ? definition.Description
+                    : string.Empty;
+                SetIcon(i, definition != null ? definition.Icon : null);
                 int capturedIndex = i;
                 int capturedToken = selectionToken;
                 UnityAction callback = () => _onChoiceSelected?.Invoke(capturedIndex, capturedToken);
@@ -86,8 +99,31 @@ namespace SpaceExplorer.UI
         {
             RemoveRuntimeListeners();
             _onChoiceSelected = null;
+            if (_buttons != null)
+            {
+                for (int i = 0; i < _buttons.Length; i++)
+                    ClearPresentation(i);
+            }
             if (gameObject.activeSelf)
                 gameObject.SetActive(false);
+        }
+
+        private void ClearPresentation(int index)
+        {
+            if (_labels != null && index < _labels.Length && _labels[index] != null)
+                _labels[index].text = string.Empty;
+            if (_descriptions != null && index < _descriptions.Length && _descriptions[index] != null)
+                _descriptions[index].text = string.Empty;
+            SetIcon(index, null);
+        }
+
+        private void SetIcon(int index, Sprite sprite)
+        {
+            if (_icons == null || index >= _icons.Length || _icons[index] == null)
+                return;
+
+            _icons[index].sprite = sprite;
+            _icons[index].enabled = sprite != null;
         }
 
         private void RemoveRuntimeListeners()

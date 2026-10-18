@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceExplorer.Upgrades.WeaponUpgradeDefinition
   _id: damage_up
   _displayName: Damage Up
+  _description: "T\u0103ng s\xE1t th\u01B0\u01A1ng +1 m\u1ED7i vi\xEAn \u0111\u1EA1n."
+  _icon: {fileID: 21300000, guid: 41be472353087614eb4122d3cd832404, type: 3}
   _upgradeType: 2

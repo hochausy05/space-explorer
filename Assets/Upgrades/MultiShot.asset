@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceExplorer.Upgrades.WeaponUpgradeDefinition
   _id: multi_shot
   _displayName: Multi Shot
+  _description: "B\u1EAFn th\xEAm 1 vi\xEAn \u0111\u1EA1n m\u1ED7i lo\u1EA1t (l\u01B0u
+    \xFD s\u1EBD thay \u0111\u1ED5i qu\u1EF9 \u0111\u1EA1o \u0111\u1EA1n hi\u1EC7n
+    t\u1EA1i)."
+  _icon: {fileID: 21300000, guid: d50cf4c039e0ea34aa4ddcadd06d963d, type: 3}
   _upgradeType: 0

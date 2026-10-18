@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceExplorer.Upgrades.WeaponUpgradeDefinition
   _id: rapid_fire
   _displayName: Rapid Fire
+  _description: "Gi\u1EA3m th\u1EDDi gian gi\u1EEFa c\xE1c ph\xE1t b\u1EAFn."
+  _icon: {fileID: 21300000, guid: 3cfc24aba235c2946a457b19f8aebfcb, type: 3}
   _upgradeType: 1

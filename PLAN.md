@@ -92,6 +92,12 @@ Randomized selection policy (introduced separately under UPG-RANDOM-01; it was n
 - Recalculate eligibility for each queued level-up. Reset previous-set tracking on run start and clear it on run finish.
 - Keep Editor-only mock selection state isolated from production selection state; mocks remain outside the production registry.
 
+Upgrade choice presentation (UPG-UI-01): production `UpgradeDefinition` assets provide a display name, concise static description, and optional Sprite icon. `UpgradeSelectionPanel` binds metadata from the selected randomized definition to the matching card, clears old content on each show/hide, and hides an icon whose Sprite is missing. This presentation layer does not change eligibility, choice generation, effect application, or callback ownership.
+
+The project owner confirmed successful Unity Play Mode verification of UPG-UI-01: all six icons were assigned, and icons, names, descriptions, dynamic choices, and selection behavior worked. This is manual owner confirmation; no automated test or build result is implied.
+
+UPG-03-VISUAL-01 is DONE by owner-reported Unity Play Mode verification: the dedicated Drone sprite and Player-sprite fallback work, and the adjusted formation avoids overlap while drones continue to follow and fire.
+
 Concrete upgrade definitions and ownership:
 
 - **Multi Shot (UPG-02)** — each selection adds one projectile per volley with symmetric spread; maximum 5 projectiles including the base projectile.
@@ -101,7 +107,7 @@ Concrete upgrade definitions and ownership:
 - **Energy Shield (UPG-04)** — absorbs one Player-Asteroid collision, then reactivates automatically after cooldown. Upgrade levels use cooldowns `12s`, `9s`, and `6s`. Upgrading during cooldown does not change the current timer; the new level applies to the next cycle.
 - **Star Magnet (UPG-05)** — smoothly attracts Stars within radii of `3`, `4`, and `5` world units at levels 1–3; exclude at level 3. Stars must never teleport to the Player.
 
-Owner-reported Unity Play Mode verification status (2026-10-17): UPG-02 (Multi Shot, Rapid Fire, Damage Up), UPG-RANDOM-01 (random upgrade selection), UPG-03 (Drone Wing), and UPG-04 (Energy Shield) are verified DONE. This records the project owner's manual confirmation; no automated test or build result is implied. UPG-05 remains a separate unfinished task with its specification above unchanged.
+Owner-reported Unity Play Mode verification status (2026-10-18): UPG-02 (Multi Shot, Rapid Fire, Damage Up), UPG-RANDOM-01 (random upgrade selection), UPG-03 (Drone Wing), UPG-04 (Energy Shield), and UPG-05 (Star Magnet) are verified DONE. For UPG-05, the project owner confirmed the Player component and production definition asset were wired and that the three attraction levels work with Star pickups, XP, pooling, and randomized upgrade selection. This is manual owner confirmation; no automated test or build result is implied. The approved upgrade definitions and limits above remain unchanged.
 
 UPG-04 implementation note: `EnergyShieldController` provides level, readiness/cooldown state, one-hit consumption, and new-run reset; `EnergyShieldUpgradeDefinition` registers its capped upgrade. `PlayerAsteroidCollisionHandler` consumes the shield through `TryAbsorbAsteroidCollision()` and sends an unabsorbed hit through the GAME-01 run-finish path. The project owner confirmed successful Unity setup and Play Mode verification for UPG-04; this is manual verification, not an automated test or build result. The controller does not duplicate collision or Game Over handling.
 
@@ -222,6 +228,9 @@ Optional:
 
 - Shield status
 - Survival Time
+- Build status panel (UI-BUILD-01): display Drone count, Shield readiness/cooldown, per-projectile damage, effective Player fire interval, and Player projectiles per volley from the existing gameplay APIs; display only and do not own or recalculate gameplay state.
+
+UI-BUILD-01 is DONE by owner-reported Unity Play Mode verification. The panel intentionally remains text-based; no icon conversion is planned. The owner confirmed stat updates, Shield cooldown display, and new-run reset.
 
 Polish priority:
 

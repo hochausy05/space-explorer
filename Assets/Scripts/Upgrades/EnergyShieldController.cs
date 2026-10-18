@@ -1,3 +1,4 @@
+using System;
 using SpaceExplorer.Core;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ namespace SpaceExplorer.Upgrades
 
         public int CurrentLevel => _currentLevel;
         public bool CanUpgrade => isActiveAndEnabled && _currentLevel < MaximumLevel;
+        public event Action StateChanged;
         public float CooldownRemaining => Mathf.Max(0f, _cooldownEndsAt - Time.time);
         public EnergyShieldState State => _currentLevel == 0
             ? EnergyShieldState.Unavailable
@@ -45,6 +47,7 @@ namespace SpaceExplorer.Upgrades
                 return false;
 
             _currentLevel++;
+            StateChanged?.Invoke();
             return true;
         }
 
@@ -55,6 +58,7 @@ namespace SpaceExplorer.Upgrades
                 return false;
 
             _cooldownEndsAt = Time.time + GetCooldownForLevel(_currentLevel);
+            StateChanged?.Invoke();
             return true;
         }
 
@@ -74,6 +78,7 @@ namespace SpaceExplorer.Upgrades
         {
             _currentLevel = 0;
             _cooldownEndsAt = 0f;
+            StateChanged?.Invoke();
         }
     }
 }

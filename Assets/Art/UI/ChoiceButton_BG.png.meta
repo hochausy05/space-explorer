@@ -1,0 +1,845 @@
+fileFormatVersion: 2
+guid: 17f381170a53eac40a7d003276b3d8b8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3784720294440641670
+    second: ChoiceButton_BG_0
+  - first:
+      213: -8599801426845570640
+    second: ChoiceButton_BG_1
+  - first:
+      213: 4214455319924504487
+    second: ChoiceButton_BG_2
+  - first:
+      213: -1068365303074139950
+    second: ChoiceButton_BG_3
+  - first:
+      213: 7437077246473996285
+    second: ChoiceButton_BG_4
+  - first:
+      213: 6346808006232679143
+    second: ChoiceButton_BG_5
+  - first:
+      213: 6123260425107064692
+    second: ChoiceButton_BG_6
+  - first:
+      213: 755863722717046132
+    second: ChoiceButton_BG_7
+  - first:
+      213: 2766625844890404126
+    second: ChoiceButton_BG_8
+  - first:
+      213: -3186041348519676805
+    second: ChoiceButton_BG_9
+  - first:
+      213: -8658814304099532801
+    second: ChoiceButton_BG_10
+  - first:
+      213: -2492285838370841410
+    second: ChoiceButton_BG_11
+  - first:
+      213: 6914559142294156505
+    second: ChoiceButton_BG_12
+  - first:
+      213: -3093386889393209987
+    second: ChoiceButton_BG_13
+  - first:
+      213: 8305042959335236258
+    second: ChoiceButton_BG_14
+  - first:
+      213: -7156984806241426267
+    second: ChoiceButton_BG_15
+  - first:
+      213: -2849535170487135906
+    second: ChoiceButton_BG_16
+  - first:
+      213: -1567202892410280934
+    second: ChoiceButton_BG_17
+  - first:
+      213: 8959064758667176425
+    second: ChoiceButton_BG_18
+  - first:
+      213: -1741226472043289675
+    second: ChoiceButton_BG_19
+  - first:
+      213: 8829442676799022524
+    second: ChoiceButton_BG_20
+  - first:
+      213: -5458260112008286743
+    second: ChoiceButton_BG_21
+  - first:
+      213: 7294821293856736634
+    second: ChoiceButton_BG_22
+  - first:
+      213: -2248901913199273612
+    second: ChoiceButton_BG_23
+  - first:
+      213: 5374797223453566154
+    second: ChoiceButton_BG_24
+  - first:
+      213: 9148522488585397912
+    second: ChoiceButton_BG_25
+  - first:
+      213: -5260601782924672593
+    second: ChoiceButton_BG_26
+  - first:
+      213: -7831210829478880502
+    second: ChoiceButton_BG_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 61, y: 157, z: 61, w: 86}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ChoiceButton_BG_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1051
+        height: 1410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 684a8543e07068430800000000000000
+      internalID: 3784720294440641670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_1
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 1360
+        width: 17
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b9e8fd7a2e57a880800000000000000
+      internalID: -8599801426845570640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_2
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 1364
+        width: 56
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a7fad9c8c0cc7a30800000000000000
+      internalID: 4214455319924504487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_3
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 120
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d0d9e3da676c21f0800000000000000
+      internalID: -1068365303074139950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_4
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 103
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df709333a5ec53760800000000000000
+      internalID: 7437077246473996285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_5
+      rect:
+        serializedVersion: 2
+        x: 1003
+        y: 103
+        width: 17
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e2aa1d3144641850800000000000000
+      internalID: 6346808006232679143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_6
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 54
+        width: 23
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 477c6b90ae03af450800000000000000
+      internalID: 6123260425107064692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_7
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 77
+        width: 16
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47567231d0e5d7a00800000000000000
+      internalID: 755863722717046132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_8
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 81
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e158b173c87056620800000000000000
+      internalID: 2766625844890404126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_9
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 79
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7437cd1648e8c3d0800000000000000
+      internalID: -3186041348519676805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_10
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 79
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fff731c4446b5d780800000000000000
+      internalID: -8658814304099532801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_11
+      rect:
+        serializedVersion: 2
+        x: 606
+        y: 27
+        width: 43
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebc5b251c3f996dd0800000000000000
+      internalID: -2492285838370841410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_12
+      rect:
+        serializedVersion: 2
+        x: 958
+        y: 79
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d47fdea7e275ff50800000000000000
+      internalID: 6914559142294156505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_13
+      rect:
+        serializedVersion: 2
+        x: 967
+        y: 82
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7dfdd873051215d0800000000000000
+      internalID: -3093386889393209987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_14
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 69
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a2298bc190714370800000000000000
+      internalID: 8305042959335236258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_15
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 63
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a4ac11fc384dac90800000000000000
+      internalID: -7156984806241426267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_16
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 49
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e51d1242cda6478d0800000000000000
+      internalID: -2849535170487135906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_17
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 47
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a14abe2d54d204ae0800000000000000
+      internalID: -1567202892410280934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_18
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 37
+        width: 17
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e9e31c4eedf45c70800000000000000
+      internalID: 8959064758667176425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_19
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 45
+        width: 22
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b36a54cfbbe5d7e0800000000000000
+      internalID: -1741226472043289675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_20
+      rect:
+        serializedVersion: 2
+        x: 664
+        y: 55
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb5a74b855b788a70800000000000000
+      internalID: 8829442676799022524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_21
+      rect:
+        serializedVersion: 2
+        x: 859
+        y: 45
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9edef04e85d5044b0800000000000000
+      internalID: -5458260112008286743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_22
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 49
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a75494031596c3560800000000000000
+      internalID: 7294821293856736634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_23
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 29
+        width: 26
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4799f0900ab4ac0e0800000000000000
+      internalID: -2248901913199273612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_24
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 37
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac4a4bb099d179a40800000000000000
+      internalID: 5374797223453566154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_25
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 17
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8962ecf7bb416fe70800000000000000
+      internalID: 9148522488585397912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_26
+      rect:
+        serializedVersion: 2
+        x: 446
+        y: 23
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa10dffdc869ef6b0800000000000000
+      internalID: -5260601782924672593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChoiceButton_BG_27
+      rect:
+        serializedVersion: 2
+        x: 466
+        y: 15
+        width: 23
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0b18bbfd33f15390800000000000000
+      internalID: -7831210829478880502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 1537655665
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ChoiceButton_BG_0: 3784720294440641670
+      ChoiceButton_BG_1: -8599801426845570640
+      ChoiceButton_BG_10: -8658814304099532801
+      ChoiceButton_BG_11: -2492285838370841410
+      ChoiceButton_BG_12: 6914559142294156505
+      ChoiceButton_BG_13: -3093386889393209987
+      ChoiceButton_BG_14: 8305042959335236258
+      ChoiceButton_BG_15: -7156984806241426267
+      ChoiceButton_BG_16: -2849535170487135906
+      ChoiceButton_BG_17: -1567202892410280934
+      ChoiceButton_BG_18: 8959064758667176425
+      ChoiceButton_BG_19: -1741226472043289675
+      ChoiceButton_BG_2: 4214455319924504487
+      ChoiceButton_BG_20: 8829442676799022524
+      ChoiceButton_BG_21: -5458260112008286743
+      ChoiceButton_BG_22: 7294821293856736634
+      ChoiceButton_BG_23: -2248901913199273612
+      ChoiceButton_BG_24: 5374797223453566154
+      ChoiceButton_BG_25: 9148522488585397912
+      ChoiceButton_BG_26: -5260601782924672593
+      ChoiceButton_BG_27: -7831210829478880502
+      ChoiceButton_BG_3: -1068365303074139950
+      ChoiceButton_BG_4: 7437077246473996285
+      ChoiceButton_BG_5: 6346808006232679143
+      ChoiceButton_BG_6: 6123260425107064692
+      ChoiceButton_BG_7: 755863722717046132
+      ChoiceButton_BG_8: 2766625844890404126
+      ChoiceButton_BG_9: -3186041348519676805
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

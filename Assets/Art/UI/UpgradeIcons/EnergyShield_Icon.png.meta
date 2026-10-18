@@ -1,0 +1,923 @@
+fileFormatVersion: 2
+guid: 03d75a9199c4d6140b6ca574cbe59ff9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3488661208217386259
+    second: EnergyShield_Icon_0
+  - first:
+      213: -1403423249114672511
+    second: EnergyShield_Icon_1
+  - first:
+      213: -257134624070513520
+    second: EnergyShield_Icon_2
+  - first:
+      213: -2285125488320868488
+    second: EnergyShield_Icon_3
+  - first:
+      213: -5732572399459587905
+    second: EnergyShield_Icon_4
+  - first:
+      213: -2502948532930013511
+    second: EnergyShield_Icon_5
+  - first:
+      213: -3411675964339626920
+    second: EnergyShield_Icon_6
+  - first:
+      213: 2644117311260931734
+    second: EnergyShield_Icon_7
+  - first:
+      213: -4808027841257273941
+    second: EnergyShield_Icon_8
+  - first:
+      213: 7536955265964069324
+    second: EnergyShield_Icon_9
+  - first:
+      213: -1106904436303340635
+    second: EnergyShield_Icon_10
+  - first:
+      213: -5935854286898405625
+    second: EnergyShield_Icon_11
+  - first:
+      213: -632097699950122314
+    second: EnergyShield_Icon_12
+  - first:
+      213: -1756817479449397125
+    second: EnergyShield_Icon_13
+  - first:
+      213: -4722978355013417053
+    second: EnergyShield_Icon_14
+  - first:
+      213: -7276018142347963754
+    second: EnergyShield_Icon_15
+  - first:
+      213: -4569792924257065136
+    second: EnergyShield_Icon_16
+  - first:
+      213: -7498352765741414087
+    second: EnergyShield_Icon_17
+  - first:
+      213: -3352957735833152968
+    second: EnergyShield_Icon_18
+  - first:
+      213: 679327373751983892
+    second: EnergyShield_Icon_19
+  - first:
+      213: -5774717925834275209
+    second: EnergyShield_Icon_20
+  - first:
+      213: -1202382838724980561
+    second: EnergyShield_Icon_21
+  - first:
+      213: -4944209068975122142
+    second: EnergyShield_Icon_22
+  - first:
+      213: -6106227903343901726
+    second: EnergyShield_Icon_23
+  - first:
+      213: 2619903424604936290
+    second: EnergyShield_Icon_24
+  - first:
+      213: -8705021598321897349
+    second: EnergyShield_Icon_25
+  - first:
+      213: -6661887332579092937
+    second: EnergyShield_Icon_26
+  - first:
+      213: -6711940689723145964
+    second: EnergyShield_Icon_27
+  - first:
+      213: 6116908438170556744
+    second: EnergyShield_Icon_28
+  - first:
+      213: -976718749494614636
+    second: EnergyShield_Icon_29
+  - first:
+      213: -5772768378731279541
+    second: EnergyShield_Icon_30
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: EnergyShield_Icon_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 795
+        width: 405
+        height: 459
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de284866d19c59fc0800000000000000
+      internalID: -3488661208217386259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_1
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 785
+        width: 51
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 182def69df9068ce0800000000000000
+      internalID: -1403423249114672511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_2
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 0
+        width: 1214
+        height: 1236
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09cc2d8fb697e6cf0800000000000000
+      internalID: -257134624070513520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 733
+        width: 8
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87f8179b97a9940e0800000000000000
+      internalID: -2285125488320868488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_4
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 728
+        width: 31
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb8a00176cfc170b0800000000000000
+      internalID: -5732572399459587905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 696
+        width: 5
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b61f9b029db34dd0800000000000000
+      internalID: -2502948532930013511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 617
+        width: 37
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85c5cc849ca47a0d0800000000000000
+      internalID: -3411675964339626920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 564
+        width: 31
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6963b2a7faac1b420800000000000000
+      internalID: 2644117311260931734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 413
+        width: 53
+        height: 115
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba50ca30724764db0800000000000000
+      internalID: -4808027841257273941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_9
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 397
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc15cc3c1e4a89860800000000000000
+      internalID: 7536955265964069324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_10
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 413
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5abd5d1a74c73a0f0800000000000000
+      internalID: -1106904436303340635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 356
+        width: 51
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70fd0feb9fb9f9da0800000000000000
+      internalID: -5935854286898405625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_12
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 320
+        width: 47
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6baa12bad765a37f0800000000000000
+      internalID: -632097699950122314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 288
+        width: 5
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b78b83a7fc78e97e0800000000000000
+      internalID: -1756817479449397125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_14
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 299
+        width: 23
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a70193a53c947eb0800000000000000
+      internalID: -4722978355013417053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_15
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 252
+        width: 64
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6925d0eac04660b90800000000000000
+      internalID: -7276018142347963754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 72
+        width: 136
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05760941c85d490c0800000000000000
+      internalID: -4569792924257065136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_17
+      rect:
+        serializedVersion: 2
+        x: 1246
+        y: 200
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9394a6533ef70f790800000000000000
+      internalID: -7498352765741414087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_18
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 29
+        width: 98
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83254c834b6e771d0800000000000000
+      internalID: -3352957735833152968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_19
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 6
+        width: 39
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41f9faea5a47d6900800000000000000
+      internalID: 679327373751983892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_20
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 27
+        width: 29
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 776419864a41cdfa0800000000000000
+      internalID: -5774717925834275209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_21
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 0
+        width: 78
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa095cdbd27405fe0800000000000000
+      internalID: -1202382838724980561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_22
+      rect:
+        serializedVersion: 2
+        x: 938
+        y: 38
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 229197c1c04a26bb0800000000000000
+      internalID: -4944209068975122142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_23
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 35
+        width: 27
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e3cb97f212524ba0800000000000000
+      internalID: -6106227903343901726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_24
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 25
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2681869a844cb5420800000000000000
+      internalID: 2619903424604936290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_25
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 15
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b709bed3afc813780800000000000000
+      internalID: -8705021598321897349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_26
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 7
+        width: 25
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 736d2f764c83c83a0800000000000000
+      internalID: -6661887332579092937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_27
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 9
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 411cf8b01856ad2a0800000000000000
+      internalID: -6711940689723145964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_28
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 7
+        width: 23
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 849deb4d0df93e450800000000000000
+      internalID: 6116908438170556744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_29
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 0
+        width: 76
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 495e8e2e87ff172f0800000000000000
+      internalID: -976718749494614636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyShield_Icon_30
+      rect:
+        serializedVersion: 2
+        x: 927
+        y: 7
+        width: 15
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4b4d17beb103efa0800000000000000
+      internalID: -5772768378731279541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      EnergyShield_Icon_0: -3488661208217386259
+      EnergyShield_Icon_1: -1403423249114672511
+      EnergyShield_Icon_10: -1106904436303340635
+      EnergyShield_Icon_11: -5935854286898405625
+      EnergyShield_Icon_12: -632097699950122314
+      EnergyShield_Icon_13: -1756817479449397125
+      EnergyShield_Icon_14: -4722978355013417053
+      EnergyShield_Icon_15: -7276018142347963754
+      EnergyShield_Icon_16: -4569792924257065136
+      EnergyShield_Icon_17: -7498352765741414087
+      EnergyShield_Icon_18: -3352957735833152968
+      EnergyShield_Icon_19: 679327373751983892
+      EnergyShield_Icon_2: -257134624070513520
+      EnergyShield_Icon_20: -5774717925834275209
+      EnergyShield_Icon_21: -1202382838724980561
+      EnergyShield_Icon_22: -4944209068975122142
+      EnergyShield_Icon_23: -6106227903343901726
+      EnergyShield_Icon_24: 2619903424604936290
+      EnergyShield_Icon_25: -8705021598321897349
+      EnergyShield_Icon_26: -6661887332579092937
+      EnergyShield_Icon_27: -6711940689723145964
+      EnergyShield_Icon_28: 6116908438170556744
+      EnergyShield_Icon_29: -976718749494614636
+      EnergyShield_Icon_3: -2285125488320868488
+      EnergyShield_Icon_30: -5772768378731279541
+      EnergyShield_Icon_4: -5732572399459587905
+      EnergyShield_Icon_5: -2502948532930013511
+      EnergyShield_Icon_6: -3411675964339626920
+      EnergyShield_Icon_7: 2644117311260931734
+      EnergyShield_Icon_8: -4808027841257273941
+      EnergyShield_Icon_9: 7536955265964069324
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

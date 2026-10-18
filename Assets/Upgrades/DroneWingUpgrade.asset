@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceExplorer.Upgrades.DroneUpgradeDefinition
   _id: drone_wing
   _displayName: Drone Wing
+  _description: "Th\xEAm m\u1ED9t phi thuy\u1EC1n h\u1ED9 t\u1ED1ng (t\u1ED1i \u0111a
+    2)."
+  _icon: {fileID: 21300000, guid: 931278c4cea3b224984b686227f0ca28, type: 3}

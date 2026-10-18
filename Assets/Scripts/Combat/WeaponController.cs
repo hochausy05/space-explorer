@@ -1,3 +1,4 @@
+using System;
 using SpaceExplorer.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,6 +30,8 @@ namespace SpaceExplorer.Combat
         private int _damagePerProjectile = BaseProjectileDamage;
         private int _rapidFireUpgradeCount;
         private bool _runStartedSubscribed;
+
+        public event Action StatsChanged;
 
         public int ProjectilesPerVolley => _projectilesPerVolley;
         public int DamagePerProjectile => _damagePerProjectile;
@@ -123,6 +126,7 @@ namespace SpaceExplorer.Combat
                 return false;
 
             _projectilesPerVolley++;
+            StatsChanged?.Invoke();
             return true;
         }
 
@@ -132,6 +136,7 @@ namespace SpaceExplorer.Combat
                 return false;
 
             _rapidFireUpgradeCount++;
+            StatsChanged?.Invoke();
             return true;
         }
 
@@ -141,6 +146,7 @@ namespace SpaceExplorer.Combat
                 return false;
 
             _damagePerProjectile++;
+            StatsChanged?.Invoke();
             return true;
         }
 
@@ -150,6 +156,7 @@ namespace SpaceExplorer.Combat
             _damagePerProjectile = BaseProjectileDamage;
             _rapidFireUpgradeCount = 0;
             _nextFireTime = 0d;
+            StatsChanged?.Invoke();
         }
 
         private void FailConfiguration(string message)
