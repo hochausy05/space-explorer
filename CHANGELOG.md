@@ -19,6 +19,15 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-18 20:55 +07:00 — ROADMAP-REVISION-01: Đồng bộ kế hoạch gameplay đã duyệt
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Cập nhật hướng phát triển và ranh giới tính năng theo chỉ đạo; chỉ sửa tài liệu, không triển khai gameplay.
+- **Thay đổi:** Player được định hướng di chuyển toàn màn hình; kế hoạch bổ sung HP 10/10, sát thương theo loại Asteroid, phạt Score mỗi va chạm thật, bảo vệ sau hit và hiệu ứng Shield. Giá trị Small 1/Large 3 HP, thời gian bảo vệ khoảng 1 giây, hiệu ứng khoảng 0,8 giây, mức phạt Score và cân bằng bắn/spawn đều được ghi là đề xuất cần duyệt/Play Mode tune. Giữ Score khi phá Asteroid và Star chỉ cấp XP; ghi rõ khác biệt với yêu cầu bài tập. Chia việc còn lại thành 5 giai đoạn và cập nhật các bất biến liên quan trong AGENTS; sửa README để khớp luồng HP.
+- **Kiểm tra:** Rà soát ID, phụ thuộc, trạng thái và NEXT trong TASKS; xác nhận các task DONE hiện có được giữ nguyên. Kiểm tra diff tài liệu và `git diff --check`. Không chạy Unity, compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Các task gameplay mới vẫn chưa triển khai; giá trị đề xuất và cân bằng cần chủ dự án duyệt, sau đó kiểm tra trong Unity.
+- **Tiếp theo:** `FIX-PLAYER-BOUNDS-01` — hoàn tất giới hạn Collider2D cho toàn vùng camera và xác minh riêng mép màn hình/tầm bắn.
+
 ## 2026-10-18 18:48 +07:00 — Gỡ nội dung Core Hub chưa được phê duyệt
 
 - **Trạng thái:** DONE

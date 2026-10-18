@@ -4,7 +4,7 @@ A Unity 2D landscape endless horizontal space shooter built for a Game Programmi
 
 ## Concept
 
-The Player controls a spaceship on the left side of the screen and shoots Asteroids approaching from the right.
+The Player controls a spaceship across the visible camera area and shoots Asteroids approaching from the right.
 
 Destroyed Asteroids:
 
@@ -19,7 +19,7 @@ Core loop:
 
 `Shoot -> Destroy -> Collect -> Level Up -> Upgrade -> Survive -> Harder Sector -> Repeat`
 
-The run ends when the Player collides with an Asteroid without an active Energy Shield.
+An active Energy Shield absorbs one Asteroid impact; otherwise, Asteroid damage reduces Player HP, and the run ends when Player HP reaches zero.
 
 ---
 

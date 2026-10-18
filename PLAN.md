@@ -7,7 +7,7 @@ Source of truth for game logic. Keep this file compact; task details live in `TA
 - Unity 2D, landscape 16:9.
 - Genre: horizontal endless space shooter + light roguelite upgrades.
 - Core loop: `Shoot -> Destroy Asteroid -> Gain Score + Drop Stars -> Collect XP -> Level Up -> Choose Upgrade -> Harder Sector -> Repeat`.
-- Game over: Player hits an Asteroid without an active Shield.
+- Each run starts with 10/10 Player HP. A ready Energy Shield absorbs one asteroid impact; otherwise the Player takes asteroid-type damage. Game Over occurs at 0 HP.
 
 ## P2 — Scenes
 
@@ -20,17 +20,17 @@ SCENE-02 implementation note (PARTIAL): `EndGamePresenter` reads the persistent 
 ## P3 — Player Movement
 
 - Arrow Keys, 4 directions.
-- Player faces right and mainly stays in the left half of the screen.
+- Player faces right and may move across the full visible camera area.
 - Normalize diagonal input.
 - Use short acceleration/deceleration; responsive, not slippery.
-- Clamp the Player's existing `Collider2D.bounds` to the visible camera area; account for the collider bounds center offset from the Rigidbody2D position. Keep the horizontal limit at the screen midpoint.
+- Clamp the Player's existing `Collider2D.bounds` to the full visible camera area; account for the collider bounds center offset from the Rigidbody2D position. Keep the complete collider inside the camera on both axes.
 - Prefer Rigidbody2D with interpolation.
 - Suggested tuning: speed `6.5–8`, acceleration `18–26`, deceleration `22–32`.
 
 ## P4 — Shooting & Bullet Pool
 
 - Hold Space to auto-fire right.
-- Base: 1 bullet, damage 1, fire interval about `0.30–0.40s`.
+- Base: 1 bullet, damage 1. The current serialized firing interval is a tuning starting point; increase it slightly to reduce the current firing rate, then approve the final value in Play Mode.
 - Multi Shot uses symmetric spread.
 - Keep the configured base firing interval; Rapid Fire reduces it by `0.04s` per upgrade to a minimum of `0.14s`.
 - Damage Up adds 1 damage per projectile, to a maximum of 5 damage.
@@ -58,6 +58,8 @@ On death: Score -> Star drop -> optional effect -> return to pool.
 
 If off-screen left: return to pool with no penalty.
 
+The owner reports current encounter pacing is too fast. Reduce initial asteroid speed and/or spawn pressure slightly, retain Small/Large distinctions and spawn variation, and tune in Unity; do not treat an unverified exact balance value as final. Proposed HP damage defaults are Small `1` and Large `3`, Inspector-configurable and pending owner approval.
+
 ## P6 — Stars
 
 - Stars are upgrade XP, not Score.
@@ -66,6 +68,7 @@ If off-screen left: return to pool with no penalty.
 - On collect: add XP -> return to pool.
 - Off-screen left: return to pool.
 - Star Magnet pulls nearby Stars smoothly; no teleport.
+- Stars remain XP only; do not add direct Score rewards or ambient Star spawning. This intentionally differs from the assignment's literal Star-for-points wording.
 
 ## P7 — Leveling & Upgrades
 
@@ -121,7 +124,7 @@ EndGame receives:
 - Level reached
 - Survival Time
 
-Sector increases every ~30 seconds.
+Sector increases over run time. Implement gradual difficulty scaling and tune its pacing so pressure does not become overwhelming immediately.
 
 Difficulty may scale:
 
@@ -130,9 +133,11 @@ Difficulty may scale:
 - speed
 - Large Asteroid probability
 
-Suggested spawn interval starts around `1.8s` and should not go below about `0.7–0.8s`.
+Use a reasonable spawn-interval floor. Existing values may be used as tuning references, not as verified final balance; test initial spawn pressure, movement speed, and later Sector escalation in Unity.
 
 A new run resets all run-scoped state.
+
+Preserve current asteroid-destruction Score (`+10` Small, `+30` Large). Add an Inspector-configurable Score penalty for each genuine Player-Asteroid impact, whether or not Shield absorbs it. The penalty value is not finalized; do not allow Score below zero. This intentionally differs from the assignment's collision-deducts/Stars-add-points wording: asteroid destruction continues to award Score, Stars remain XP, and the new impact penalty is planned but not yet implemented.
 
 SCORE-01 implementation note (DONE): Existing code awards `+10` for Small and `+30` for Large through the asteroid destruction callback; `GameManager.TryBeginRun()` resets `CurrentScore` and clears `LastResult`. `PlayerAsteroidCollisionHandler` measures run time from `RunStarted` using scaled Unity time and submits the final score, level, and survival time once through `TryFinishRun()`. `RunResult` is an immutable value and `GameManager.LastResult` retains it through the EndGame scene load; the next Gameplay run clears it. The project owner confirmed successful manual Unity verification of the implemented SCORE-01 behavior; this records owner-reported runtime verification, not an automated test or build. EndGame result presentation remains part of SCENE-02.
 
@@ -148,13 +153,17 @@ Avoid unnecessary pairs such as Bullet-Bullet or Star-Star.
 
 Player-Asteroid:
 
-- Active Shield -> absorb one collision, Player survives, and Shield enters its current cooldown.
-- Unavailable Shield or no Shield -> disable movement/fire, capture run result, and transition to EndGame.
+- Start each new run at 10/10 HP.
+- Resolve each genuine impact once and apply one configurable Score penalty (clamp Score at zero); do not treat continuous overlap or duplicate callbacks as new impacts.
+- Ready Shield -> consume one charge, prevent HP damage, and enter the existing cooldown. Keep the current 12/9/6 second level behavior and do not alter cooldown upgrades.
+- Without a ready Shield -> apply the asteroid type's configurable HP damage; proposed starting values are Small `1` and Large `3`, pending owner approval.
+- A proposed, configurable ~1 second post-hit protection window suppresses repeat HP damage only. It does not suppress a distinct impact's one Score penalty; a ready Shield still absorbs a genuine impact while protection is active. Repeated callbacks or continued overlap from the same impact must not cause repeated penalties or Shield consumption.
+- At 0 HP -> finish the run through the existing GameManager/result/EndGame flow, capturing Score, Level, and Survival Time.
 - Shield cooldown levels and upgrade-during-cooldown behavior are defined in P7.
 
-Implementation note (GAME-01 — DONE): `PlayerAsteroidCollisionHandler` is integrated with the Player's existing trigger collider, ignores non-Asteroid contacts, consumes one ready Shield charge, and otherwise disables movement/fire, captures score/level/survival time, finishes the run via `GameManager`, then loads `EndGame` through `SceneLoader`. The project owner confirmed successful Unity setup and Play Mode verification; this is manual verification, not an automated test or build result.
+Implementation note (GAME-01 — DONE for its original scope): `PlayerAsteroidCollisionHandler` is integrated with the Player's existing trigger collider, ignores non-Asteroid contacts, consumes one ready Shield charge, and otherwise disables movement/fire, captures score/level/survival time, finishes the run via `GameManager`, then loads `EndGame` through `SceneLoader`. The project owner confirmed successful Unity setup and Play Mode verification of that original one-hit flow; this is manual verification, not an automated test or build result. The revised 10 HP behavior will extend this integration through the planned Stage 1 health and collision tasks.
 
-No multi-HP Player system in the standard midterm scope.
+Score penalty values and proposed damage/protection tuning remain Inspector-configurable and require owner Play Mode approval before being treated as final.
 
 ## P10 — Background
 
@@ -196,6 +205,8 @@ Recommended responsibilities:
 
 - `GameManager` — run state / top-level coordination; sole owner of `Time.timeScale` and pause-request ownership
 - `PlayerController` — input / movement / bounds
+- `PlayerHealth` (planned) — current/max HP, new-run reset, and applying bounded asteroid damage
+- Player-Asteroid collision handler — one resolution per genuine impact, Score penalty, Shield routing, HP damage/protection, and GameManager finish at zero HP
 - `WeaponController` — fire timing / spread / weapon stats
 - `Bullet` — projectile lifecycle
 - `PoolManager` or reusable pool component
@@ -221,8 +232,11 @@ HUD minimum:
 - Level
 - Star XP bar
 - Sector
+- Player HP bar showing current HP accurately; reuse the existing HP bar if present and avoid a duplicate.
 
 Level-up choices use a separate selection UI with one selectable control per offered upgrade. Keep the panel readable and avoid obscuring essential gameplay context.
+
+On an Energy Shield impact, show a brief cyan-blue circular or hexagonal barrier around the Player, flash on impact, then fade. This is a visual-only effect with a suggested duration near `0.8s` pending Play Mode tuning; it adds no physics or collision behavior. Optional brief Player hit feedback belongs in POLISH-01 and must not duplicate the Shield impact effect.
 
 Optional:
 
@@ -282,6 +296,8 @@ Do not add unless explicitly requested:
 - story/dialogue framework
 - mobile controls
 - gamepad support
+- defensive base/station, base HP, base damage, repair-base upgrade, or tower-defense gameplay
+- pre-run Core Selection Hub; use the existing flow Main Menu -> Play -> Gameplay -> collect XP -> choose a randomized level-up upgrade -> continue -> End Game
 
 ## P16 — Midterm Done
 
@@ -289,14 +305,20 @@ Ready when all are true:
 
 - MainMenu -> Gameplay -> EndGame -> MainMenu works.
 - Instructions works.
-- Player movement is smooth and bounded.
+- Player moves smoothly in four directions across the full camera; Collider2D remains inside the visible bounds.
+- Player starts at 10/10 HP, asteroid types apply their configured damage, a ready Shield prevents HP damage, and Game Over occurs at 0 HP.
+- Each genuine asteroid impact applies one configured Score penalty without duplicate resolution or negative Score; protection prevents repeat HP loss from overlap.
 - Hold-to-fire works.
+- Base firing interval and movement penalty while holding fire match their approved Play Mode tuning.
 - Bullet/Asteroid/Star recycling works.
 - Asteroids spawn, take damage, die, score, and drop Stars.
 - Star XP and Level Up work.
 - Six standard upgrades work within caps.
-- Shield/game-over behavior works.
+- Shield protection, cooldown, and impact feedback work.
 - Sector difficulty increases.
 - Score/Level/Time reach EndGame correctly.
+- Assignment deviations are clear: destroyed Asteroids award Score rather than collision-only scoring; asteroid impacts incur a configurable penalty; Stars remain XP and do not add Score or spawn independently.
+- Random asteroid movement and initial/later pacing are acceptable.
+- Performance, pooling cleanup, and Unity Console are checked.
 - No severe Console errors remain.
 - README and CHANGELOG match the real project.

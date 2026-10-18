@@ -18,7 +18,6 @@ One prompt = one task by default.
 
 ## Player & Shooting
 
-- [ ] **FIX-PLAYER-BOUNDS-01** — Calculate Player movement limits from its existing Collider2D world bounds, including collider-center offset from Rigidbody2D; preserve the left-half horizontal restriction. **PARTIAL** — collider-based bounds code is integrated and the owner confirms the updated gameplay setup works; individual edge-clamp and firing-reach checks were not specifically confirmed. `Depends: PLAYER-01` · `Reads: P3`.
 - [x] **PLAYER-01** — Smooth 4-direction movement, acceleration/deceleration, bounds, Rigidbody2D. **DONE** · `Depends: SETUP-01` · `Reads: P3` · Verify: movement playtest.
 - [x] **COMBAT-01** — Hold-to-fire + Bullet pool + off-screen/lifetime recycle. **DONE** · `Depends: PLAYER-01,ARCH-01` · `Reads: P4,P11` · Verify: fire spam + pool observation.
 - [x] **FIX-BULLET-COLLIDER-01** — Save Bullet trigger collider in the prefab and validate its configuration. **DONE** · `Reads: P4`.
@@ -44,25 +43,38 @@ One prompt = one task by default.
 - [x] **UPG-05** — Smoothly attract Stars within level radii 3/4/5 world units; maximum level 3 and no teleporting. **DONE** — the project owner confirmed successful Unity Play Mode verification after attaching `StarMagnetController` and registering `StarMagnetUpgradeDefinition`. `Depends: UPG-01,STAR-01` · `Reads: P6,P7,P12`.
 - [x] **UPG-UI-01** — Bind each randomized upgrade choice card to its selected definition's Display Name, Description, and optional Icon; clear stale card data, hide missing icons, and preserve existing button callbacks and selection flow. **DONE** — the project owner assigned all six upgrade icons and verified the displayed icons, names, descriptions, choices, and selection behavior in Unity Play Mode. `Depends: UPG-01,UPG-02,UPG-03,UPG-04,UPG-05` · `Reads: P7,P12,P13`.
 
-## Difficulty & Scene Flow
+## Stage 1 — Core Gameplay Revisions
 
-- [ ] **DIFF-01** — Sector timer and difficulty scaling with spawn floor. `Depends: AST-02` · `Reads: P8`.
-- [x] **GAME-01** — Player-Asteroid Shield/death branches + EndGame transition. **DONE** — setup and Play Mode behavior manually verified by the project owner in Unity. The Player trigger handler consumes a ready Shield charge or disables movement/fire, captures Score/Level/survival time in `RunResult`, finishes the run through `GameManager`, and loads EndGame through `SceneLoader`; duplicate collision handling is guarded by collider `EntityId` and physics step. `Depends: SCORE-01,UPG-04` · `Reads: P8,P9`.
-- [ ] **UI-01** — HUD: Score, Level, XP bar, Sector; optional Shield/Time. **PARTIAL** — Gameplay đã có Level/XP HUD và serialized references; cần chỉnh layout khỏi vùng giữa màn hình, tăng độ tương phản text để đáp ứng tiêu chí dễ đọc/không che gameplay. `Depends: SCORE-01,UPG-01,DIFF-01` · `Reads: P13`.
+- [ ] **FIX-PLAYER-BOUNDS-01** — Use Player Collider2D world bounds, including collider-center offset from Rigidbody2D, to clamp movement to the full visible camera on both axes; remove the former left-half restriction. **PARTIAL** — collider-based bounds are integrated and the owner confirms the updated gameplay setup works, but full-screen edge-clamp and weapon firing-reach checks were not specifically confirmed. `Depends: PLAYER-01` · `Reads: P3`.
+- [ ] **PLAYER-HP-01** — Add run-scoped Player health, starting at 10/10 and resetting on each new run; apply configurable damage by Asteroid type. Proposed defaults are Small 1 and Large 3, pending owner approval; do not treat these as final values. `Depends: FIX-PLAYER-BOUNDS-01,AST-01` · `Reads: P5,P9,P12`.
+- [ ] **COLLISION-HP-01** — Resolve each genuine Player-Asteroid impact once. Apply a configurable Score penalty on every impact (including a Shield-absorbed impact), clamp Score at zero, route HP damage through PlayerHealth only when no ready Shield absorbs the impact, and finish at 0 HP through existing GameManager/RunResult/EndGame flow. Penalty value is TBD; do not invent a final balancing value. `Depends: PLAYER-HP-01,GAME-01,SCORE-01,UPG-04` · `Reads: P8,P9,P12`.
+- [ ] **HIT-PROTECTION-01** — Add a configurable post-hit protection window, with ~1 second only a proposed starting value pending approval. It suppresses repeat HP loss during protection, not the Score penalty for a distinct genuine impact; a ready Shield still absorbs a genuine impact. Continuous overlap and duplicate callbacks must not count as new impacts. `Depends: COLLISION-HP-01` · `Reads: P9`.
+- [ ] **SHIELD-FX-01** — Show a brief cyan-blue circular/hexagonal barrier around the Player on a Shield-absorbed impact, flash then fade. Suggested duration ~0.8 seconds is not final; this effect is visual only and does not change physics or cooldown. `Depends: COLLISION-HP-01,UPG-04` · `Reads: P13`.
+
+## Stage 2 — Difficulty and Combat Balancing
+
+- [ ] **DIFF-01** — Increase Sector over run time and gradually scale difficulty with a reasonable spawn-interval floor. Tune initial spawn pressure and Asteroid movement to be slightly less aggressive while retaining type distinctions and variation; exact final balance values require Play Mode tuning. `Depends: AST-02` · `Reads: P5,P8`.
+- [ ] **WEAPON-PACING-01** — Slightly increase the existing serialized base firing interval to reduce firing rate; preserve hold-to-fire, pooling, and Multi Shot/Rapid Fire behavior. Choose the final interval through Play Mode tuning rather than inventing a fixed value here. `Depends: COMBAT-01,UPG-02` · `Reads: P4,P7`.
+- [ ] **FIRE-MOVE-PENALTY-01** — Reduce Player movement speed by 10% while the Player holds fire and restore it on release; apply once while held, not per projectile. Drone firing does not affect Player movement. `Depends: PLAYER-01,COMBAT-01` · `Reads: P3,P4`.
+
+## Stage 3 — Required Gameplay UI and Scenes
+
+- [x] **GAME-01** — Existing Player-Asteroid Shield/death integration and EndGame transition. **DONE** — the project owner manually verified the original one-hit completion flow. This completed infrastructure remains the basis for the revised 10 HP flow; type damage, per-impact penalties, and Game Over at 0 HP are planned under Stage 1. `Depends: SCORE-01,UPG-04` · `Reads: P8,P9`.
 - [x] **UI-BUILD-01** — Display-only text panel for Drone count, Shield readiness/cooldown, projectile Damage, effective Player fire interval, and Player volley projectile count; refresh from existing gameplay APIs without modifying gameplay values. **DONE** — the project owner configured BuildStatusPanel in the existing Gameplay Canvas and confirmed stat updates, Shield cooldown, and new-run reset in Unity Play Mode. The text-based design is intentional; no icon conversion is required. `Depends: UPG-02,UPG-03,UPG-04` · `Reads: P7,P12,P13`.
+- [ ] **UI-01** — Gameplay HUD for Score, Level, XP progress, Sector, and Player HP; reuse any existing HP bar rather than adding a duplicate. **PARTIAL** — Level/XP HUD and serialized references exist; layout and contrast still need improvement for readability and unobstructed gameplay, and HP/Sector integration remains to be completed. `Depends: SCORE-01,PROG-01,DIFF-01,PLAYER-HP-01` · `Reads: P13`.
 - [ ] **SCENE-01** — MainMenu: Play, Instructions, Quit. `Depends: SETUP-01,ARCH-01` · `Reads: P2`.
 - [ ] **SCENE-02** — EndGame: display final Score, Level reached, and Survival Time; provide Play Again, Main Menu, and Quit actions. **PARTIAL** — added `EndGamePresenter`; attach it to the EndGame Canvas, assign three result labels and three buttons, clear persistent Inspector `On Click()` callbacks, save, and verify in Unity. `Depends: GAME-01` · `Reads: P2,P8`.
-
-## World & Polish
-
-- [ ] **WORLD-01** — Infinite recycled background + optional parallax. `Depends: SETUP-01` · `Reads: P10,P11,P13`.
-- [ ] **POLISH-01** — Shooting/hit/explosion/Star/level-up feedback. `Depends: core gameplay` · `Reads: P13`.
 - [ ] **TRANS-01** — Optional short scene fade. `Depends: SCENE-01,SCENE-02` · `Reads: P2,P13`.
 
-## QA & Documentation
+## Stage 4 — World and Polish
 
-- [ ] **QA-01** — Performance/lifecycle audit: bounded pools, no off-screen buildup, no hot-loop Find/GetComponent. `Depends: gameplay complete` · `Reads: P4,P5,P6,P11`.
-- [ ] **QA-02** — Full midterm functional checklist. `Depends: QA-01` · `Reads: P1,P16`.
+- [ ] **WORLD-01** — Infinite recycled background + optional parallax. `Depends: SETUP-01` · `Reads: P10,P11,P13`.
+- [ ] **POLISH-01** — Shooting/hit/explosion/Star/level-up feedback, including brief Player hit feedback where appropriate; do not duplicate the dedicated Shield impact effect. `Depends: core gameplay` · `Reads: P13`.
+
+## Stage 5 — QA, Documentation and Submission
+
+- [ ] **QA-01** — Performance/lifecycle audit: bounded pools, no off-screen buildup, no hot-loop Find/GetComponent; verify the revised health, impact, protection, pacing, and input behaviors. `Depends: gameplay complete` · `Reads: P4,P5,P6,P9,P11`.
+- [ ] **QA-02** — Full midterm functional checklist, including the documented differences from assignment scoring and Star behavior. `Depends: QA-01` · `Reads: P1,P16`.
 - [ ] **DOC-01** — Finalize README to match actual build. `Depends: QA-02` · `Reads: P1,P2,P12,P16`.
 
 ## Parking Lot

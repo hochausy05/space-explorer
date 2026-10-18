@@ -46,13 +46,15 @@ Space Explorer is a 2D landscape horizontal endless space shooter with lightweig
 
 Do not change these unless the user explicitly asks:
 
-- Player moves in 4 directions and mainly stays on the left side of the screen.
+- Player moves in 4 directions across the full visible camera area and remains inside camera bounds by its Collider2D.
 - Player shoots to the right.
 - Asteroids spawn from the right and move left.
 - Destroyed asteroids award score and drop Stars.
 - Stars are upgrade XP, not score.
 - Level-up pauses gameplay and offers 1 of 3 valid upgrades.
 - Standard upgrades: Multi Shot, Rapid Fire, Damage Up, Drone Wing, Energy Shield, Star Magnet.
+- Player starts each run at 10/10 HP; asteroid damage varies by type, a ready Energy Shield prevents HP damage for one collision, and Game Over occurs at 0 HP. Small/Large damage suggestions and collision Score penalty remain configurable pending Play Mode approval.
+- The existing game flow has no pre-run Core Selection Hub or defensive base.
 - Difficulty increases over time by Sector.
 - Main scenes: MainMenu, Gameplay, EndGame.
 
