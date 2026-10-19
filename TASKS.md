@@ -8,7 +8,7 @@ One prompt = one task by default.
 
 ## Current
 
-**NEXT:** `HIT-PROTECTION-01`
+**NEXT:** `DIFF-01`
 
 ## Foundation
 
@@ -48,8 +48,9 @@ One prompt = one task by default.
 - [x] **FIX-PLAYER-BOUNDS-01** — Use Player Collider2D world bounds, including collider-center offset from Rigidbody2D, to clamp movement to the full visible camera on both axes; remove the former left-half restriction. **DONE** — the project owner confirmed all five movement checks passed in Unity Play Mode. `Depends: PLAYER-01` · `Reads: P3`.
 - [x] **PLAYER-HP-01** — Add run-scoped Player health, starting at 10/10 and resetting on each new run; apply configurable damage by Asteroid type and show HP using only the existing Gameplay XP bar. **DONE** — the project owner confirmed Player HP, asteroid damage, the repurposed HP bar, XP text, and existing gameplay work correctly in Unity Play Mode. `Depends: FIX-PLAYER-BOUNDS-01,AST-01` · `Reads: P5,P9,P12,P13`.
 - [x] **COLLISION-HP-01** — Resolve each genuine Player-Asteroid impact once. Apply configurable Score penalties (Small 5, Large 15) on every impact, including Shield-absorbed impacts; clamp Score at zero; route the existing configurable HP damage (Small 1, Large 3) through PlayerHealth only when no ready Shield absorbs the impact; finish only at 0 HP through existing GameManager/RunResult/EndGame flow. Preserve the existing same-impact duplicate guard; do not implement the separate timed post-hit protection task. **DONE** — the project owner confirmed all COLLISION-HP-01 Unity Play Mode checks passed. `Depends: PLAYER-HP-01,GAME-01,SCORE-01,UPG-04` · `Reads: P8,P9,P12`.
-- [ ] **HIT-PROTECTION-01** — Add a configurable post-hit protection window, with ~1 second only a proposed starting value pending approval. It suppresses repeat HP loss during protection, not the Score penalty for a distinct genuine impact; a ready Shield still absorbs a genuine impact. Continuous overlap and duplicate callbacks must not count as new impacts. `Depends: COLLISION-HP-01` · `Reads: P9`.
-- [ ] **SHIELD-FX-01** — Show a brief cyan-blue circular/hexagonal barrier around the Player on a Shield-absorbed impact, flash then fade. Suggested duration ~0.8 seconds is not final; this effect is visual only and does not change physics or cooldown. `Depends: COLLISION-HP-01,UPG-04` · `Reads: P13`.
+- [x] **HIT-PROTECTION-01** — Add a configurable 1.0-second post-hit protection window after Shield absorption or surviving HP damage; protected collisions skip Score/HP/Shield effects. Use scaled time and reset on new run. Show the existing `ShieldVisual` SpriteRenderer only for Shield-absorbed hits; hide it on expiry/new run/run end. **DONE** — the project owner confirmed successful Unity Play Mode verification of protection and the PNG effect. `Depends: COLLISION-HP-01` · `Reads: P9,P13`.
+- [x] **SHIELD-FX-01** — Shield impact visual is implemented through the existing `ShieldVisual` SpriteRenderer under HIT-PROTECTION-01. **DONE — merged and owner-verified with HIT-PROTECTION-01.** `Depends: HIT-PROTECTION-01` · `Reads: P13`.
+- [x] **SHIELD-ANIM-01** — Refine the existing ShieldVisual during the 1-second protection window: fade in from 0–0.15s, subtle pulse from 0.15–0.65s, two smooth blinks from 0.65–0.90s, and fade fully out by 1.0s. Preserve/restore original sprite tint, follow scaled time, and keep the visual hidden on startup/new run/run end. **DONE** — the project owner confirmed successful Unity Play Mode testing. `Depends: HIT-PROTECTION-01` · `Reads: P13`.
 
 ## Stage 2 — Difficulty and Combat Balancing
 

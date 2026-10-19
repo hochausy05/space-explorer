@@ -157,15 +157,18 @@ Player-Asteroid:
 - Resolve each genuine impact once and apply one configurable Score penalty (clamp Score at zero); do not treat continuous overlap or duplicate callbacks as new impacts.
 - Ready Shield -> consume one charge, prevent HP damage, and enter the existing cooldown. Keep the current 12/9/6 second level behavior and do not alter cooldown upgrades.
 - Without a ready Shield -> apply the asteroid type's configurable HP damage: Small `1`, Large `3` (owner-approved starting values).
-- A proposed, configurable ~1 second post-hit protection window suppresses repeat HP damage only. It does not suppress a distinct impact's one Score penalty; a ready Shield still absorbs a genuine impact while protection is active. Repeated callbacks or continued overlap from the same impact must not cause repeated penalties or Shield consumption.
+- A configurable post-hit protection window defaults to `1.0s`. It starts after a ready Shield absorbs a hit or after an unshielded collision reduces HP and the Player survives. During protection, further asteroid contacts cause no Score penalty, HP damage, or Shield consumption and do not restart the timer. Use scaled time so the timer pauses during upgrade selection; reset it at new-run start. Repeated callbacks or continued overlap from one impact must not count as new impacts.
+- A Shield-absorbed hit displays the existing transparent PNG `ShieldVisual` around the Player for the same protection window, with a short fade-in and fade-out. Unshielded nonlethal hits show no visual. Hide it when the run ends, a new run starts, or protection expires; it has no collider and does not affect gameplay.
 - At 0 HP -> finish the run through the existing GameManager/result/EndGame flow, capturing Score, Level, and Survival Time.
 - Shield cooldown levels and upgrade-during-cooldown behavior are defined in P7.
 
 Implementation note (GAME-01 — DONE for its original scope): `PlayerAsteroidCollisionHandler` is integrated with the Player's existing trigger collider, ignores non-Asteroid contacts, consumes one ready Shield charge, and otherwise disables movement/fire, captures score/level/survival time, finishes the run via `GameManager`, then loads `EndGame` through `SceneLoader`. The project owner confirmed successful Unity setup and Play Mode verification of that original one-hit flow; this is manual verification, not an automated test or build result. The revised 10 HP behavior will extend this integration through the planned Stage 1 health and collision tasks.
 
-COLLISION-HP-01 implementation note (DONE): `PlayerAsteroidCollisionHandler` applies the configured 5/15 Score penalty once after its existing same-collider/same-physics-step guard and before trying Shield absorption. A ready Shield therefore prevents HP loss but not the penalty. Unshielded impacts use the existing configured 1/3 HP damage and only finish at zero. `GameManager.TryApplyScorePenalty()` clamps Score to zero and publishes `ScoreChanged`; Score awards, reset, final snapshot, and run ownership remain in GameManager. The project owner confirmed the COLLISION-HP-01 behavior in Unity Play Mode; this is manual owner verification, not an automated test or build result. The timed post-hit protection window remains in HIT-PROTECTION-01 and is not implemented here.
+COLLISION-HP-01 implementation note (DONE): `PlayerAsteroidCollisionHandler` applies the configured 5/15 Score penalty once after its existing same-collider/same-physics-step guard and before trying Shield absorption. A ready Shield therefore prevents HP loss but not the penalty. Unshielded impacts use the existing configured 1/3 HP damage and only finish at zero. `GameManager.TryApplyScorePenalty()` clamps Score to zero and publishes `ScoreChanged`; Score awards, reset, final snapshot, and run ownership remain in GameManager. The project owner confirmed the COLLISION-HP-01 behavior in Unity Play Mode; this is manual owner verification, not an automated test or build result. Timed post-hit protection and its Shield-only visual are implemented under HIT-PROTECTION-01, which remains pending Play Mode verification.
 
-The proposed configurable ~1 second post-hit protection timing remains unapproved and belongs to HIT-PROTECTION-01.
+HIT-PROTECTION-01 implementation note (DONE — manually verified by project owner): `PlayerAsteroidCollisionHandler` compares scaled Unity time with a serialized protection end time. A ready Shield still receives the collision penalty, absorbs one hit, enters its existing cooldown, and starts protection; unshielded damage starts the same protection only if HP decreases and the Player survives. Protected contacts return before Score penalty and Shield handling. The `Time.timeAsDouble` clock follows `Time.timeScale`, so selection pauses stop the window. The existing child `ShieldVisual` SpriteRenderer is disabled on handler initialization, shown only for Shield-absorbed hits, and faded through its alpha; no additional renderer or collider is created. The owner confirmed successful Play Mode verification of protection and the PNG effect; this is owner-reported manual verification, not an automated test or build. The enhanced multi-phase animation is tracked separately under SHIELD-ANIM-01.
+
+The prior standalone SHIELD-FX-01 scope is folded into HIT-PROTECTION-01 and should be verified as part of that task, not implemented a second time.
 
 ## P10 — Background
 
@@ -238,7 +241,9 @@ HUD minimum:
 
 Level-up choices use a separate selection UI with one selectable control per offered upgrade. Keep the panel readable and avoid obscuring essential gameplay context.
 
-On an Energy Shield impact, show a brief cyan-blue circular or hexagonal barrier around the Player, flash on impact, then fade. This is a visual-only effect with a suggested duration near `0.8s` pending Play Mode tuning; it adds no physics or collision behavior. Optional brief Player hit feedback belongs in POLISH-01 and must not duplicate the Shield impact effect.
+On an Energy Shield impact, show the existing transparent PNG `ShieldVisual` around the Player, fading in and out within the same `1.0s` post-hit protection window. This is visual-only, adds no collider or collision behavior, and was manually verified by the project owner under HIT-PROTECTION-01. The requested multi-phase fade/pulse/blink refinement is tracked under SHIELD-ANIM-01. Optional brief Player hit feedback belongs in POLISH-01 and must not duplicate the Shield impact effect.
+
+SHIELD-ANIM-01 specifies the existing SpriteRenderer animation only: fade in during `0–0.15s`, pulse subtly during `0.15–0.65s`, blink smoothly twice during `0.65–0.90s`, then fade out completely by `1.0s`. Use scaled protection time, preserve/restore the original sprite tint, and do not add assets, animation clips, Animator components, or gameplay effects. The project owner confirmed successful Unity Play Mode verification; this is manual owner verification, not an automated test or build result.
 
 Optional:
 
@@ -316,7 +321,7 @@ Ready when all are true:
 - Asteroids spawn, take damage, die, score, and drop Stars.
 - Star XP and Level Up work.
 - Six standard upgrades work within caps.
-- Shield protection, cooldown, and impact feedback work.
+- Shield protection, cooldown, and the refined multi-phase impact animation work; SHIELD-ANIM-01 was manually verified by the project owner.
 - Sector difficulty increases.
 - Score/Level/Time reach EndGame correctly.
 - Assignment deviations are clear: destroyed Asteroids award Score rather than collision-only scoring; asteroid impacts incur a configurable penalty; Stars remain XP and do not add Score or spawn independently.

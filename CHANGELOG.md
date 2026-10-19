@@ -19,6 +19,60 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-19 15:48 +07:00 — SHIELD-ANIM-01: Chốt xác minh hoạt ảnh Shield
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt SHIELD-ANIM-01 theo xác nhận kiểm tra Play Mode của chủ dự án.
+- **Thay đổi:** Đánh dấu SHIELD-ANIM-01 hoàn tất trong TASKS và PLAN. Chủ dự án xác nhận hoạt ảnh ShieldVisual đã được kiểm tra thành công trong Unity Play Mode.
+- **Kiểm tra:** Xác nhận thủ công do chủ dự án báo cáo; không chạy automated test, build hoặc Unity trong lượt tài liệu này. `git diff --check` đạt.
+- **Chưa kiểm tra / Rủi ro:** Không có kết quả automated test hoặc build mới.
+- **Tiếp theo:** `DIFF-01` — tăng Sector và điều chỉnh độ khó theo roadmap (`Depends: AST-02`; `Reads: P5,P8`).
+
+## 2026-10-19 15:40 +07:00 — SHIELD-ANIM-01: Làm mượt hoạt ảnh ShieldVisual
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Làm bóng hoạt ảnh SpriteRenderer hiện có; ghi nhận HIT-PROTECTION-01 đã được chủ dự án xác minh thủ công.
+- **Thay đổi:** `PlayerAsteroidCollisionHandler` điều khiển màu/alpha theo thời gian bảo vệ đã scale: fade-in 0–0.15s, pulse nhẹ 0.15–0.65s, hai nhịp blink mượt 0.65–0.90s, rồi fade-out tới 1.0s. Khôi phục nguyên tint khi ẩn; không thêm asset, Animator, clip hoặc collider. Đánh dấu HIT-PROTECTION-01 và SHIELD-FX-01 DONE theo xác nhận Play Mode của chủ dự án; animation polish theo dõi riêng.
+- **Kiểm tra:** Rà soát handler, PlayerHealth, EnergyShieldController, GameManager Score API, HUD và scene hiện tại. Scene có một collision handler, protection duration 1 giây, child `ShieldVisual`; tham chiếu serialized SpriteRenderer đang rỗng và được fallback bằng tên child. `git diff --check` đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Scene đang lưu fade-in/fade-out `0.08`/`0.18`; đặt lại thành `0.15`/`0.10` trong Inspector. Cần chủ dự án kiểm tra nhịp fade/pulse/blink mới trong Play Mode, đảm bảo pause đóng băng animation và tint được khôi phục; SHIELD-ANIM-01 vẫn PARTIAL.
+- **Tiếp theo:** Xác minh SHIELD-ANIM-01 trong Unity Play Mode.
+
+## 2026-10-19 14:57 +07:00 — HIT-PROTECTION-01: Dùng PNG ShieldVisual cho hiệu ứng bảo vệ
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thay hiệu ứng LineRenderer tạm bằng SpriteRenderer PNG `Player/ShieldVisual` hiện có; giữ nguyên luồng Shield, HP và Score.
+- **Thay đổi:** Handler nhận tham chiếu `Shield Visual`, tự tìm child đúng tên làm fallback và tắt renderer khi khởi tạo, kể cả khi Inspector đang bật. Khi Shield hấp thụ hit, sprite hiện trong cửa sổ bảo vệ và alpha fade theo scaled time; hit mất HP không hiện sprite. Xóa trường, hình học và cảnh báo cũ liên quan LineRenderer. Không sửa scene hoặc asset.
+- **Kiểm tra:** Đọc wiring hiện có trong Gameplay: `ShieldVisual` là child Player, có SpriteRenderer đang bật; handler đang lưu protection duration `10`. Rà soát source; `git diff --check` đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Trong Inspector gán SpriteRenderer của `Player/ShieldVisual` vào `Shield Visual`; đặt `Post Hit Protection Duration` thành `1.0` (scene hiện lưu `10`); xóa collision handler trùng còn lại. Kiểm tra fade, pause, ẩn khi hết hạn/new run/run end và các nhánh Shield/HP trong Play Mode. Task vẫn PARTIAL.
+- **Tiếp theo:** Lưu wiring trong Unity và hoàn tất checklist Play Mode của HIT-PROTECTION-01.
+
+## 2026-10-19 14:56 +07:00 — HIT-PROTECTION-01: Gộp Shield bubble vào bảo vệ sau va chạm
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Mở rộng bảo vệ sau hit để bao gồm hit được Shield hấp thụ và hiệu ứng bubble; không thêm collision handler mới hoặc ảnh hưởng gameplay qua VFX.
+- **Thay đổi:** Shield READY vẫn bị trừ Score một lần, hấp thụ hit và vào cooldown; đồng thời bắt đầu cửa sổ bảo vệ 1 giây. Va chạm tiếp theo trong cửa sổ không trừ Score/HP, không dùng Shield và không gia hạn timer. Hit không Shield gây sát thương như cũ; nếu sống sót thì bắt đầu cùng cửa sổ nhưng không hiện bubble. Thêm hexagon cyan bán trong suốt với glow nhẹ bằng hai `LineRenderer`, fade-in/out và tự ẩn khi hết hạn, new run hoặc run kết thúc. Gộp phạm vi SHIELD-FX-01 vào HIT-PROTECTION-01.
+- **Kiểm tra:** Rà soát luồng Score → Shield → HP, scaled-time pause và lifecycle reset/finish; chưa chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần trong Inspector tạo hai child renderer dưới Player, gán Glow/Outline/Material vào `PlayerAsteroidCollisionHandler`, chỉnh bán kính/width/sorting để không che tàu. Cần xóa một collision handler trùng còn lưu trong Gameplay scene. HIT-PROTECTION-01 vẫn PARTIAL.
+- **Tiếp theo:** Hoàn tất wiring VFX và kiểm tra protection, Shield, pause và reset trong Unity Play Mode.
+
+## 2026-10-19 14:35 +07:00 — HIT-PROTECTION-01: Chặn collision handler trùng trên Player
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Sửa nguyên nhân Shield READY không chặn sát thương; giữ nguyên mức Shield và cooldown.
+- **Thay đổi:** Scene Gameplay hiện có hai `PlayerAsteroidCollisionHandler` cùng gắn trên một Player, trong khi HUD và cả hai handler đều đọc cùng `EnergyShieldController`. Callback thứ nhất tiêu thụ Shield; callback thứ hai có bộ khử trùng riêng nên thấy Shield đang cooldown và trừ HP (đồng thời có thể trừ Score lần nữa). Thêm `[DisallowMultipleComponent]` và runtime guard để chỉ handler đầu tiên đang bật xử lý; giữ kiểm tra trạng thái qua `TryAbsorbAsteroidCollision()` dùng chung với HUD `State`. Không có damage path HP thứ hai ngoài handler này. Không sửa scene/prefab YAML.
+- **Kiểm tra:** Rà soát reference scene: `BuildStatusHUD._player` trỏ cùng GameObject Player; có đúng một `EnergyShieldController` và hai collision handler. Tìm toàn bộ `ApplyDamage` để xác nhận handler là nơi gọi. Chưa chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Trong Inspector của Gameplay > Player, xóa một trong hai `PlayerAsteroidCollisionHandler` (giữ một bản có `_progression` gán), xác nhận chỉ còn một `EnergyShieldController`, và giữ `BuildStatusHUD > Player` trỏ vào cùng Player. Chạy Play Mode để kiểm tra Shield READY chặn HP, trừ Score đúng một lần, cooldown 12/9/6 giây, hit cooldown áp dụng HP/protection và protection không tiêu thụ Shield. `HIT-PROTECTION-01` vẫn PARTIAL.
+- **Tiếp theo:** Làm sạch component trùng trong Inspector và xác minh Shield cùng protection trong Unity Play Mode.
+
+## 2026-10-19 14:21 +07:00 — HIT-PROTECTION-01: Thêm thời gian bảo vệ sau sát thương
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm cửa sổ bảo vệ sau hit vào collision handler hiện có; không thêm VFX hoặc handler mới.
+- **Thay đổi:** Khi Asteroid thực sự làm giảm HP và Player sống sót, bắt đầu thời lượng cấu hình được, mặc định 1 giây. Trong thời gian này, va chạm Asteroid bỏ qua cả phạt Score, sát thương HP và tiêu thụ Shield. Hit được Shield hấp thụ vẫn bị trừ Score nhưng không bắt đầu bảo vệ. Dùng `Time.timeAsDouble` theo scaled time nên bộ đếm dừng khi pause; reset trạng thái ở đầu run mới.
+- **Kiểm tra:** Rà soát thứ tự xử lý va chạm, kiểm tra sống sót sau sát thương và tương tác với GameManager pause; `git diff --check` trên các file thuộc task đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Trong Inspector của Player, xác nhận `Post Hit Protection Duration` là `1.0`. Cần Play Mode kiểm tra thời điểm bắt đầu/kết thúc, penalty và Shield trong thời gian bảo vệ, pause khi chọn upgrade, Game Over ở 0 HP và reset run.
+- **Tiếp theo:** Xác minh `HIT-PROTECTION-01` trong Unity Play Mode.
+
 ## 2026-10-19 13:44 +07:00 — COLLISION-HP-01: Chốt kiểm tra va chạm và Score HUD
 
 - **Trạng thái:** DONE
