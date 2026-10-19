@@ -11,9 +11,11 @@ Source of truth for game logic. Keep this file compact; task details live in `TA
 
 ## P2 — Scenes
 
-- `MainMenu`: Play, Instructions panel, Quit.
+- `MainMenu`: GameLogo; Play, Instructions, Records, and Quit buttons; one right-side InfoPanel that toggles between InstructionsContent and RecordsContent. Play loads Gameplay directly and relies on the existing GameManager scene lifecycle to begin/reset a fresh run.
 - `Gameplay`: Player, shooting, Asteroids, Stars, upgrades, difficulty, HUD, background.
 - `EndGame`: Final Score, Level, Survival Time, Play Again, Main Menu, Quit.
+
+SCENE-01 recent-run history: after a successful `GameManager.TryFinishRun`, persist the authoritative `RunResult` fields (Final Score, survival duration, Player Level) locally as JSON in PlayerPrefs. Keep the newest 20, newest first; trim oldest records. Merely opening MainMenu never creates a record. Render records in the existing RecordsContent Scroll View by cloning the hidden `RecordRowTemplate`; each row has Legacy Text fields for match number, score, total minutes:seconds, and level, with a Vietnamese empty state. Code is implemented, but MainMenu Inspector wiring and owner Play Mode verification remain pending. The menu script controls the existing `InstructionsTitle` and `InstructionsText` separately where there is no parent `InstructionsContent` object.
 
 SCENE-02 implementation note (PARTIAL): `EndGamePresenter` reads the persistent `GameManager.LastResult`, formats Score/Level/Survival Time, and routes Play Again/Main Menu through `SceneLoader`; Quit calls `Application.Quit()` in a player build. It displays placeholders if no snapshot exists and guards repeated scene transitions. The EndGame scene still needs Canvas/UI object wiring and Unity Play Mode/standalone verification.
 

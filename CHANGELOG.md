@@ -19,6 +19,33 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-19 21:13 +07:00 — SCENE-01: Chốt xác minh MainMenu và kỷ lục
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt SCENE-01 theo xác nhận Play Mode của chủ dự án; không sửa code hoặc asset.
+- **Thay đổi:** Đánh dấu SCENE-01 DONE trong TASKS. Chủ dự án xác nhận MainMenu, điều hướng và lịch sử run gần đây hoạt động đúng trong Unity Play Mode.
+- **Kiểm tra:** Xác nhận thủ công do chủ dự án báo cáo; không chạy Unity, automated test hoặc build trong lượt này. `git diff --check` đã chạy.
+- **Chưa kiểm tra / Rủi ro:** Nút Quit chưa được kiểm tra trong standalone build; cần xác minh ở final QA.
+- **Tiếp theo:** `UI-01` — hoàn thiện HUD Gameplay gồm Score, Level, XP progress, Sector và Player HP; Sector cùng bố cục/độ đọc còn dang dở.
+
+## 2026-10-19 20:34 +07:00 — SCENE-01: Hoàn thiện controller menu và danh sách kỷ lục
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Hoàn thiện code điều khiển MainMenu và trình bày lịch sử 20 run; không chỉnh scene YAML.
+- **Thay đổi:** `MainMenuController` điều khiển Play, Instructions, Records, Quit và CloseButton; InfoPanel được ẩn lúc khởi chạy, hai nội dung không hiển thị đồng thời. `RecentRunRecordRow` hiển thị bốn cột Legacy Text và tự ẩn Text mẫu trên root; controller clone template khi cần, giữ thứ tự mới nhất trước và tái sử dụng các row UI khi mở lại. Dữ liệu tiếp tục được lưu JSON trong PlayerPrefs từ `RunResult` sau `TryFinishRun` thành công, tối đa 20 bản ghi.
+- **Kiểm tra:** Đọc wiring đã lưu trong MainMenu: có InfoPanel, InstructionsTitle/Text, RecordsContent, Scroll View, Content layout và một template Legacy Text; Play/Records/Quit chưa có callback Inspector, Instructions có `SetActive(true)`, Close có `SetActive(false)`. Rà soát code và lifecycle lưu dữ liệu; chưa chạy Unity compile, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Chưa gắn controller. Trong scene đang lưu chưa thấy RecordsHeader hoặc empty-state Text và RecordRowTemplate hiện chỉ có một Text mẫu; cần thêm bốn Text con riêng cho các cột, gắn `RecentRunRecordRow`, tạo empty-state Text dưới Content, rồi nối toàn bộ references. Xóa callback cũ ở InstructionsButton và CloseButton; lưu InfoPanel inactive. Cần kiểm tra điều hướng, danh sách/scroll 20 dòng, empty state, lưu qua lần chạy lại, thứ tự mới nhất và standalone Quit trong Unity.
+- **Tiếp theo:** Hoàn tất Inspector wiring trong MainMenu và chạy checklist Play Mode để chốt SCENE-01.
+
+## 2026-10-19 18:08 +07:00 — SCENE-01: Menu và lịch sử run gần đây
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm hành vi Play/Instructions/Records/Quit và lưu 20 run hoàn tất; không tạo scene mới.
+- **Thay đổi:** Thêm `MainMenuController` để tải Gameplay qua `SceneLoader`, bật/tắt duy nhất một nội dung InfoPanel, hiển thị trạng thái rỗng hoặc danh sách Records và xử lý Quit an toàn trong Editor. Thêm `RecentRunHistory`, lưu JSON trong PlayerPrefs tại điểm `GameManager.TryFinishRun()` thành công; dùng trực tiếp `RunResult`, mới nhất trước, giữ tối đa 20. Không sửa scene/prefab YAML.
+- **Kiểm tra:** Rà soát lifecycle GameManager, RunResult và SceneLoader; xác nhận scene MainMenu đã có Canvas, bốn Button và InfoPanel. `git diff --check` cho code/tài liệu thuộc task đạt; kiểm tra toàn diff chỉ báo trailing whitespace trong `Assets/Scenes/MainMenu.unity` đã dirty trước task và được giữ nguyên. Chưa chạy Unity compile, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Scene đang lưu chưa có `InstructionsContent`, `RecordsContent` hoặc Scroll View; component mới chưa gắn/wire. Cần hoàn tất Inspector setup và kiểm tra UI, điều hướng, lưu qua lần khởi động lại, giới hạn 20 record và chống ghi trùng trong Play Mode. SCENE-01 giữ PARTIAL.
+- **Tiếp theo:** Trong Unity gắn `MainMenuController` lên Canvas, nối Button/InfoPanel references, tạo hai content và Records Scroll View/Text; gắn `RecentRunHistory` không cần component (được gọi bởi GameManager), lưu scene rồi chạy checklist.
+
 ## 2026-10-19 16:57 +07:00 — DIFF-01: Chốt cân bằng độ khó
 
 - **Trạng thái:** DONE

@@ -217,6 +217,7 @@ namespace SpaceExplorer.Core
             _legacyPauseRequest = null;
             ApplyTimeScale();
             error = null;
+            RecentRunHistory.RecordCompletedRun(result);
             RunFinished?.Invoke(result);
             return true;
         }
