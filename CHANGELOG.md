@@ -19,6 +19,24 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-19 16:57 +07:00 — DIFF-01: Chốt cân bằng độ khó
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Chốt DIFF-01 theo xác nhận Play Mode của chủ dự án; không sửa gameplay trong lượt tài liệu này.
+- **Thay đổi:** Đánh dấu DIFF-01, WEAPON-PACING-01 và FIRE-MOVE-PENALTY-01 hoàn tất theo cùng phạm vi đã gộp. Giữ nguyên thông số đã duyệt: speed Asteroid ban đầu `0.80`, spawn frequency `0.75`, mỗi 30 giây chơi tăng `0.05`/`0.08`, cap `1.60`/`2.00`, movement khi bắn `0.90`, firing interval multiplier `1.10`, Damage Up `+1` không giới hạn cấp gameplay. Đặt `UI-01` làm task tiếp theo.
+- **Kiểm tra:** Chủ dự án xác nhận cả 10 acceptance checks của DIFF-01 đạt trong Unity Play Mode. Đây là xác nhận thủ công; không tuyên bố automated test hoặc build. `git diff --check` đạt.
+- **Chưa kiểm tra / Rủi ro:** Không chạy Unity hoặc automated test trong lượt tài liệu này. UI-01 vẫn PARTIAL; phần hiển thị Sector và bố cục/độ đọc còn thiếu.
+- **Tiếp theo:** `UI-01` — hoàn thiện HUD Gameplay gồm Score, Level, XP, Sector và HP. Cần quyết định quy tắc đánh số Sector trước khi triển khai binding Sector.
+
+## 2026-10-19 16:38 +07:00 — DIFF-01: Cân bằng độ khó và Damage Up không giới hạn
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Áp dụng cân bằng spawn/di chuyển Asteroid, tăng độ khó theo thời gian chơi, giảm tốc độ Player khi bắn, điều chỉnh firing interval và bỏ cap gameplay của Damage Up.
+- **Thay đổi:** Giữ nguyên giá trị serialize; Asteroid mới dùng hệ số tốc độ ban đầu `0.8`, interval spawn `1.8s` được quy đổi theo frequency `0.75` thành `2.4s`. Mỗi 30 giây Playing cộng hệ số tương đối baseline `+0.05` speed/`+0.08` frequency, giới hạn `1.6`/`2.0`; pause không tăng timer và run mới reset. Player di chuyển ở 90% khi giữ Space. Base interval `0.35s` nhân `1.10` thành `0.385s`, vẫn giữ Rapid Fire `-0.04s` và floor `0.14s`. Damage Up tăng +1 không giới hạn gameplay, dùng `BigInteger` qua Bullet, pool và Asteroid để tránh wraparound; HUD hiện có tiếp tục đọc sát thương thực tế. Không sửa scene/prefab hoặc collision giữa Asteroid.
+- **Kiểm tra:** Rà soát các call site damage, upgrade eligibility, spawn lifecycle, pause và serialized values; tìm kiếm xác nhận không còn cap Damage Up cũ. `git diff --check` đạt. Không chạy Unity compile, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần compile và Play Mode trong Unity; kiểm tra tuning, reset/pause, Rapid Fire, Multi Shot, Drone damage kế thừa và Damage Up tăng/hiển thị. DIFF-01 vẫn PARTIAL.
+- **Tiếp theo:** Gán `Player > WeaponController > Base Fire Interval Multiplier = 1.10` và `Player > PlayerController > Movement Multiplier While Firing = 0.90` nếu giá trị mặc định chưa hiện; chạy checklist DIFF-01 trong Play Mode.
+
 ## 2026-10-19 15:48 +07:00 — SHIELD-ANIM-01: Chốt xác minh hoạt ảnh Shield
 
 - **Trạng thái:** DONE

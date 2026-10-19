@@ -78,6 +78,11 @@ namespace SpaceExplorer.Asteroids
 
         public Asteroid TrySpawn(AsteroidSize size, Vector3 position)
         {
+            return TrySpawn(size, position, 1f);
+        }
+
+        public Asteroid TrySpawn(AsteroidSize size, Vector3 position, float speedMultiplier)
+        {
             if (!IsReady)
                 return null;
 
@@ -86,7 +91,7 @@ namespace SpaceExplorer.Asteroids
             if (asteroid == null)
                 return null;
 
-            asteroid.BeginRun(this, _camera, size);
+            asteroid.BeginRun(this, _camera, size, speedMultiplier);
             return asteroid;
         }
 

@@ -26,14 +26,15 @@ SCENE-02 implementation note (PARTIAL): `EndGamePresenter` reads the persistent 
 - Clamp the Player's existing `Collider2D.bounds` to the full visible camera area; account for the collider bounds center offset from the Rigidbody2D position. Keep the complete collider inside the camera on both axes.
 - Prefer Rigidbody2D with interpolation.
 - Suggested tuning: speed `6.5–8`, acceleration `18–26`, deceleration `22–32`.
+- While Space is held to fire, reduce Player movement target speed to 90% of its configured base; restore immediately on release. Read the existing weapon input state and do not mutate the base movement setting. **DIFF-01 DONE:** owner-confirmed Unity Play Mode verification passed.
 
 ## P4 — Shooting & Bullet Pool
 
 - Hold Space to auto-fire right.
-- Base: 1 bullet, damage 1. The current serialized firing interval is a tuning starting point; increase it slightly to reduce the current firing rate, then approve the final value in Play Mode.
+- Base: 1 bullet, damage 1. Keep the serialized Gameplay interval (`0.35s`) and apply the approved 1.10 base-interval multiplier, yielding `0.385s` before Rapid Fire. Rapid Fire continues to subtract `0.04s` per level to a `0.14s` floor. **DIFF-01 DONE:** owner-confirmed Unity Play Mode verification passed.
 - Multi Shot uses symmetric spread.
-- Keep the configured base firing interval; Rapid Fire reduces it by `0.04s` per upgrade to a minimum of `0.14s`.
-- Damage Up adds 1 damage per projectile, to a maximum of 5 damage.
+- Preserve the configured base interval; Rapid Fire reduces the effective interval by `0.04s` per upgrade to a minimum of `0.14s`.
+- Damage Up adds 1 damage per projectile with no gameplay-level cap; reset to base damage 1 on a new run and handle damage values without integer wraparound.
 - Bullets use Object Pooling.
 - Return Bullet on hit, off-screen right, or lifetime expiry.
 - Player and Drone share the same Bullet pool when possible.
@@ -58,7 +59,7 @@ On death: Score -> Star drop -> optional effect -> return to pool.
 
 If off-screen left: return to pool with no penalty.
 
-The owner reports current encounter pacing is too fast. Reduce initial asteroid speed and/or spawn pressure slightly, retain Small/Large distinctions and spawn variation, and tune in Unity; do not treat an unverified exact balance value as final. HP damage defaults are Small `1` and Large `3`, Inspector-configurable and owner-approved.
+DIFF-01 approved starting balance and progression: apply an initial `0.8` speed multiplier and `0.75` spawn-frequency multiplier to the existing configured values (the current Gameplay interval `1.8s` therefore starts at `2.4s`; current Small speed `3–4` starts at `2.4–3.2`, and Large speed `2–2.5` starts at `1.6–2.0`). Every 30 seconds of active Playing time, add `0.05` to the speed multiplier and `0.08` to the spawn-frequency multiplier relative to this balanced baseline; cap those progression multipliers at `1.6` and `2.0`. The effective spawn interval is the configured interval divided by `0.75 * frequencyProgression`; it bottoms at `0.9s` with the current `1.8s` setting. Pause time does not count, new runs reset progression, and speed scaling applies only to asteroids spawned afterward. Keep asteroid-to-asteroid physical interactions enabled as approved by the owner. **DIFF-01 DONE:** the project owner confirmed all ten Unity Play Mode acceptance checks. This is manual owner verification, not an automated test or build result. HP damage defaults remain Small `1` and Large `3`, Inspector-configurable and owner-approved.
 
 ## P6 — Stars
 
@@ -105,7 +106,7 @@ Concrete upgrade definitions and ownership:
 
 - **Multi Shot (UPG-02)** — each selection adds one projectile per volley with symmetric spread; maximum 5 projectiles including the base projectile.
 - **Rapid Fire (UPG-02)** — each selection reduces the configured firing interval by `0.04s`; minimum `0.14s`. Exclude when another reduction cannot improve the interval.
-- **Damage Up (UPG-02)** — each selection adds 1 damage per projectile; maximum 5 damage, from base damage 1.
+- **Damage Up (UPG-02; unlimited rule implemented under DIFF-01)** — each successful selection adds 1 damage per projectile, starting at base damage 1, with no gameplay-level level cap. Damage resets on a new run; runtime values use arbitrary-precision integers to avoid overflow/wraparound. Current damage remains displayed by the existing BuildStatusHUD. The project owner confirmed DIFF-01 in Unity Play Mode; no automated test/build is implied.
 - **Drone Wing (UPG-03)** — each selection adds one follow-and-fire Drone; maximum 2. Drones fire right using the shared Bullet pool and inherit Damage Up only, not Multi Shot or Rapid Fire.
 - **Energy Shield (UPG-04)** — absorbs one Player-Asteroid collision, then reactivates automatically after cooldown. Upgrade levels use cooldowns `12s`, `9s`, and `6s`. Upgrading during cooldown does not change the current timer; the new level applies to the next cycle.
 - **Star Magnet (UPG-05)** — smoothly attracts Stars within radii of `3`, `4`, and `5` world units at levels 1–3; exclude at level 3. Stars must never teleport to the Player.
@@ -124,7 +125,7 @@ EndGame receives:
 - Level reached
 - Survival Time
 
-Sector increases over run time. Implement gradual difficulty scaling and tune its pacing so pressure does not become overwhelming immediately.
+Sector increases over run time (Sector presentation remains separate UI work). DIFF-01 implements approved gradual asteroid difficulty scaling based on active Playing time: balanced speed progression is `1.0 + 0.05 * floor(activeSeconds / 30)`, capped at `1.6`; balanced spawn-frequency progression is `1.0 + 0.08 * floor(activeSeconds / 30)`, capped at `2.0`. Starting values apply `0.8` speed and `0.75` spawn-frequency multipliers to existing configured asteroid values. Pause/menu/finished time is excluded; each new run resets progression. Only newly spawned asteroids receive the current speed multiplier. Retain asteroid-to-asteroid physical collisions.
 
 Difficulty may scale:
 
@@ -133,7 +134,7 @@ Difficulty may scale:
 - speed
 - Large Asteroid probability
 
-Use a reasonable spawn-interval floor. Existing values may be used as tuning references, not as verified final balance; test initial spawn pressure, movement speed, and later Sector escalation in Unity.
+The effective spawn interval is the existing configured base interval divided by `0.75 * spawnFrequencyProgression`; with the current `1.8s` serialized interval, it starts at `2.4s` and bottoms at `0.9s` when the relative progression reaches `2.0`. The initial Small/Large speed ranges are reduced by 20% from their existing prefab ranges. **DIFF-01 is DONE** by owner-confirmed Unity Play Mode verification of all ten acceptance checks.
 
 A new run resets all run-scoped state.
 

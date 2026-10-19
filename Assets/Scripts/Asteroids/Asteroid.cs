@@ -1,3 +1,4 @@
+using BigInteger = System.Numerics.BigInteger;
 using UnityEngine;
 using SpaceExplorer.Core.Pooling;
 
@@ -40,6 +41,11 @@ namespace SpaceExplorer.Asteroids
 
         public void BeginRun(AsteroidPool owner, Camera camera, AsteroidSize size)
         {
+            BeginRun(owner, camera, size, 1f);
+        }
+
+        public void BeginRun(AsteroidPool owner, Camera camera, AsteroidSize size, float speedMultiplier)
+        {
             if (!_isInUse || owner == null || camera == null || !camera.orthographic)
             {
                 if (owner != null)
@@ -58,16 +64,21 @@ namespace SpaceExplorer.Asteroids
             rotation *= Random.value < 0.5f ? -1f : 1f;
 
             _rigidbody.position = transform.position;
-            _rigidbody.linearVelocity = new Vector2(-speed, drift);
+            _rigidbody.linearVelocity = new Vector2(-speed * Mathf.Max(0f, speedMultiplier), drift);
             _rigidbody.angularVelocity = rotation;
         }
 
         public void TakeDamage(int amount)
         {
-            if (!_isInUse || amount <= 0)
+            TakeDamage(new BigInteger(amount));
+        }
+
+        public void TakeDamage(BigInteger amount)
+        {
+            if (!_isInUse || amount <= BigInteger.Zero)
                 return;
 
-            _currentHealth = Mathf.Max(0, _currentHealth - amount);
+            _currentHealth = amount >= _currentHealth ? 0 : _currentHealth - (int)amount;
             if (_currentHealth == 0)
             {
                 _owner?.OnAsteroidDestroyed(_size, transform.position);

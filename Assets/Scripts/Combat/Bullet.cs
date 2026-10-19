@@ -1,3 +1,4 @@
+using BigInteger = System.Numerics.BigInteger;
 using UnityEngine;
 using SpaceExplorer.Core.Pooling;
 using SpaceExplorer.Asteroids;
@@ -16,6 +17,7 @@ namespace SpaceExplorer.Combat
         private BulletPool _owner;
         private Camera _camera;
         private int _configuredDamage;
+        private BigInteger _damageValue;
         private float _remainingLifetime;
         private bool _isInUse;
 
@@ -50,10 +52,15 @@ namespace SpaceExplorer.Combat
 
         public void Launch(BulletPool owner, Camera camera, Vector2 direction)
         {
-            Launch(owner, camera, direction, _damage);
+            Launch(owner, camera, direction, new BigInteger(_configuredDamage));
         }
 
         public void Launch(BulletPool owner, Camera camera, Vector2 direction, int damage)
+        {
+            Launch(owner, camera, direction, new BigInteger(damage));
+        }
+
+        public void Launch(BulletPool owner, Camera camera, Vector2 direction, BigInteger damage)
         {
             if (!_isInUse || owner == null || camera == null)
             {
@@ -64,7 +71,7 @@ namespace SpaceExplorer.Combat
 
             _owner = owner;
             _camera = camera;
-            _damage = Mathf.Max(1, damage);
+            _damageValue = BigInteger.Max(BigInteger.One, damage);
             _remainingLifetime = _maxLifetime;
             _rigidbody.position = transform.position;
             if (direction.sqrMagnitude < 0.0001f)
@@ -81,7 +88,7 @@ namespace SpaceExplorer.Combat
             _camera = null;
             _remainingLifetime = _maxLifetime;
             _isInUse = true;
-            _damage = _configuredDamage;
+            _damageValue = new BigInteger(_configuredDamage);
             _rigidbody.linearVelocity = Vector2.zero;
             _rigidbody.angularVelocity = 0f;
         }
@@ -92,7 +99,7 @@ namespace SpaceExplorer.Combat
             _owner = null;
             _camera = null;
             _remainingLifetime = 0f;
-            _damage = _configuredDamage;
+            _damageValue = new BigInteger(_configuredDamage);
             if (_rigidbody != null)
             {
                 _rigidbody.linearVelocity = Vector2.zero;
@@ -121,7 +128,7 @@ namespace SpaceExplorer.Combat
             // Mark consumed before applying damage so additional trigger callbacks are ignored.
             BulletPool owner = _owner;
             _isInUse = false;
-            asteroid.TakeDamage(_damage);
+            asteroid.TakeDamage(_damageValue);
             owner.Release(this);
         }
 

@@ -1,3 +1,4 @@
+using SpaceExplorer.Combat;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ namespace SpaceExplorer.Player
         [SerializeField, Min(0.01f)] private float _moveSpeed = 7f;
         [SerializeField, Min(0.01f)] private float _acceleration = 22f;
         [SerializeField, Min(0.01f)] private float _deceleration = 27f;
+        [SerializeField, Range(0f, 1f)] private float _movementMultiplierWhileFiring = 0.9f;
 
         [Header("References")]
         [SerializeField] private InputActionAsset _inputActions;
@@ -17,6 +19,7 @@ namespace SpaceExplorer.Player
 
         private Rigidbody2D _rigidbody;
         private Collider2D _playerCollider;
+        private WeaponController _weaponController;
         private InputAction _moveAction;
         private Vector2 _moveInput;
         private Vector2 _velocity;
@@ -25,6 +28,7 @@ namespace SpaceExplorer.Player
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _playerCollider = GetComponent<Collider2D>();
+            _weaponController = GetComponent<WeaponController>();
             _rigidbody.gravityScale = 0f;
             _rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
             _rigidbody.constraints |= RigidbodyConstraints2D.FreezeRotation;
@@ -91,7 +95,10 @@ namespace SpaceExplorer.Player
                 return;
 
             float deltaTime = Time.fixedDeltaTime;
-            Vector2 targetVelocity = _moveInput * _moveSpeed;
+            float movementSpeed = _moveSpeed;
+            if (_weaponController != null && _weaponController.IsFireHeld)
+                movementSpeed *= _movementMultiplierWhileFiring;
+            Vector2 targetVelocity = _moveInput * movementSpeed;
             float rate = _moveInput.sqrMagnitude > 0f ? _acceleration : _deceleration;
             _velocity = Vector2.MoveTowards(_velocity, targetVelocity, rate * deltaTime);
 

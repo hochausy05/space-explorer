@@ -1,4 +1,5 @@
 using System;
+using BigInteger = System.Numerics.BigInteger;
 using SpaceExplorer.Core.Pooling;
 using UnityEngine;
 
@@ -52,7 +53,7 @@ namespace SpaceExplorer.Combat
 
         public bool TrySpawn(Vector3 position)
         {
-            return TrySpawn(position, Vector2.right, hasDamageOverride: false, damage: 0);
+            return TrySpawn(position, Vector2.right, BigInteger.Zero, hasDamageOverride: false);
         }
 
         public bool TrySpawn(Vector3 position, Vector2 direction, int damage)
@@ -60,10 +61,18 @@ namespace SpaceExplorer.Combat
             if (damage < 1)
                 return false;
 
-            return TrySpawn(position, direction, true, damage);
+            return TrySpawn(position, direction, new BigInteger(damage));
         }
 
-        private bool TrySpawn(Vector3 position, Vector2 direction, bool hasDamageOverride, int damage)
+        public bool TrySpawn(Vector3 position, Vector2 direction, BigInteger damage)
+        {
+            if (damage < BigInteger.One)
+                return false;
+
+            return TrySpawn(position, direction, damage, hasDamageOverride: true);
+        }
+
+        private bool TrySpawn(Vector3 position, Vector2 direction, BigInteger damage, bool hasDamageOverride)
         {
             if (_pool == null || _camera == null)
                 return false;

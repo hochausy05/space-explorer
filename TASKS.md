@@ -8,7 +8,7 @@ One prompt = one task by default.
 
 ## Current
 
-**NEXT:** `DIFF-01`
+**NEXT:** `UI-01`
 
 ## Foundation
 
@@ -35,7 +35,7 @@ One prompt = one task by default.
 
 - [x] **PROG-01** — Configurable Star XP thresholds, level progression, overflow, and new-run reset. **DONE** · `Depends: STAR-01` · `Reads: P6,P7`.
 - [x] **UPG-01** — Upgrade definition/registration contract; queue `StarXPCollector` level-up events and show one sequential panel with up to 3 distinct registered, implemented, eligible choices; filter capped/ineligible options; apply the selected effect exactly once; safely dismiss requests with no eligible choices without an empty panel or permanent pause; own/release only its pause request, clear pending choices on Game Over, reset run-specific upgrade state, and resume only when allowed by `GameManager`. Resolve the authoritative persistent `GameManager` at runtime; do not rely on a serialized scene reference. Test UI display/selection with mock definitions only in an isolated harness or Unity test assembly; never register mocks, fake choices, placeholders, or empty handlers in production. Choice Buttons must not have conflicting serialized Inspector `On Click()` handlers. Wire the Gameplay UI and verify sequential level-ups, single application, capped/empty choices, Game Over while open, and new-run reset. **DONE** — Gameplay wiring and required UPG-01 flow manually verified by the project owner in Unity Play Mode; no concrete upgrade effects were part of this verification. `Depends: STAR-01,PROG-01` · `Reads: P6,P7,P9,P12,P13`.
-- [x] **UPG-02** — Implement Multi Shot (one additional symmetric projectile per selection, cap 5 including base), Rapid Fire (-0.04s per selection, minimum 0.14s, preserve configured base interval), and Damage Up (+1 damage per projectile, cap 5 from base 1), including eligibility and visible effects. **DONE** — the project owner manually verified all three upgrades in Unity. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
+- [x] **UPG-02** — Implement Multi Shot (one additional symmetric projectile per selection, cap 5 including base), Rapid Fire (-0.04s per selection, minimum 0.14s, preserve configured base interval), and Damage Up (+1 damage per projectile with no gameplay-level cap), including eligibility and visible effects. **DONE** — original upgrade behavior was manually verified earlier; the owner later confirmed unlimited Damage Up under DIFF-01 in Unity Play Mode. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
 - [x] **UPG-RANDOM-01** — Uniformly sample up to three distinct eligible upgrades without replacement; show all when three or fewer are eligible; avoid the same unordered ID set in consecutive rounds whenever multiple valid sets exist; recalculate for queued levels and reset tracking on run start/finish. **DONE** — the project owner confirmed successful Unity Play Mode verification. This is a follow-up behavior and was not part of the initial UPG-01 implementation. `Depends: UPG-01` · `Reads: P7`.
 - [x] **UPG-03** — Add one follow-and-fire Drone per selection, maximum 2; fire right through shared Bullet pool; inherit Damage Up only, not Multi Shot or Rapid Fire. **DONE** — the project owner confirmed successful Unity Play Mode verification. `Depends: UPG-01,COMBAT-01` · `Reads: P4,P7,P12`.
 - [x] **UPG-03-VISUAL-01** — Allow a dedicated right-facing Drone Wing sprite while preserving Player-sprite fallback, configurable size, tint, and sorting. **DONE** — the project owner confirmed the dedicated sprite, fallback, formation spacing, follow movement, and firing in Unity Play Mode. `Depends: UPG-03` · `Reads: P7,P12`.
@@ -54,9 +54,9 @@ One prompt = one task by default.
 
 ## Stage 2 — Difficulty and Combat Balancing
 
-- [ ] **DIFF-01** — Increase Sector over run time and gradually scale difficulty with a reasonable spawn-interval floor. Tune initial spawn pressure and Asteroid movement to be slightly less aggressive while retaining type distinctions and variation; exact final balance values require Play Mode tuning. `Depends: AST-02` · `Reads: P5,P8`.
-- [ ] **WEAPON-PACING-01** — Slightly increase the existing serialized base firing interval to reduce firing rate; preserve hold-to-fire, pooling, and Multi Shot/Rapid Fire behavior. Choose the final interval through Play Mode tuning rather than inventing a fixed value here. `Depends: COMBAT-01,UPG-02` · `Reads: P4,P7`.
-- [ ] **FIRE-MOVE-PENALTY-01** — Reduce Player movement speed by 10% while the Player holds fire and restore it on release; apply once while held, not per projectile. Drone firing does not affect Player movement. `Depends: PLAYER-01,COMBAT-01` · `Reads: P3,P4`.
+- [x] **DIFF-01** — Reduce initial asteroid speed by 20% and spawn frequency by 25%; every 30 active gameplay seconds add +5% speed and +8% spawn frequency relative to the balanced baseline, capped at 1.6x/2.0x. Apply speed only to newly spawned asteroids, pause/reset progression with the run lifecycle, and retain asteroid-to-asteroid physical interactions. Reduce Player movement to 90% while Space is held, make the current base firing interval 10% longer while preserving Rapid Fire's -0.04s step and 0.14s floor, and make Damage Up unlimited at +1 damage per successful choice with accurate display/reset. **DONE** — all 10 acceptance checks were confirmed by the project owner in Unity Play Mode. `Depends: AST-02,COMBAT-01,UPG-02,PLAYER-01` · `Reads: P3,P4,P5,P7,P8,P12`.
+- [x] **WEAPON-PACING-01** — Increase the base firing interval by 10% while preserving hold-to-fire, pooling, Multi Shot, Rapid Fire's 0.04s reduction, and the 0.14s floor. **DONE as part of DIFF-01**, covered by the owner's Play Mode confirmation. `Depends: COMBAT-01,UPG-02` · `Reads: P4,P7`.
+- [x] **FIRE-MOVE-PENALTY-01** — Reduce Player movement speed by 10% while Space is held and restore it on release using WeaponController's fire-action state. **DONE as part of DIFF-01**, covered by the owner's Play Mode confirmation. `Depends: PLAYER-01,COMBAT-01` · `Reads: P3,P4`.
 
 ## Stage 3 — Required Gameplay UI and Scenes
 

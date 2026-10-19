@@ -1,4 +1,5 @@
 using System;
+using BigInteger = System.Numerics.BigInteger;
 using SpaceExplorer.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,13 +11,13 @@ namespace SpaceExplorer.Combat
         private const int BaseProjectileCount = 1;
         private const int MaximumProjectileCount = 5;
         private const int BaseProjectileDamage = 1;
-        private const int MaximumProjectileDamage = 5;
         private const float RapidFireReduction = 0.04f;
         private const float MinimumFireInterval = 0.14f;
         private const float RapidFireComparisonTolerance = 0.0001f;
 
         [Header("Weapon")]
         [SerializeField, Min(0.05f)] private float _fireInterval = 0.35f;
+        [SerializeField, Min(0.01f)] private float _baseFireIntervalMultiplier = 1.1f;
         [SerializeField, Min(0f)] private float _muzzleOffset = 0.65f;
         [SerializeField, Min(0f)] private float _multiShotAngleStepDegrees = 15f;
 
@@ -27,19 +28,21 @@ namespace SpaceExplorer.Combat
         private InputAction _fireAction;
         private double _nextFireTime;
         private int _projectilesPerVolley = BaseProjectileCount;
-        private int _damagePerProjectile = BaseProjectileDamage;
+        private BigInteger _damagePerProjectile = BaseProjectileDamage;
         private int _rapidFireUpgradeCount;
         private bool _runStartedSubscribed;
 
         public event Action StatsChanged;
 
         public int ProjectilesPerVolley => _projectilesPerVolley;
-        public int DamagePerProjectile => _damagePerProjectile;
-        public float BaseFireInterval => _fireInterval;
+        public BigInteger DamagePerProjectile => _damagePerProjectile;
+        public BigInteger DamageUpgradeLevel => _damagePerProjectile - BaseProjectileDamage;
+        public float BaseFireInterval => _fireInterval * _baseFireIntervalMultiplier;
         public BulletPool SharedBulletPool => _bulletPool;
+        public bool IsFireHeld => _fireAction != null && _fireAction.IsPressed();
         public float EffectiveFireInterval => _rapidFireUpgradeCount == 0
-            ? _fireInterval
-            : Mathf.Max(_fireInterval - RapidFireReduction * _rapidFireUpgradeCount, MinimumFireInterval);
+            ? BaseFireInterval
+            : Mathf.Max(BaseFireInterval - RapidFireReduction * _rapidFireUpgradeCount, MinimumFireInterval);
         public bool CanUpgradeMultiShot => _projectilesPerVolley < MaximumProjectileCount;
         public bool CanUpgradeRapidFire
         {
@@ -47,12 +50,12 @@ namespace SpaceExplorer.Combat
             {
                 float currentInterval = EffectiveFireInterval;
                 float nextInterval = Mathf.Max(
-                    _fireInterval - RapidFireReduction * (_rapidFireUpgradeCount + 1),
+                    BaseFireInterval - RapidFireReduction * (_rapidFireUpgradeCount + 1),
                     MinimumFireInterval);
                 return nextInterval < currentInterval - RapidFireComparisonTolerance;
             }
         }
-        public bool CanUpgradeDamage => _damagePerProjectile < MaximumProjectileDamage;
+        public bool CanUpgradeDamage => true;
 
         private void Awake()
         {
@@ -145,7 +148,7 @@ namespace SpaceExplorer.Combat
             if (!CanUpgradeDamage)
                 return false;
 
-            _damagePerProjectile++;
+            _damagePerProjectile += BigInteger.One;
             StatsChanged?.Invoke();
             return true;
         }

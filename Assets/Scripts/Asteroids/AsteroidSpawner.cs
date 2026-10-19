@@ -11,11 +11,21 @@ namespace SpaceExplorer.Asteroids
 
         [Header("Spawn Settings")]
         [SerializeField, Min(0.75f)] private float _spawnInterval = 1.8f;
+        [SerializeField, Min(0.01f)] private float _initialAsteroidSpeedMultiplier = 0.8f;
+        [SerializeField, Range(0.01f, 1f)] private float _initialSpawnFrequencyMultiplier = 0.75f;
+        [SerializeField, Min(0.01f)] private float _difficultyStepSeconds = 30f;
+        [SerializeField, Min(0f)] private float _speedMultiplierIncreasePerStep = 0.05f;
+        [SerializeField, Min(0f)] private float _frequencyMultiplierIncreasePerStep = 0.08f;
+        [SerializeField, Min(1f)] private float _maximumSpeedMultiplier = 1.6f;
+        [SerializeField, Min(1f)] private float _maximumFrequencyMultiplier = 2f;
         [SerializeField, Range(0f, 1f)] private float _largeAsteroidProbability = 0.2f;
         [SerializeField, Min(0f)] private float _verticalInset = 0.8f;
         [SerializeField, Min(0f)] private float _rightEdgeOffset = 0.5f;
 
         private float _timeUntilNextSpawn;
+        private double _activeGameplayElapsed;
+        private bool _runTimerInitialized;
+        private bool _runStartedSubscribed;
         private bool _configurationErrorReported;
 
         private void Awake()
@@ -57,7 +67,27 @@ namespace SpaceExplorer.Asteroids
                 return;
             }
 
-            _timeUntilNextSpawn = _spawnInterval;
+            GameManager manager = GameManager.Instance;
+            if (manager != null && manager.State == RunState.Playing && !_runTimerInitialized)
+                ResetDifficultyForNewRun();
+        }
+
+        private void OnEnable()
+        {
+            if (!_runStartedSubscribed)
+            {
+                GameManager.RunStarted += ResetDifficultyForNewRun;
+                _runStartedSubscribed = true;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_runStartedSubscribed)
+            {
+                GameManager.RunStarted -= ResetDifficultyForNewRun;
+                _runStartedSubscribed = false;
+            }
         }
 
         private void Update()
@@ -71,12 +101,13 @@ namespace SpaceExplorer.Asteroids
             if (!IsRunActive())
                 return;
 
+            _activeGameplayElapsed += Time.deltaTime;
             _timeUntilNextSpawn -= Time.deltaTime;
             if (_timeUntilNextSpawn > 0f)
                 return;
 
             // Skip catch-up bursts after a hitch; pool capacity remains the active-object limit.
-            _timeUntilNextSpawn = _spawnInterval;
+            _timeUntilNextSpawn = GetCurrentSpawnInterval();
             SpawnOne();
         }
 
@@ -106,7 +137,45 @@ namespace SpaceExplorer.Asteroids
                 _pool.transform.position.z);
 
             // A full pool is an expected limit; the next interval will retry without logging each time.
-            _pool.TrySpawn(size, spawnPosition);
+            _pool.TrySpawn(size, spawnPosition, GetCurrentAsteroidSpeedMultiplier());
+        }
+
+        private void ResetDifficultyForNewRun()
+        {
+            _activeGameplayElapsed = 0d;
+            _timeUntilNextSpawn = GetCurrentSpawnInterval();
+            _runTimerInitialized = true;
+        }
+
+        private int GetDifficultyStep()
+        {
+            if (_difficultyStepSeconds <= 0f)
+                return 0;
+
+            double steps = System.Math.Floor(_activeGameplayElapsed / _difficultyStepSeconds);
+            double speedSteps = _speedMultiplierIncreasePerStep > 0f
+                ? (_maximumSpeedMultiplier - 1f) / _speedMultiplierIncreasePerStep
+                : 0d;
+            double frequencySteps = _frequencyMultiplierIncreasePerStep > 0f
+                ? (_maximumFrequencyMultiplier - 1f) / _frequencyMultiplierIncreasePerStep
+                : 0d;
+            double maximumSteps = System.Math.Ceiling(System.Math.Max(speedSteps, frequencySteps));
+            return (int)System.Math.Min(System.Math.Min(steps, maximumSteps), int.MaxValue);
+        }
+
+        private float GetCurrentAsteroidSpeedMultiplier()
+        {
+            return _initialAsteroidSpeedMultiplier * Mathf.Min(
+                1f + GetDifficultyStep() * _speedMultiplierIncreasePerStep,
+                _maximumSpeedMultiplier);
+        }
+
+        private float GetCurrentSpawnInterval()
+        {
+            float frequencyMultiplier = _initialSpawnFrequencyMultiplier * Mathf.Min(
+                1f + GetDifficultyStep() * _frequencyMultiplierIncreasePerStep,
+                _maximumFrequencyMultiplier);
+            return _spawnInterval / Mathf.Max(0.01f, frequencyMultiplier);
         }
 
         private static bool IsValidCamera(Camera camera)
