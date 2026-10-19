@@ -20,7 +20,6 @@ namespace SpaceExplorer.Player
         private InputAction _moveAction;
         private Vector2 _moveInput;
         private Vector2 _velocity;
-        private bool _boundsErrorLogged;
 
         private void Awake()
         {
@@ -118,23 +117,21 @@ namespace SpaceExplorer.Player
             float halfWidth = halfHeight * _camera.aspect;
             Vector3 cameraPosition = _camera.transform.position;
 
-            // The right edge of the allowed area is the screen midpoint, keeping play on the left half.
-            minimum = new Vector2(cameraPosition.x - halfWidth + extents.x - colliderOffset.x,
-                                  cameraPosition.y - halfHeight + extents.y - colliderOffset.y);
-            maximum = new Vector2(cameraPosition.x - extents.x - colliderOffset.x,
-                                  cameraPosition.y + halfHeight - extents.y - colliderOffset.y);
+            // Recalculate every physics step so camera or viewport size changes are reflected.
+            float minimumX = cameraPosition.x - halfWidth + extents.x - colliderOffset.x;
+            float maximumX = cameraPosition.x + halfWidth - extents.x - colliderOffset.x;
+            float minimumY = cameraPosition.y - halfHeight + extents.y - colliderOffset.y;
+            float maximumY = cameraPosition.y + halfHeight - extents.y - colliderOffset.y;
 
-            if (minimum.x <= maximum.x && minimum.y <= maximum.y)
-                return true;
+            // If the viewport is smaller than the collider, center the collider on that axis.
+            if (minimumX > maximumX)
+                minimumX = maximumX = cameraPosition.x - colliderOffset.x;
+            if (minimumY > maximumY)
+                minimumY = maximumY = cameraPosition.y - colliderOffset.y;
 
-            if (!_boundsErrorLogged)
-            {
-                Debug.LogError("Player collider bounds do not fit inside the camera's movement area.", this);
-                _boundsErrorLogged = true;
-            }
-
-            _velocity = Vector2.zero;
-            return false;
+            minimum = new Vector2(minimumX, minimumY);
+            maximum = new Vector2(maximumX, maximumY);
+            return true;
         }
 
         private void FailConfiguration(string message)

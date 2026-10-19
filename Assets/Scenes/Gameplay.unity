@@ -375,6 +375,7 @@ RectTransform:
   m_Children:
   - {fileID: 940599332}
   - {fileID: 1592504189}
+  - {fileID: 874080823}
   - {fileID: 2113451936}
   - {fileID: 1963080832}
   - {fileID: 279121301}
@@ -398,9 +399,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpaceExplorer.UI.ProgressionHUD
   _collector: {fileID: 1726389177}
+  _playerHealth: {fileID: 1726389184}
   _levelLabel: {fileID: 940599333}
   _xpLabel: {fileID: 1592504190}
-  _progressFill: {fileID: 975053908}
+  _scoreLabel: {fileID: 874080824}
+  _hpBarFill: {fileID: 975053908}
 --- !u!1 &252178490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1364,6 +1367,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 829019830}
   m_CullTransparentMesh: 1
+--- !u!1 &874080822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 874080823}
+  - component: {fileID: 874080825}
+  - component: {fileID: 874080824}
+  m_Layer: 5
+  m_Name: ScoreText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &874080823
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874080822}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 124977937}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -45}
+  m_SizeDelta: {x: 350, y: 55}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &874080824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874080822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.91764706, g: 0.9843137, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 30
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'SCORE: 0'
+--- !u!222 &874080825
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874080822}
+  m_CullTransparentMesh: 1
 --- !u!1 &940599331
 GameObject:
   m_ObjectHideFlags: 0
@@ -1455,7 +1537,7 @@ GameObject:
   - component: {fileID: 975053909}
   - component: {fileID: 975053908}
   m_Layer: 5
-  m_Name: XPBarFill
+  m_Name: HPBarFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1477,8 +1559,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 280, y: 18}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 275, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &975053908
 MonoBehaviour:
@@ -1500,11 +1582,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 1010e24da8f5f814c97957eed5ae48a5, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -2582,6 +2664,8 @@ GameObject:
   - component: {fileID: 1726389180}
   - component: {fileID: 1726389182}
   - component: {fileID: 1726389183}
+  - component: {fileID: 1726389184}
+  - component: {fileID: 1726389185}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2784,6 +2868,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpaceExplorer.Player.PlayerAsteroidCollisionHandler
   _progression: {fileID: 1726389177}
+  _smallAsteroidDamage: 1
+  _largeAsteroidDamage: 3
+  _smallAsteroidScorePenalty: 5
+  _largeAsteroidScorePenalty: 15
 --- !u!60 &1726389182
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -3033,6 +3121,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpaceExplorer.Upgrades.StarMagnetController
   _attractionSpeed: 5
+--- !u!114 &1726389184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726389171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cdf1ce6d3da16b41bdd7b3a8f72051b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpaceExplorer.Player.PlayerHealth
+--- !u!114 &1726389185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726389171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd26a9baf364fce45881bb795c7241a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpaceExplorer.Player.PlayerAsteroidCollisionHandler
+  _progression: {fileID: 0}
+  _smallAsteroidDamage: 1
+  _largeAsteroidDamage: 3
+  _smallAsteroidScorePenalty: 5
+  _largeAsteroidScorePenalty: 15
 --- !u!1 &1762587734
 GameObject:
   m_ObjectHideFlags: 0
@@ -3812,7 +3929,7 @@ GameObject:
   - component: {fileID: 2113451938}
   - component: {fileID: 2113451937}
   m_Layer: 5
-  m_Name: XPBarBackground
+  m_Name: HPBarBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3835,8 +3952,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -760, y: 400}
-  m_SizeDelta: {x: 280, y: 18}
+  m_AnchoredPosition: {x: -770, y: 400}
+  m_SizeDelta: {x: 300, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2113451937
 MonoBehaviour:
@@ -3858,7 +3975,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: fc6c935486ca4c449adcd225109054e0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

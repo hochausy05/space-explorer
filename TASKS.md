@@ -8,7 +8,7 @@ One prompt = one task by default.
 
 ## Current
 
-**NEXT:** `FIX-PLAYER-BOUNDS-01`
+**NEXT:** `HIT-PROTECTION-01`
 
 ## Foundation
 
@@ -45,9 +45,9 @@ One prompt = one task by default.
 
 ## Stage 1 — Core Gameplay Revisions
 
-- [ ] **FIX-PLAYER-BOUNDS-01** — Use Player Collider2D world bounds, including collider-center offset from Rigidbody2D, to clamp movement to the full visible camera on both axes; remove the former left-half restriction. **PARTIAL** — collider-based bounds are integrated and the owner confirms the updated gameplay setup works, but full-screen edge-clamp and weapon firing-reach checks were not specifically confirmed. `Depends: PLAYER-01` · `Reads: P3`.
-- [ ] **PLAYER-HP-01** — Add run-scoped Player health, starting at 10/10 and resetting on each new run; apply configurable damage by Asteroid type. Proposed defaults are Small 1 and Large 3, pending owner approval; do not treat these as final values. `Depends: FIX-PLAYER-BOUNDS-01,AST-01` · `Reads: P5,P9,P12`.
-- [ ] **COLLISION-HP-01** — Resolve each genuine Player-Asteroid impact once. Apply a configurable Score penalty on every impact (including a Shield-absorbed impact), clamp Score at zero, route HP damage through PlayerHealth only when no ready Shield absorbs the impact, and finish at 0 HP through existing GameManager/RunResult/EndGame flow. Penalty value is TBD; do not invent a final balancing value. `Depends: PLAYER-HP-01,GAME-01,SCORE-01,UPG-04` · `Reads: P8,P9,P12`.
+- [x] **FIX-PLAYER-BOUNDS-01** — Use Player Collider2D world bounds, including collider-center offset from Rigidbody2D, to clamp movement to the full visible camera on both axes; remove the former left-half restriction. **DONE** — the project owner confirmed all five movement checks passed in Unity Play Mode. `Depends: PLAYER-01` · `Reads: P3`.
+- [x] **PLAYER-HP-01** — Add run-scoped Player health, starting at 10/10 and resetting on each new run; apply configurable damage by Asteroid type and show HP using only the existing Gameplay XP bar. **DONE** — the project owner confirmed Player HP, asteroid damage, the repurposed HP bar, XP text, and existing gameplay work correctly in Unity Play Mode. `Depends: FIX-PLAYER-BOUNDS-01,AST-01` · `Reads: P5,P9,P12,P13`.
+- [x] **COLLISION-HP-01** — Resolve each genuine Player-Asteroid impact once. Apply configurable Score penalties (Small 5, Large 15) on every impact, including Shield-absorbed impacts; clamp Score at zero; route the existing configurable HP damage (Small 1, Large 3) through PlayerHealth only when no ready Shield absorbs the impact; finish only at 0 HP through existing GameManager/RunResult/EndGame flow. Preserve the existing same-impact duplicate guard; do not implement the separate timed post-hit protection task. **DONE** — the project owner confirmed all COLLISION-HP-01 Unity Play Mode checks passed. `Depends: PLAYER-HP-01,GAME-01,SCORE-01,UPG-04` · `Reads: P8,P9,P12`.
 - [ ] **HIT-PROTECTION-01** — Add a configurable post-hit protection window, with ~1 second only a proposed starting value pending approval. It suppresses repeat HP loss during protection, not the Score penalty for a distinct genuine impact; a ready Shield still absorbs a genuine impact. Continuous overlap and duplicate callbacks must not count as new impacts. `Depends: COLLISION-HP-01` · `Reads: P9`.
 - [ ] **SHIELD-FX-01** — Show a brief cyan-blue circular/hexagonal barrier around the Player on a Shield-absorbed impact, flash then fade. Suggested duration ~0.8 seconds is not final; this effect is visual only and does not change physics or cooldown. `Depends: COLLISION-HP-01,UPG-04` · `Reads: P13`.
 
@@ -61,7 +61,7 @@ One prompt = one task by default.
 
 - [x] **GAME-01** — Existing Player-Asteroid Shield/death integration and EndGame transition. **DONE** — the project owner manually verified the original one-hit completion flow. This completed infrastructure remains the basis for the revised 10 HP flow; type damage, per-impact penalties, and Game Over at 0 HP are planned under Stage 1. `Depends: SCORE-01,UPG-04` · `Reads: P8,P9`.
 - [x] **UI-BUILD-01** — Display-only text panel for Drone count, Shield readiness/cooldown, projectile Damage, effective Player fire interval, and Player volley projectile count; refresh from existing gameplay APIs without modifying gameplay values. **DONE** — the project owner configured BuildStatusPanel in the existing Gameplay Canvas and confirmed stat updates, Shield cooldown, and new-run reset in Unity Play Mode. The text-based design is intentional; no icon conversion is required. `Depends: UPG-02,UPG-03,UPG-04` · `Reads: P7,P12,P13`.
-- [ ] **UI-01** — Gameplay HUD for Score, Level, XP progress, Sector, and Player HP; reuse any existing HP bar rather than adding a duplicate. **PARTIAL** — Level/XP HUD and serialized references exist; layout and contrast still need improvement for readability and unobstructed gameplay, and HP/Sector integration remains to be completed. `Depends: SCORE-01,PROG-01,DIFF-01,PLAYER-HP-01` · `Reads: P13`.
+- [ ] **UI-01** — Gameplay HUD for Score, Level, XP progress, Sector, and Player HP; reuse any existing HP bar rather than adding a duplicate. **PARTIAL** — the project owner confirmed the Score display works in Unity Play Mode through the existing `ProgressionHUD`/`GameManager.ScoreChanged` binding. Remaining HUD requirements include Sector and further layout/readability work. `Depends: SCORE-01,PROG-01,DIFF-01,PLAYER-HP-01` · `Reads: P13`.
 - [ ] **SCENE-01** — MainMenu: Play, Instructions, Quit. `Depends: SETUP-01,ARCH-01` · `Reads: P2`.
 - [ ] **SCENE-02** — EndGame: display final Score, Level reached, and Survival Time; provide Play Again, Main Menu, and Quit actions. **PARTIAL** — added `EndGamePresenter`; attach it to the EndGame Canvas, assign three result labels and three buttons, clear persistent Inspector `On Click()` callbacks, save, and verify in Unity. `Depends: GAME-01` · `Reads: P2,P8`.
 - [ ] **TRANS-01** — Optional short scene fade. `Depends: SCENE-01,SCENE-02` · `Reads: P2,P13`.

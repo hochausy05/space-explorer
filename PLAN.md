@@ -58,7 +58,7 @@ On death: Score -> Star drop -> optional effect -> return to pool.
 
 If off-screen left: return to pool with no penalty.
 
-The owner reports current encounter pacing is too fast. Reduce initial asteroid speed and/or spawn pressure slightly, retain Small/Large distinctions and spawn variation, and tune in Unity; do not treat an unverified exact balance value as final. Proposed HP damage defaults are Small `1` and Large `3`, Inspector-configurable and pending owner approval.
+The owner reports current encounter pacing is too fast. Reduce initial asteroid speed and/or spawn pressure slightly, retain Small/Large distinctions and spawn variation, and tune in Unity; do not treat an unverified exact balance value as final. HP damage defaults are Small `1` and Large `3`, Inspector-configurable and owner-approved.
 
 ## P6 — Stars
 
@@ -137,7 +137,7 @@ Use a reasonable spawn-interval floor. Existing values may be used as tuning ref
 
 A new run resets all run-scoped state.
 
-Preserve current asteroid-destruction Score (`+10` Small, `+30` Large). Add an Inspector-configurable Score penalty for each genuine Player-Asteroid impact, whether or not Shield absorbs it. The penalty value is not finalized; do not allow Score below zero. This intentionally differs from the assignment's collision-deducts/Stars-add-points wording: asteroid destruction continues to award Score, Stars remain XP, and the new impact penalty is planned but not yet implemented.
+Preserve current asteroid-destruction Score (`+10` Small, `+30` Large). Apply an Inspector-configurable Score penalty for each genuine Player-Asteroid impact, whether or not Shield absorbs it: Small `5`, Large `15`. Clamp Score at zero. This intentionally differs from the assignment's collision-deducts/Stars-add-points wording: asteroid destruction continues to award Score, Stars remain XP.
 
 SCORE-01 implementation note (DONE): Existing code awards `+10` for Small and `+30` for Large through the asteroid destruction callback; `GameManager.TryBeginRun()` resets `CurrentScore` and clears `LastResult`. `PlayerAsteroidCollisionHandler` measures run time from `RunStarted` using scaled Unity time and submits the final score, level, and survival time once through `TryFinishRun()`. `RunResult` is an immutable value and `GameManager.LastResult` retains it through the EndGame scene load; the next Gameplay run clears it. The project owner confirmed successful manual Unity verification of the implemented SCORE-01 behavior; this records owner-reported runtime verification, not an automated test or build. EndGame result presentation remains part of SCENE-02.
 
@@ -156,14 +156,16 @@ Player-Asteroid:
 - Start each new run at 10/10 HP.
 - Resolve each genuine impact once and apply one configurable Score penalty (clamp Score at zero); do not treat continuous overlap or duplicate callbacks as new impacts.
 - Ready Shield -> consume one charge, prevent HP damage, and enter the existing cooldown. Keep the current 12/9/6 second level behavior and do not alter cooldown upgrades.
-- Without a ready Shield -> apply the asteroid type's configurable HP damage; proposed starting values are Small `1` and Large `3`, pending owner approval.
+- Without a ready Shield -> apply the asteroid type's configurable HP damage: Small `1`, Large `3` (owner-approved starting values).
 - A proposed, configurable ~1 second post-hit protection window suppresses repeat HP damage only. It does not suppress a distinct impact's one Score penalty; a ready Shield still absorbs a genuine impact while protection is active. Repeated callbacks or continued overlap from the same impact must not cause repeated penalties or Shield consumption.
 - At 0 HP -> finish the run through the existing GameManager/result/EndGame flow, capturing Score, Level, and Survival Time.
 - Shield cooldown levels and upgrade-during-cooldown behavior are defined in P7.
 
 Implementation note (GAME-01 — DONE for its original scope): `PlayerAsteroidCollisionHandler` is integrated with the Player's existing trigger collider, ignores non-Asteroid contacts, consumes one ready Shield charge, and otherwise disables movement/fire, captures score/level/survival time, finishes the run via `GameManager`, then loads `EndGame` through `SceneLoader`. The project owner confirmed successful Unity setup and Play Mode verification of that original one-hit flow; this is manual verification, not an automated test or build result. The revised 10 HP behavior will extend this integration through the planned Stage 1 health and collision tasks.
 
-Score penalty values and proposed damage/protection tuning remain Inspector-configurable and require owner Play Mode approval before being treated as final.
+COLLISION-HP-01 implementation note (DONE): `PlayerAsteroidCollisionHandler` applies the configured 5/15 Score penalty once after its existing same-collider/same-physics-step guard and before trying Shield absorption. A ready Shield therefore prevents HP loss but not the penalty. Unshielded impacts use the existing configured 1/3 HP damage and only finish at zero. `GameManager.TryApplyScorePenalty()` clamps Score to zero and publishes `ScoreChanged`; Score awards, reset, final snapshot, and run ownership remain in GameManager. The project owner confirmed the COLLISION-HP-01 behavior in Unity Play Mode; this is manual owner verification, not an automated test or build result. The timed post-hit protection window remains in HIT-PROTECTION-01 and is not implemented here.
+
+The proposed configurable ~1 second post-hit protection timing remains unapproved and belongs to HIT-PROTECTION-01.
 
 ## P10 — Background
 
@@ -205,7 +207,7 @@ Recommended responsibilities:
 
 - `GameManager` — run state / top-level coordination; sole owner of `Time.timeScale` and pause-request ownership
 - `PlayerController` — input / movement / bounds
-- `PlayerHealth` (planned) — current/max HP, new-run reset, and applying bounded asteroid damage
+- `PlayerHealth` — owns current/max HP, new-run reset, bounded damage, and a health-changed event for display consumers
 - Player-Asteroid collision handler — one resolution per genuine impact, Score penalty, Shield routing, HP damage/protection, and GameManager finish at zero HP
 - `WeaponController` — fire timing / spread / weapon stats
 - `Bullet` — projectile lifecycle

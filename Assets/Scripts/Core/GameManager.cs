@@ -15,6 +15,7 @@ namespace SpaceExplorer.Core
         public int ActivePauseRequestCount => _pauseRequests.Count;
 
         public static event Action RunStarted;
+        public event Action<int> ScoreChanged;
         public event Action<RunResult> RunFinished;
 
         private readonly HashSet<int> _pauseRequests = new HashSet<int>();
@@ -86,6 +87,7 @@ namespace SpaceExplorer.Core
 
             LastResult = null;
             CurrentScore = 0;
+            ScoreChanged?.Invoke(CurrentScore);
             _pauseRequests.Clear();
             _legacyPauseRequest = null;
             State = RunState.Playing;
@@ -101,6 +103,32 @@ namespace SpaceExplorer.Core
                 return false;
 
             CurrentScore += amount;
+            ScoreChanged?.Invoke(CurrentScore);
+            return true;
+        }
+
+        public bool TryApplyScorePenalty(int amount, out string error)
+        {
+            if (State != RunState.Playing && State != RunState.Paused)
+            {
+                error = $"Cannot apply a Score penalty while the game is {State}. A run must be Playing or Paused.";
+                return false;
+            }
+
+            if (amount < 0)
+            {
+                error = "A Score penalty cannot be negative.";
+                return false;
+            }
+
+            int nextScore = Mathf.Max(0, CurrentScore - amount);
+            if (nextScore != CurrentScore)
+            {
+                CurrentScore = nextScore;
+                ScoreChanged?.Invoke(CurrentScore);
+            }
+
+            error = null;
             return true;
         }
 

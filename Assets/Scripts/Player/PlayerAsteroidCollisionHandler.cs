@@ -7,12 +7,17 @@ using UnityEngine;
 
 namespace SpaceExplorer.Player
 {
-    [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(Collider2D), typeof(PlayerHealth))]
     public sealed class PlayerAsteroidCollisionHandler : MonoBehaviour
     {
         [SerializeField] private StarXPCollector _progression;
+        [SerializeField, Min(0)] private int _smallAsteroidDamage = 1;
+        [SerializeField, Min(0)] private int _largeAsteroidDamage = 3;
+        [SerializeField, Min(0)] private int _smallAsteroidScorePenalty = 5;
+        [SerializeField, Min(0)] private int _largeAsteroidScorePenalty = 15;
 
         private Collider2D _playerCollider;
+        private PlayerHealth _playerHealth;
         private PlayerController _playerController;
         private WeaponController _weaponController;
         private EnergyShieldController _energyShield;
@@ -26,6 +31,7 @@ namespace SpaceExplorer.Player
         private void Awake()
         {
             _playerCollider = GetComponent<Collider2D>();
+            _playerHealth = GetComponent<PlayerHealth>();
             _playerController = GetComponent<PlayerController>();
             _weaponController = GetComponent<WeaponController>();
             _energyShield = GetComponent<EnergyShieldController>();
@@ -45,6 +51,12 @@ namespace SpaceExplorer.Player
                 return;
             }
 
+            if (_playerHealth == null)
+            {
+                FailConfiguration("PlayerAsteroidCollisionHandler requires the Player's PlayerHealth component.");
+                return;
+            }
+
             GameManager.RunStarted += HandleRunStarted;
             GameManager manager = GameManager.Instance;
             if (manager != null && (manager.State == RunState.Playing || manager.State == RunState.Paused))
@@ -58,7 +70,7 @@ namespace SpaceExplorer.Player
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (_gameOverStarted || !other.TryGetComponent(out Asteroid _))
+            if (_gameOverStarted || !other.TryGetComponent(out Asteroid asteroid))
                 return;
 
             GameManager manager = GameManager.Instance;
@@ -73,10 +85,25 @@ namespace SpaceExplorer.Player
             _lastCollisionColliderId = colliderId;
             _lastCollisionFixedTime = fixedTime;
 
+            int scorePenalty = asteroid.Size == AsteroidSize.Small
+                ? Mathf.Max(0, _smallAsteroidScorePenalty)
+                : Mathf.Max(0, _largeAsteroidScorePenalty);
+
+            if (!manager.TryApplyScorePenalty(scorePenalty, out string penaltyError))
+            {
+                Debug.LogError($"Player-Asteroid collision could not apply the Score penalty: {penaltyError}", this);
+                return;
+            }
+
             if (_energyShield != null && _energyShield.TryAbsorbAsteroidCollision())
                 return;
 
-            FinishRun(manager);
+            int damage = asteroid.Size == AsteroidSize.Small
+                ? Mathf.Max(0, _smallAsteroidDamage)
+                : Mathf.Max(0, _largeAsteroidDamage);
+
+            if (_playerHealth.ApplyDamage(damage))
+                FinishRun(manager);
         }
 
         private void FinishRun(GameManager manager)

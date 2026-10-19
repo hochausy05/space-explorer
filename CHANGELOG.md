@@ -19,6 +19,69 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-19 13:44 +07:00 — COLLISION-HP-01: Chốt kiểm tra va chạm và Score HUD
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Ghi nhận xác nhận Play Mode của chủ dự án cho COLLISION-HP-01 và phần Score của UI-01.
+- **Thay đổi:** Đánh dấu COLLISION-HP-01 DONE trong TASKS và PLAN. Chủ dự án xác nhận các kiểm tra Unity Play Mode cho va chạm/Score và Score HUD đã đạt. UI-01 vẫn PARTIAL vì các yêu cầu HUD còn lại chưa hoàn thành; đặt `HIT-PROTECTION-01` làm task tiếp theo.
+- **Kiểm tra:** Xác nhận thủ công do chủ dự án báo cáo; không chạy automated test, build hoặc Unity trong lượt tài liệu này. `git diff --check` được chạy.
+- **Chưa kiểm tra / Rủi ro:** Không có kết quả automated test mới. UI-01 còn Sector và công việc bố cục/độ đọc; HIT-PROTECTION-01 chưa triển khai.
+- **Tiếp theo:** `HIT-PROTECTION-01` — post-hit protection window.
+
+## 2026-10-19 13:29 +07:00 — UI-01: Thêm Score vào HUD Gameplay
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm binding chỉ hiển thị Score cho `ScoreText` có sẵn; giữ nguyên HUD Level/XP/HP và logic gameplay.
+- **Thay đổi:** `ProgressionHUD` nhận Legacy UI Text qua Inspector, đọc Score hiện tại từ `GameManager`, đăng ký/hủy đăng ký `ScoreChanged` an toàn và hiển thị `SCORE: 0` khi run mới bắt đầu. Không tạo UI object hoặc sửa scene/prefab.
+- **Kiểm tra:** Rà soát API Score và vòng đời đăng ký event; `git diff --check` trên các file thuộc task đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần gán `ScoreText` hiện có vào trường `Score Label` của `ProgressionHUD`, sau đó kiểm tra +10/+30 khi phá Asteroid, -5/-15 khi va chạm, clamp 0 và reset về 0 trong Play Mode. UI-01 còn thiếu Sector và hoàn thiện bố cục/độ đọc.
+- **Tiếp theo:** Gán Score Text và xác minh cập nhật Score trong Unity Play Mode; giữ `COLLISION-HP-01` PARTIAL đến khi kiểm thử va chạm hoàn tất.
+
+## 2026-10-19 13:09 +07:00 — COLLISION-HP-01: Áp dụng phạt Score theo va chạm
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Ghi nhận xác minh thủ công PLAYER-HP-01 và thêm phạt Score cho va chạm Player-Asteroid; không triển khai thời gian bất tử sau hit.
+- **Thay đổi:** Chủ dự án xác nhận HP, sát thương Asteroid, thanh HP dùng lại, XPText và gameplay hiện có hoạt động trong Unity Play Mode; đánh dấu PLAYER-HP-01 DONE. Va chạm Small/Large áp dụng phạt cấu hình mặc định 5/15 kể cả khi Shield hấp thụ; GameManager chặn Score âm và phát `ScoreChanged`. Giữ sát thương HP 1/3, ưu tiên Shield, và chỉ kết thúc run khi HP về 0.
+- **Kiểm tra:** Rà soát luồng va chạm, khử callback trùng cùng collider/cùng physics step và API Score; `git diff --check` trên các file thuộc task đạt. Không chạy Unity compile hoặc Play Mode trong lượt này.
+- **Chưa kiểm tra / Rủi ro:** Cần kiểm tra thủ công penalty Small/Large, Shield vẫn trừ Score, clamp về 0, va chạm không trừ lặp, HP/Game Over, RunResult cuối, reset run và không phát sinh lỗi Console. Các trường `Small Asteroid Score Penalty`/`Large Asteroid Score Penalty` trên Player handler mặc định 5/15; HP damage giữ 1/3. `HIT-PROTECTION-01` chưa được triển khai.
+- **Tiếp theo:** Kiểm tra `COLLISION-HP-01` trong Unity Play Mode.
+
+## 2026-10-19 12:21 +07:00 — PLAYER-HP-01: Giữ XP text và dùng riêng thanh bar cho HP
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Sửa binding HUD theo yêu cầu: XPText tiếp tục hiển thị XP/threshold, LevelText tiếp tục hiển thị Level; chỉ thanh fill cũ biểu diễn HP.
+- **Thay đổi:** Khôi phục hiển thị `XPIntoCurrentLevel / XPRequiredForNextLevel` từ `StarXPCollector`; fill cập nhật theo `PlayerHealth.CurrentHP / MaxHP` khi HP đổi và khi HUD khởi tạo. Giữ tham chiếu fill serialize cũ bằng `FormerlySerializedAs`; bổ sung alias `MaxHP` tương thích với `MaximumHP`; không tạo HPText/thanh mới, không sửa logic tiến trình hoặc scene/prefab.
+- **Kiểm tra:** Rà soát API và binding; `git diff --check` đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần trong Canvas Gameplay đổi tên `XPBarBackground` thành `HPBarBackground`, `XPBarFill` thành `HPBarFill` và giữ `XPText` nguyên tên. Trong `ProgressionHUD`, gán Player `StarXPCollector` và `PlayerHealth`, LevelText, XPText, và HPBarFill; xác nhận binding cũ được giữ sau Unity recompile. Chạy Play Mode để kiểm tra HP fill, XP text, Level và reset run.
+- **Tiếp theo:** Xác minh HUD HP/XP trong Unity Play Mode để hoàn tất `PLAYER-HP-01`.
+
+## 2026-10-19 12:10 +07:00 — PLAYER-HP-01: Dùng HUD XP hiện có để hiển thị HP
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Chuyển phần trình bày thanh/text XP thành HP, giữ nguyên hệ thống XP và Level.
+- **Thay đổi:** `ProgressionHUD` tiếp tục hiển thị Level từ `StarXPCollector`, đồng thời đọc `PlayerHealth` để hiện `current / maximum HP` và fill thanh theo tỷ lệ. Tham chiếu Text/Image cũ được bảo toàn bằng `FormerlySerializedAs`; component tự tìm `PlayerHealth` trên cùng Player với collector nếu chưa gán. Thiếu nguồn hoặc UI được xử lý an toàn bằng log cấu hình một lần. Không tạo thanh mới, không sửa scene/prefab và không đổi logic XP.
+- **Kiểm tra:** Rà soát nguồn dữ liệu, sự kiện `HealthChanged`, reset run và tương thích tham chiếu serialize; `git diff --check` đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần trong Canvas Gameplay đổi tên `XPBarBackground` thành `HPBarBackground`, `XPBarFill` thành `HPBarFill`, `XPText` thành `HPText`; trong `ProgressionHUD` gán PlayerHealth, HP Text và HP Bar Fill, xác nhận Level Text/StarXPCollector còn đúng. Sau đó kiểm tra hiển thị 10/10, cập nhật sau sát thương, reset run và XP/level-up vẫn hoạt động.
+- **Tiếp theo:** Hoàn tất wiring và xác minh Play Mode cho `PLAYER-HP-01`.
+
+## 2026-10-19 11:56 +07:00 — PLAYER-HP-01: Thêm HP Player và sát thương Asteroid
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Chốt FIX-PLAYER-BOUNDS-01 theo xác nhận Play Mode của chủ dự án và triển khai mô hình HP Player cùng sát thương theo loại Asteroid.
+- **Thay đổi:** Đánh dấu FIX-PLAYER-BOUNDS-01 DONE sau khi chủ dự án xác nhận cả năm kiểm tra di chuyển đạt. Thêm `PlayerHealth` với tối đa 10 HP, reset theo `GameManager.RunStarted`, giới hạn HP trong khoảng 0–10 và phát event `HealthChanged`. `Asteroid` công khai loại Small/Large; collision handler giữ ưu tiên hấp thụ của Shield, nếu không thì trừ mặc định cấu hình được 1 HP với Small hoặc 3 HP với Large và chỉ kết thúc run khi HP về 0. Không thêm phạt Score, bất tử sau hit hoặc VFX.
+- **Kiểm tra:** Rà soát luồng run, Shield, loại Asteroid và kết quả Game Over; `git diff --check` đạt. Play Mode của bounds là xác nhận thủ công từ chủ dự án; không chạy Unity compile hoặc kiểm tra Play Mode cho HP.
+- **Chưa kiểm tra / Rủi ro:** Chưa gắn `PlayerHealth` vào Player trong Gameplay và chưa xác minh runtime HP/UI. Cần thêm component vào Player hiện có; các trường `Small Asteroid Damage` và `Large Asteroid Damage` trên `PlayerAsteroidCollisionHandler` giữ mặc định 1 và 3 hoặc chỉnh trong Inspector. Không sửa scene/prefab.
+- **Tiếp theo:** Hoàn tất wiring và checklist Play Mode cho `PLAYER-HP-01`; sau đó mới tiếp tục `COLLISION-HP-01`.
+
+## 2026-10-19 11:41 +07:00 — FIX-PLAYER-BOUNDS-01: Mở rộng giới hạn di chuyển toàn màn hình
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Bỏ chặn Player ở nửa trái, giữ toàn bộ Collider2D trong camera orthographic.
+- **Thay đổi:** Sửa `PlayerController` để giới hạn X dùng mép trái/phải đầy đủ của camera; tiếp tục tính offset giữa tâm collider và Rigidbody2D trên cả hai trục. Nếu collider lớn hơn vùng nhìn theo một trục, giới hạn trục đó về tâm camera để không tạo khoảng clamp đảo chiều. Giữ nguyên tốc độ, gia tốc, giảm tốc, input và Rigidbody2D.
+- **Kiểm tra:** Rà soát công thức bounds và diff; `git diff --check` đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần kiểm tra thủ công bốn hướng/góc camera, đi từ mép trái tới mép phải không dừng giữa màn hình, collider luôn trong khung, di chuyển chéo, cảm giác gia tốc/giảm tốc và bắn khi đang di chuyển; chưa xác minh lỗi Console.
+- **Tiếp theo:** Chạy checklist Play Mode của `FIX-PLAYER-BOUNDS-01`; không cần thay đổi Inspector.
+
 ## 2026-10-18 20:55 +07:00 — ROADMAP-REVISION-01: Đồng bộ kế hoạch gameplay đã duyệt
 
 - **Trạng thái:** DONE

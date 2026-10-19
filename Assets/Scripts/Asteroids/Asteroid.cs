@@ -27,6 +27,7 @@ namespace SpaceExplorer.Asteroids
 
         public int CurrentHealth => _currentHealth;
         public int MaximumHealth => _maximumHealth;
+        public AsteroidSize Size => _size;
 
         private void Awake()
         {
