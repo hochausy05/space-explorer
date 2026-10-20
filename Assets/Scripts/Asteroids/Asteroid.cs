@@ -23,12 +23,17 @@ namespace SpaceExplorer.Asteroids
         private AsteroidPool _owner;
         private Camera _camera;
         private AsteroidSize _size;
+        private AsteroidKind _kind;
         private int _currentHealth;
+        private int _currentMaximumHealth;
         private bool _isInUse;
 
         public int CurrentHealth => _currentHealth;
-        public int MaximumHealth => _maximumHealth;
+        public int MaximumHealth => _currentMaximumHealth > 0
+            ? _currentMaximumHealth
+            : Mathf.Max(1, _maximumHealth);
         public AsteroidSize Size => _size;
+        public AsteroidKind Kind => _kind;
 
         private void Awake()
         {
@@ -46,6 +51,17 @@ namespace SpaceExplorer.Asteroids
 
         public void BeginRun(AsteroidPool owner, Camera camera, AsteroidSize size, float speedMultiplier)
         {
+            AsteroidKind kind = size == AsteroidSize.Small ? AsteroidKind.Small : AsteroidKind.Large;
+            BeginRun(owner, camera, kind, speedMultiplier, _maximumHealth);
+        }
+
+        public void BeginRun(
+            AsteroidPool owner,
+            Camera camera,
+            AsteroidKind kind,
+            float speedMultiplier,
+            int maximumHealth)
+        {
             if (!_isInUse || owner == null || camera == null || !camera.orthographic)
             {
                 if (owner != null)
@@ -55,11 +71,15 @@ namespace SpaceExplorer.Asteroids
 
             _owner = owner;
             _camera = camera;
-            _size = size;
-            _currentHealth = Mathf.Max(1, _maximumHealth);
+            _kind = kind;
+            _size = kind == AsteroidKind.Large ? AsteroidSize.Large : AsteroidSize.Small;
+            _currentMaximumHealth = Mathf.Max(1, maximumHealth);
+            _currentHealth = _currentMaximumHealth;
 
             float speed = Random.Range(_minimumSpeed, Mathf.Max(_minimumSpeed, _maximumSpeed));
-            float drift = Random.Range(_minimumVerticalDrift, Mathf.Max(_minimumVerticalDrift, _maximumVerticalDrift));
+            float drift = kind == AsteroidKind.Speed
+                ? 0f
+                : Random.Range(_minimumVerticalDrift, Mathf.Max(_minimumVerticalDrift, _maximumVerticalDrift));
             float rotation = Random.Range(_minimumRotationSpeed, Mathf.Max(_minimumRotationSpeed, _maximumRotationSpeed));
             rotation *= Random.value < 0.5f ? -1f : 1f;
 
@@ -81,7 +101,7 @@ namespace SpaceExplorer.Asteroids
             _currentHealth = amount >= _currentHealth ? 0 : _currentHealth - (int)amount;
             if (_currentHealth == 0)
             {
-                _owner?.OnAsteroidDestroyed(_size, transform.position);
+                _owner?.OnAsteroidDestroyed(_kind, transform.position);
                 ReturnToPool();
             }
         }
@@ -92,7 +112,9 @@ namespace SpaceExplorer.Asteroids
             _camera = null;
             _isInUse = true;
             _size = AsteroidSize.Small;
-            _currentHealth = Mathf.Max(1, _maximumHealth);
+            _kind = AsteroidKind.Small;
+            _currentMaximumHealth = Mathf.Max(1, _maximumHealth);
+            _currentHealth = _currentMaximumHealth;
             if (_rigidbody == null)
                 _rigidbody = GetComponent<Rigidbody2D>();
             _rigidbody.linearVelocity = Vector2.zero;
@@ -104,8 +126,10 @@ namespace SpaceExplorer.Asteroids
             _isInUse = false;
             _owner = null;
             _camera = null;
-            _currentHealth = Mathf.Max(1, _maximumHealth);
+            _currentMaximumHealth = Mathf.Max(1, _maximumHealth);
+            _currentHealth = _currentMaximumHealth;
             _size = AsteroidSize.Small;
+            _kind = AsteroidKind.Small;
             if (_rigidbody != null)
             {
                 _rigidbody.linearVelocity = Vector2.zero;

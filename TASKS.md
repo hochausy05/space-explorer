@@ -8,7 +8,7 @@ One prompt = one task by default.
 
 ## Current
 
-**NEXT:** `UI-01`
+**NEXT:** `AST-SPEED-01`
 
 ## Foundation
 
@@ -26,6 +26,8 @@ One prompt = one task by default.
 
 - [x] **AST-01** — Small/Large Asteroid model, HP, movement, rotation, pooling, off-screen recycle. **DONE** · `Depends: ARCH-01` · `Reads: P5,P11`.
 - [x] **AST-02** — Asteroid spawner with controlled spawn randomness. **DONE** · `Depends: AST-01` · `Reads: P5,P8`.
+- [ ] **AST-EVOL-01** — Evolve Small/Large Asteroid maximum HP by 60-second active Gameplay stages (Small 1–6; Large 3–13), assigning health only at spawn from the DIFF-01 elapsed clock and resetting with each run. **PARTIAL** — the owner confirmed ordinary Asteroid HP increases over time in Play Mode; caps, new-run reset, pause behavior, and existing-asteroid HP stability still need verification. Special asteroid variants are outside this phase. `Depends: AST-02,DIFF-01` · `Reads: P5,P8,P11`.
+- [ ] **AST-SPEED-01** — Add the manually testable Speed Special Asteroid: straight-line movement at a random `1.5x–2.0x` of an ordinary Small Asteroid's speed at the same DIFF-01 stage, Small evolution HP, Player hit `5 HP`/`-25 Score`, and destruction reward `+40 Score`/exactly 8 pooled XP Stars. Do not enable automatic Special spawning. **PARTIAL** — code is implemented; prefab/Inspector setup and owner Play Mode verification remain. `Depends: AST-EVOL-01,AST-02,COMBAT-02,PLAYER-HP-01,COLLISION-HP-01,UPG-04,HIT-PROTECTION-01` · `Reads: P5,P8,P9,P11`.
 - [x] **COMBAT-02** — Bullet-Asteroid collision, damage, death path. **DONE** · `Depends: COMBAT-01,AST-01` · `Reads: P4,P5,P9`.
 - [x] **STAR-01** — Star drop, pool, drift, collect, off-screen recycle. **DONE** · `Depends: COMBAT-02` · `Reads: P6,P11`.
 - [x] **SCORE-01** — Score, survival time, clean run reset, result snapshot. **DONE** — the project owner confirmed successful manual Unity verification of the implemented SCORE-01 behavior. The EndGame result UI/display remains scoped to SCENE-02. · `Depends: COMBAT-02` · `Reads: P8`.
@@ -64,7 +66,7 @@ One prompt = one task by default.
 - [x] **UI-BUILD-01** — Display-only text panel for Drone count, Shield readiness/cooldown, projectile Damage, effective Player fire interval, and Player volley projectile count; refresh from existing gameplay APIs without modifying gameplay values. **DONE** — the project owner configured BuildStatusPanel in the existing Gameplay Canvas and confirmed stat updates, Shield cooldown, and new-run reset in Unity Play Mode. The text-based design is intentional; no icon conversion is required. `Depends: UPG-02,UPG-03,UPG-04` · `Reads: P7,P12,P13`.
 - [ ] **UI-01** — Gameplay HUD for Score, Level, XP progress, Sector, and Player HP; reuse any existing HP bar rather than adding a duplicate. **PARTIAL** — the project owner confirmed the Score display works in Unity Play Mode through the existing `ProgressionHUD`/`GameManager.ScoreChanged` binding. Remaining HUD requirements include Sector and further layout/readability work. `Depends: SCORE-01,PROG-01,DIFF-01,PLAYER-HP-01` · `Reads: P13`.
 - [x] **SCENE-01** — MainMenu: Play directly to a fresh Gameplay run; toggle the existing right-side InfoPanel between InstructionsTitle/InstructionsText and RecordsContent; Quit safely in Editor/standalone; persist and display the newest 20 completed runs (Final Score, survival duration, Player Level), newest first, with an empty state. **DONE** — the project owner confirmed SCENE-01 works correctly in Unity Play Mode. Standalone-build Quit behavior remains for final QA. `Depends: SETUP-01,ARCH-01,SCORE-01,GAME-01` · `Reads: P2,P8,P12`.
-- [ ] **SCENE-02** — EndGame: display final Score, Level reached, and Survival Time; provide Play Again, Main Menu, and Quit actions. **PARTIAL** — added `EndGamePresenter`; attach it to the EndGame Canvas, assign three result labels and three buttons, clear persistent Inspector `On Click()` callbacks, save, and verify in Unity. `Depends: GAME-01` · `Reads: P2,P8`.
+- [x] **SCENE-02** — EndGame: display final Score, Level reached, and Survival Time; provide Play Again and Main Menu actions. **DONE** — the project owner confirmed all EndGame functionality and visual layout checks passed in Unity Play Mode. Final layout: GAME OVER logo, Score, Level, Survival Time, Play Again, and Main Menu; Quit was intentionally removed. `EndGamePresenter` validates the three result labels and these two navigation buttons. `Depends: GAME-01` · `Reads: P2,P8`.
 - [ ] **TRANS-01** — Optional short scene fade. `Depends: SCENE-01,SCENE-02` · `Reads: P2,P13`.
 
 ## Stage 4 — World and Polish
@@ -74,6 +76,7 @@ One prompt = one task by default.
 
 ## Stage 5 — QA, Documentation and Submission
 
+- [x] **FIX-UNITY6-EDITOR-API-01** — Replace obsolete Unity 6 `FindFirstObjectByType<T>()` calls in the UPG-01 harness with `FindAnyObjectByType<T>()`; preserve behavior because deterministic instance ordering is not required. **DONE** — both start and stop lookups use any available `UpgradeManager`. `Reads: P12`.
 - [ ] **QA-01** — Performance/lifecycle audit: bounded pools, no off-screen buildup, no hot-loop Find/GetComponent; verify the revised health, impact, protection, pacing, and input behaviors. `Depends: gameplay complete` · `Reads: P4,P5,P6,P9,P11`.
 - [ ] **QA-02** — Full midterm functional checklist, including the documented differences from assignment scoring and Star behavior. `Depends: QA-01` · `Reads: P1,P16`.
 - [ ] **DOC-01** — Finalize README to match actual build. `Depends: QA-02` · `Reads: P1,P2,P12,P16`.

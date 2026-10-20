@@ -16,6 +16,8 @@ namespace SpaceExplorer.Player
         [SerializeField, Min(0)] private int _largeAsteroidDamage = 3;
         [SerializeField, Min(0)] private int _smallAsteroidScorePenalty = 5;
         [SerializeField, Min(0)] private int _largeAsteroidScorePenalty = 15;
+        [SerializeField, Min(0)] private int _speedAsteroidDamage = 5;
+        [SerializeField, Min(0)] private int _speedAsteroidScorePenalty = 25;
         [SerializeField, Min(0f)] private float _postHitProtectionDuration = 1f;
 
         [Header("Shield Impact Visual")]
@@ -141,9 +143,11 @@ namespace SpaceExplorer.Player
             if (Time.timeAsDouble < _postHitProtectionEndsAt)
                 return;
 
-            int scorePenalty = asteroid.Size == AsteroidSize.Small
-                ? Mathf.Max(0, _smallAsteroidScorePenalty)
-                : Mathf.Max(0, _largeAsteroidScorePenalty);
+            int scorePenalty = asteroid.Kind == AsteroidKind.Speed
+                ? Mathf.Max(0, _speedAsteroidScorePenalty)
+                : asteroid.Size == AsteroidSize.Small
+                    ? Mathf.Max(0, _smallAsteroidScorePenalty)
+                    : Mathf.Max(0, _largeAsteroidScorePenalty);
 
             if (!manager.TryApplyScorePenalty(scorePenalty, out string penaltyError))
             {
@@ -157,9 +161,11 @@ namespace SpaceExplorer.Player
                 return;
             }
 
-            int damage = asteroid.Size == AsteroidSize.Small
-                ? Mathf.Max(0, _smallAsteroidDamage)
-                : Mathf.Max(0, _largeAsteroidDamage);
+            int damage = asteroid.Kind == AsteroidKind.Speed
+                ? Mathf.Max(0, _speedAsteroidDamage)
+                : asteroid.Size == AsteroidSize.Small
+                    ? Mathf.Max(0, _smallAsteroidDamage)
+                    : Mathf.Max(0, _largeAsteroidDamage);
 
             int hpBeforeDamage = _playerHealth.CurrentHP;
             if (_playerHealth.ApplyDamage(damage))

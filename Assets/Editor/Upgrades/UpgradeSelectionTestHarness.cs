@@ -18,7 +18,7 @@ namespace SpaceExplorer.EditorTools
                 return;
             }
 
-            UpgradeManager manager = Object.FindFirstObjectByType<UpgradeManager>();
+            UpgradeManager manager = Object.FindAnyObjectByType<UpgradeManager>();
             if (manager == null)
             {
                 Debug.LogError("No active UpgradeManager was found. Wire it into Gameplay before using the harness.");
@@ -78,7 +78,7 @@ namespace SpaceExplorer.EditorTools
         [MenuItem("Tools/Space Explorer/UPG-01/Stop Selection Harness")]
         private static void StopSelectionHarness()
         {
-            UpgradeManager manager = Object.FindFirstObjectByType<UpgradeManager>();
+            UpgradeManager manager = Object.FindAnyObjectByType<UpgradeManager>();
             if (manager != null)
                 manager.StopEditorTestScenario();
 

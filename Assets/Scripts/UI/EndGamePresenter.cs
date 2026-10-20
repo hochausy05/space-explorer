@@ -17,17 +17,14 @@ namespace SpaceExplorer.UI
         [Header("Navigation Buttons")]
         [SerializeField] private Button _playAgainButton;
         [SerializeField] private Button _mainMenuButton;
-        [SerializeField] private Button _quitButton;
 
         private bool _transitionStarted;
         private bool _configurationErrorReported;
-        private bool _editorQuitMessageReported;
 
         private void OnEnable()
         {
             AddButtonListener(_playAgainButton, HandlePlayAgain);
             AddButtonListener(_mainMenuButton, HandleMainMenu);
-            AddButtonListener(_quitButton, HandleQuit);
             RefreshResultLabels();
             ReportMissingReferencesOnce();
         }
@@ -42,7 +39,6 @@ namespace SpaceExplorer.UI
         {
             RemoveButtonListener(_playAgainButton, HandlePlayAgain);
             RemoveButtonListener(_mainMenuButton, HandleMainMenu);
-            RemoveButtonListener(_quitButton, HandleQuit);
         }
 
         private void RefreshResultLabels()
@@ -74,23 +70,6 @@ namespace SpaceExplorer.UI
         private void HandleMainMenu()
         {
             LoadScene(SceneLoader.MainMenu);
-        }
-
-        private void HandleQuit()
-        {
-#if UNITY_EDITOR
-            if (!_editorQuitMessageReported)
-            {
-                Debug.Log("Quit is ignored in the Unity Editor. Verify this button in a standalone build.", this);
-                _editorQuitMessageReported = true;
-            }
-#else
-            if (_transitionStarted)
-                return;
-
-            _transitionStarted = true;
-            Application.Quit();
-#endif
         }
 
         private void LoadScene(string sceneName)
@@ -133,7 +112,7 @@ namespace SpaceExplorer.UI
                 return;
 
             if (_scoreLabel != null && _levelLabel != null && _survivalTimeLabel != null
-                && _playAgainButton != null && _mainMenuButton != null && _quitButton != null)
+                && _playAgainButton != null && _mainMenuButton != null)
                 return;
 
             Debug.LogError("EndGamePresenter is missing one or more result labels or navigation buttons. Available buttons remain usable.", this);

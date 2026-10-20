@@ -22,11 +22,16 @@ namespace SpaceExplorer.Asteroids
         [SerializeField, Min(0f)] private float _verticalInset = 0.8f;
         [SerializeField, Min(0f)] private float _rightEdgeOffset = 0.5f;
 
+        [Header("Speed Variant Test")]
+        [SerializeField, Min(1f)] private float _speedVariantMinimumMultiplier = 1.5f;
+        [SerializeField, Min(1f)] private float _speedVariantMaximumMultiplier = 2f;
+
         private float _timeUntilNextSpawn;
         private double _activeGameplayElapsed;
         private bool _runTimerInitialized;
         private bool _runStartedSubscribed;
         private bool _configurationErrorReported;
+        private bool _speedPoolWarningReported;
 
         private void Awake()
         {
@@ -119,25 +124,48 @@ namespace SpaceExplorer.Asteroids
 
         private void SpawnOne()
         {
+            AsteroidSize size = Random.value < Mathf.Clamp01(_largeAsteroidProbability)
+                ? AsteroidSize.Large
+                : AsteroidSize.Small;
+
+            // A full pool is an expected limit; the next interval will retry without logging each time.
+            Vector3 spawnPosition = GetSpawnPosition();
+            int maximumHealth = AsteroidEvolution.GetMaximumHealth(size, _activeGameplayElapsed);
+            _pool.TrySpawn(size, spawnPosition, GetCurrentAsteroidSpeedMultiplier(), maximumHealth);
+        }
+
+        [ContextMenu("Test/Spawn Speed Asteroid")]
+        private void SpawnSpeedAsteroidForTesting()
+        {
+            if (!Application.isPlaying || !IsRunActive() || _pool == null || !IsValidCamera(_camera))
+                return;
+
+            float minimum = Mathf.Min(_speedVariantMinimumMultiplier, _speedVariantMaximumMultiplier);
+            float maximum = Mathf.Max(_speedVariantMinimumMultiplier, _speedVariantMaximumMultiplier);
+            float variantMultiplier = Random.Range(minimum, maximum);
+            int maximumHealth = AsteroidEvolution.GetMaximumHealth(AsteroidSize.Small, _activeGameplayElapsed);
+            Asteroid spawned = _pool.TrySpawnSpeed(
+                GetSpawnPosition(),
+                GetCurrentAsteroidSpeedMultiplier() * variantMultiplier,
+                maximumHealth);
+
+            if (spawned == null && !_speedPoolWarningReported)
+            {
+                Debug.LogWarning("Speed Asteroid test spawn failed; assign a valid Speed Asteroid prefab and ensure its pool has capacity.", this);
+                _speedPoolWarningReported = true;
+            }
+        }
+
+        private Vector3 GetSpawnPosition()
+        {
             float halfHeight = _camera.orthographicSize;
             float halfWidth = halfHeight * _camera.aspect;
             float inset = Mathf.Min(_verticalInset, halfHeight * 0.9f);
             float minimumY = _camera.transform.position.y - halfHeight + inset;
             float maximumY = _camera.transform.position.y + halfHeight - inset;
             float spawnY = Random.Range(minimumY, maximumY);
-
-            AsteroidSize size = Random.value < Mathf.Clamp01(_largeAsteroidProbability)
-                ? AsteroidSize.Large
-                : AsteroidSize.Small;
-
             Vector3 cameraPosition = _camera.transform.position;
-            Vector3 spawnPosition = new Vector3(
-                cameraPosition.x + halfWidth + _rightEdgeOffset,
-                spawnY,
-                _pool.transform.position.z);
-
-            // A full pool is an expected limit; the next interval will retry without logging each time.
-            _pool.TrySpawn(size, spawnPosition, GetCurrentAsteroidSpeedMultiplier());
+            return new Vector3(cameraPosition.x + halfWidth + _rightEdgeOffset, spawnY, _pool.transform.position.z);
         }
 
         private void ResetDifficultyForNewRun()

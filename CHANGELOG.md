@@ -1,5 +1,6 @@
 # CHANGELOG.md — Space Explorer
 
+
 > Nhật ký tiến độ của dự án.
 > File này chỉ dùng tiếng Việt.
 > Entry mới luôn đặt ở đầu phần lịch sử.
@@ -18,6 +19,60 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Chưa kiểm tra / Rủi ro:** phần chưa thể xác minh hoặc cần kiểm tra thủ công.
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
+
+## 2026-10-20 19:06 +07:00 — FIX-UNITY6-EDITOR-API-01: Hoàn tất thay API tìm component trong harness
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Thay lời gọi API Unity 6 obsolete còn lại trong thao tác dừng UPG-01 harness.
+- **Thay đổi:** `StopSelectionHarness()` dùng `Object.FindAnyObjectByType<UpgradeManager>()`, giống thao tác bắt đầu. Hàm chỉ cần một manager khả dụng để dừng kịch bản, không phụ thuộc thứ tự instance; hành vi start/stop được giữ nguyên.
+- **Kiểm tra:** Rà soát toàn file, không còn `FindFirstObjectByType`; `git diff --check` trên các file thuộc task đạt. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Chưa xác minh compile trong Unity Editor.
+- **Tiếp theo:** `AST-SPEED-01`.
+
+## 2026-10-20 18:58 +07:00 — FIX-UNITY6-EDITOR-API-01: Sửa API tìm component trong harness
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Sửa lời gọi obsolete được báo tại dòng 21 của `UpgradeSelectionTestHarness`.
+- **Thay đổi:** Đổi `Object.FindFirstObjectByType<UpgradeManager>()` tại lệnh bắt đầu harness thành `Object.FindAnyObjectByType<UpgradeManager>()`; thứ tự instance không phải yêu cầu của luồng này. Thêm task tooling tương ứng.
+- **Kiểm tra:** Rà soát các lần dùng API trong `Assets`; `git diff --check` theo ba file thuộc task đạt. Kiểm tra toàn repo báo trailing whitespace trong `Assets/Scenes/EndGame.unity` đang có thay đổi ngoài phạm vi; không sửa scene. Không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Harness còn một lần `FindFirstObjectByType<UpgradeManager>()` tại `StopSelectionHarness` (dòng 81), có thể tiếp tục phát CS0618; giữ nguyên ngoài phạm vi sửa tối thiểu này.
+- **Tiếp theo:** Xem xét riêng lần gọi còn lại nếu cần loại bỏ toàn bộ cảnh báo CS0618 tương tự.
+
+## 2026-10-20 16:47 +07:00 — AST-SPEED-01: Thêm biến thể Speed Asteroid
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm biến thể Speed đầu tiên và đường spawn thủ công để kiểm tra; chưa bật hệ thống spawn Special ngẫu nhiên.
+- **Thay đổi:** Asteroid có kind riêng cho Speed, dùng pool tùy chọn, chạy thẳng với tốc độ Small thường nhân DIFF-01 và hệ số ngẫu nhiên 1.5–2.0; HP lấy stage Small hiện tại. Va Player dùng nhánh hiện có với mặc định 5 HP/-25 Score, giữ Shield/protection. Bị đạn phá hủy thì thưởng mặc định +40 Score và gọi StarPool 8 lần. Có mục Context Menu để spawn thử trong Play Mode. Cập nhật task và đặc tả P5.
+- **Kiểm tra:** Kiểm tra code path, giá trị prefab Small/Large, cấu hình trigger/collider và pool/reward; chủ dự án trước đó xác nhận đã quan sát HP Asteroid thường tăng theo thời gian, không xác nhận cap/reset/pause. `git diff --check` theo file thuộc task đạt. Không chạy Unity compile, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần tạo prefab `Asteroid_Speed`, gán vào `AsteroidPool`, và xác minh chuyển động, HP, hit Player/Shield, penalty, reward và tái sử dụng pool. StarPool có giới hạn dung lượng; mỗi lần phá hủy cần đủ 8 slot trống để đủ số Star.
+- **Tiếp theo:** Hoàn tất setup Inspector và kiểm tra `AST-SPEED-01`; Homing, Erratic, Splitter và spawn Special tự động chưa triển khai.
+
+## 2026-10-20 16:25 +07:00 — AST-EVOL-01: Tiến hóa HP Asteroid theo thời gian
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm tiến hóa HP Small/Large theo thời gian Gameplay chủ động; chưa triển khai bốn biến thể Asteroid đặc biệt.
+- **Thay đổi:** Tái sử dụng đồng hồ active-time của `AsteroidSpawner`/DIFF-01. Mỗi 60 giây tăng một stage; khi spawn, Small nhận HP 1–6 và Large nhận HP 3–13 theo bảng duyệt, giữ nguyên HP đã gán cho Asteroid đang tồn tại. Đồng hồ reset theo `RunStarted`; prefab giữ HP baseline 1/3. Ghi yêu cầu vào P5 và thêm task `AST-EVOL-01`.
+- **Kiểm tra:** Rà soát luồng spawn, reset run, trạng thái pause và pool reuse; kiểm tra whitespace theo các file thuộc task đạt. Kiểm tra toàn repo báo trailing whitespace trong scene EndGame đang được sửa ngoài phạm vi; không chỉnh scene. Chưa chạy Unity compile, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Chủ dự án xác nhận đã quan sát HP Asteroid thường tăng theo thời gian; cap, reset, pause và việc giữ nguyên HP của Asteroid cũ vẫn chưa xác minh. Không cần thay đổi Inspector hoặc prefab.
+- **Tiếp theo:** Kiểm tra `AST-EVOL-01` trong Unity Play Mode; các quy tắc của bốn Special asteroid variants cần được xác định trước khi triển khai giai đoạn sau.
+
+## 2026-10-20 14:48 +07:00 — SCENE-02: Loại tham chiếu Quit không còn dùng
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Đồng bộ `EndGamePresenter` với thiết kế EndGame hiện tại chỉ có Play Again và Main Menu.
+- **Thay đổi:** Bỏ trường `_quitButton`, đăng ký/hủy listener Quit và hàm xử lý Quit. Kiểm tra cấu hình vẫn yêu cầu ba nhãn kết quả cùng hai nút điều hướng còn lại; luồng RunResult và tải scene không đổi.
+- **Kiểm tra:** Scene EndGame đang lưu có đủ ba nhãn và hai nút, trường `_quitButton` rỗng; xác nhận đây là nguyên nhân khiến `ReportMissingReferencesOnce()` báo lỗi. `git diff --check` đã chạy; không chạy Unity compile hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Không cần đổi Inspector reference cho presenter; cần mở Unity để xác nhận Console không còn cảnh báo sau khi script biên dịch lại.
+- **Tiếp theo:** `UI-01` — hoàn thiện Gameplay HUD.
+
+## 2026-10-20 14:44 +07:00 — SCENE-02: Chốt EndGame
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Ghi nhận hoàn tất EndGame theo xác nhận kiểm thử thủ công của chủ dự án; chỉ cập nhật tài liệu.
+- **Thay đổi:** Đánh dấu SCENE-02 DONE trong TASKS và PLAN. Layout cuối gồm logo GAME OVER, Score, Level, Survival Time, nút Play Again và Main Menu. Nút Quit được chủ dự án chủ động loại bỏ.
+- **Kiểm tra:** Chủ dự án xác nhận toàn bộ chức năng và bố cục đã đạt trong Unity Play Mode. Không chạy automated test, build hoặc Unity trong lượt tài liệu này. `git diff --check` đã chạy.
+- **Chưa kiểm tra / Rủi ro:** UI-01 vẫn PARTIAL vì HUD Gameplay chưa hoàn tất.
+- **Tiếp theo:** `UI-01` — hoàn thiện HUD Gameplay gồm Score, Level, XP progress, Sector và Player HP.
 
 ## 2026-10-19 21:13 +07:00 — SCENE-01: Chốt xác minh MainMenu và kỷ lục
 
