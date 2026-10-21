@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SpaceExplorer.Audio;
 using SpaceExplorer.Upgrades;
 using UnityEngine;
 using UnityEngine.Events;
@@ -84,7 +85,11 @@ namespace SpaceExplorer.UI
                 SetIcon(i, definition != null ? definition.Icon : null);
                 int capturedIndex = i;
                 int capturedToken = selectionToken;
-                UnityAction callback = () => _onChoiceSelected?.Invoke(capturedIndex, capturedToken);
+                UnityAction callback = () =>
+                {
+                    SfxAudioService.PlayClick();
+                    _onChoiceSelected?.Invoke(capturedIndex, capturedToken);
+                };
                 if (_runtimeCallbacks == null || _runtimeCallbacks.Length != _buttons.Length)
                     _runtimeCallbacks = new UnityAction[_buttons.Length];
                 _runtimeCallbacks[i] = callback;

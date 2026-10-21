@@ -12,7 +12,7 @@ Source of truth for game logic. Keep this file compact; task details live in `TA
 ## P2 — Scenes
 
 - `MainMenu`: GameLogo; Play, Instructions, Records, and Quit buttons; one right-side InfoPanel that toggles between InstructionsContent and RecordsContent. Play loads Gameplay directly and relies on the existing GameManager scene lifecycle to begin/reset a fresh run.
-- `Gameplay`: Player, shooting, Asteroids, Stars, upgrades, difficulty, HUD, background.
+- `Gameplay`: Player, shooting, Asteroids, Stars, upgrades, difficulty, HUD, background; bổ sung menu Settings/Pause trong lượt chơi theo GAMEPLAY-PAUSE-MENU-01.
 - `EndGame`: GAME OVER logo; Final Score, Level, and Survival Time; Play Again and Main Menu buttons. Quit is intentionally omitted from the final EndGame layout.
 
 SCENE-01 recent-run history: after a successful `GameManager.TryFinishRun`, persist the authoritative `RunResult` fields (Final Score, survival duration, Player Level) locally as JSON in PlayerPrefs. Keep the newest 20, newest first; trim oldest records. Merely opening MainMenu never creates a record. Render records in the existing RecordsContent Scroll View by cloning the hidden `RecordRowTemplate`; each row has Legacy Text fields for match number, score, total minutes:seconds, and level, with a Vietnamese empty state. Code is implemented, but MainMenu Inspector wiring and owner Play Mode verification remain pending. The menu script controls the existing `InstructionsTitle` and `InstructionsText` separately where there is no parent `InstructionsContent` object.
@@ -59,13 +59,35 @@ Spawn outside the right edge. Randomize once on spawn:
 
 On death: Score -> Star drop -> optional effect -> return to pool.
 
+`POLISH-EXPLOSION-01` reuses the existing `AsteroidExplosion.prefab` for one visual at the captured world position on the shared genuine-destruction callback. All seven asteroid kinds, including Splitter Fragments, share a prewarmed, expandable `PrefabPool`; off-screen release and cleanup do not invoke the effect. The animation restarts at its first state frame on each lease and is returned when its non-looping Animator state completes. Animator normal time follows pause. Per-kind scale multipliers are Inspector-tunable; suggested starting values for Small/Large/Speed/Homing/Erratic/Splitter/Fragment are `0.8/1.1/1.0/1.2/1.2/1.3/0.6` and should be visually tuned against the existing sprite PPU. The visual has no physics components and does not change rewards or SFX. **DONE:** the project owner confirmed the shared effect works correctly in Unity Play Mode; this is manual owner verification, not an automated test or build result.
+
 If off-screen left: return to pool with no penalty.
 
 DIFF-01 approved starting balance and progression: apply an initial `0.8` speed multiplier and `0.75` spawn-frequency multiplier to the existing configured values (the current Gameplay interval `1.8s` therefore starts at `2.4s`; current Small speed `3–4` starts at `2.4–3.2`, and Large speed `2–2.5` starts at `1.6–2.0`). Every 30 seconds of active Playing time, add `0.05` to the speed multiplier and `0.08` to the spawn-frequency multiplier relative to this balanced baseline; cap those progression multipliers at `1.6` and `2.0`. The effective spawn interval is the configured interval divided by `0.75 * frequencyProgression`; it bottoms at `0.9s` with the current `1.8s` setting. Pause time does not count, new runs reset progression, and speed scaling applies only to asteroids spawned afterward. Keep asteroid-to-asteroid physical interactions enabled as approved by the owner. **DIFF-01 DONE:** the project owner confirmed all ten Unity Play Mode acceptance checks. This is manual owner verification, not an automated test or build result. HP damage defaults remain Small `1` and Large `3`, Inspector-configurable and owner-approved.
 
 Approved Asteroid Evolution Phase 1 (`AST-EVOL-01`) is independent of Player Level and DIFF-01's 30-second speed/frequency steps. Reuse `AsteroidSpawner`'s active Playing elapsed clock; every 60 seconds advances the HP stage, and a new run resets it to stage 0. At spawn, assign Small maximum HP `1,2,3,4,5,6` and Large maximum HP `3,5,7,9,11,13` for stages 0–5 (stage 5 begins at 5:00 and remains capped). Pause time does not count. Each asteroid keeps the HP assigned at its spawn, so existing asteroids never gain HP when a stage changes. Prefab baseline HP remains Small `1` and Large `3`; collision damage and Score rules are unchanged. The owner reported observing ordinary Asteroid HP increase over time in Play Mode; this does not verify caps, reset, pause, or existing-asteroid stability.
 
-Approved first Special variant (`AST-SPEED-01`): move in a straight line, with base speed matching ordinary Small and a per-spawn random multiplier `1.5x–2.0x` applied after the same DIFF-01 speed multiplier. Use the current Small evolution-stage HP (cap 6). A Player impact applies `5 HP` damage and `-25 Score` through the existing handler, preserving ready Shield absorption and post-hit protection. Destruction through player damage awards `+40 Score` and requests exactly 8 Stars from the existing StarPool. Special variants remain out of automatic random spawning until all four variants are ready. This variant is implemented in code but awaits prefab wiring and owner Play Mode verification. The remaining three variants (Homing, Erratic, Splitter) are not implemented.
+Tiến trình HP của Special Asteroid dùng cùng đồng hồ Gameplay đang chạy của DIFF-01/AST-EVOL-01, không phụ thuộc Level Player. HP riêng của từng loại được chọn tại thời điểm spawn theo bảng dưới đây; trước phút 1, nếu spawn thử thủ công, dùng HP khởi đầu. Ở phút 5 trở đi HP giữ nguyên tại mức tối đa. Không cập nhật HP của Asteroid đang hoạt động khi chuyển giai đoạn.
+
+| Thời gian Gameplay đang chạy | Speed | Homing | Erratic | Splitter |
+| --- | ---: | ---: | ---: | ---: |
+| 0:00–0:59 (mốc khởi đầu cho spawn thử) | 3 | 6 | 6 | 5 |
+| 1:00–1:59 | 3 | 6 | 6 | 5 |
+| 2:00–2:59 | 4 | 8 | 8 | 6 |
+| 3:00–3:59 | 5 | 9 | 9 | 8 |
+| 4:00–4:59 | 5 | 11 | 11 | 9 |
+| 5:00 trở đi | 6 | 12 | 12 | 10 |
+
+Giới hạn HP lần lượt là Speed 6, Homing 12, Erratic 12 và Splitter 10. Splitter Fragment luôn có 1 HP và không tiến hóa. Quy tắc này không thay đổi HP Small/Large, xác suất spawn Special (0/6/10/14/18/20%), DIFF-01 30-second speed/frequency steps hoặc bất kỳ damage/reward nào. Thời gian lấy từ `AsteroidSpawner` và dừng khi gameplay pause; run mới đặt đồng hồ về 0.
+
+Các biến thể Special đã duyệt và quy tắc va chạm/phần thưởng với Player:
+
+- **Speed:** đi thẳng sang trái, không trôi dọc hoặc xoay; tốc độ bằng `1.5x–2.0x` tốc độ Small thường sau DIFF-01 đúng một lần; HP theo bảng Special độc lập (tối đa 6); va Player `5 HP`/`-25 Score`; bị đạn phá hủy thưởng `+40 Score`/đúng 8 Star.
+- **Homing:** tốc độ Small thường sau DIFF-01; hướng về Player hiện tại tối đa 3 giây với tốc độ quay không quá 75 độ/giây, sau đó tiếp tục theo hướng cuối; thiếu target thì tiếp tục an toàn; HP theo bảng Special độc lập (tối đa 12); va Player `5 HP`/`-25 Score`; phá hủy thưởng `+50 Score`/9 Star.
+- **Erratic:** tốc độ Small thường sau DIFF-01; chuyển động sóng/zigzag mượt có thể chỉnh, mặc định sóng mượt (biên độ `0.7` world unit, `1.2` chu kỳ/giây); HP theo bảng Special độc lập (tối đa 12); va Player `5 HP`/`-25 Score`; phá hủy thưởng `+45 Score`/8 Star.
+- **Splitter:** tốc độ Large thường sau DIFF-01; HP theo bảng Special độc lập (tối đa 10); va Player `5 HP`/`-25 Score`; bị đạn phá hủy thưởng `+60 Score`/10 Star và tạo đúng hai fragment không thể split. Fragment bay sang trái lệch lên/xuống `25°`, tốc độ `1.4x` Large thường, luôn có 1 HP và va Player gây `1 HP`/`-5 Score`; không thưởng Score/Star. Va Player, ra khỏi màn hình, dọn pool, reset run hoặc chuyển scene không kích hoạt split.
+
+Mọi loại dùng chung vòng đời chuyển động/sát thương của `Asteroid`, `AsteroidPool`, đường damage của Bullet và Player collision handler. HP tối đa được truyền khi spawn từ thời gian Gameplay đang chạy; `Asteroid.BeginRun` khởi tạo HP hiện tại bằng HP tối đa đó, còn các lần lấy/trả pool reset trạng thái trước lần gán kế tiếp. Tính thưởng Score/Star/phá hủy idempotent trên instance được tái sử dụng. Special pool và Star pool có thể mở rộng khi cần rồi tái sử dụng high-water allocation; không có giới hạn số Special đang hoạt động hoặc cooldown gameplay. Tự động spawn Special dùng xác suất trong bảng tại mỗi nhịp spawn DIFF-01; các lần roll Special thành công phân phối Speed 35%, Erratic 30%, Homing 20%, Splitter 15%. Xác suất Small/Large không đổi khi roll không phải Special. Tự động spawn vẫn opt-in cho đến khi gán đủ bốn Special prefab, Splitter Fragment prefab, StarPool, camera và Player target. Có context-menu Play Mode spawn để thử từng loại độc lập. **Xác minh chủ dự án:** bốn loại Special, Splitter Fragments và automatic time-based spawning được xác nhận hoạt động trong Unity Play Mode. Task tích hợp code/prefab/spawn đã hoàn tất; `AST-SPECIAL-QA-01` vẫn PARTIAL để kiểm tra đầy đủ HP/cap, pause/reset, reward counts, pool reuse/stress và xác suất từng mốc. Với AST-EVOL-01, chủ dự án mới xác nhận HP Asteroid thường tăng theo thời gian; cap, pause, reset và độ ổn định HP sau spawn vẫn chưa được xác minh.
 
 ## P6 — Stars
 
@@ -167,6 +189,7 @@ Player-Asteroid:
 - A configurable post-hit protection window defaults to `1.0s`. It starts after a ready Shield absorbs a hit or after an unshielded collision reduces HP and the Player survives. During protection, further asteroid contacts cause no Score penalty, HP damage, or Shield consumption and do not restart the timer. Use scaled time so the timer pauses during upgrade selection; reset it at new-run start. Repeated callbacks or continued overlap from one impact must not count as new impacts.
 - A Shield-absorbed hit displays the existing transparent PNG `ShieldVisual` around the Player for the same protection window, with a short fade-in and fade-out. Unshielded nonlethal hits show no visual. Hide it when the run ends, a new run starts, or protection expires; it has no collider and does not affect gameplay.
 - At 0 HP -> finish the run through the existing GameManager/result/EndGame flow, capturing Score, Level, and Survival Time.
+- Thoát chủ động từ Settings Gameplay quay về MainMenu mà không kết thúc run, ghi lịch sử run hoặc phát Game Over SFX. Xóa pause request tạm thời và đưa GameManager về Ready để lần vào Gameplay tiếp theo bắt đầu run mới.
 - Shield cooldown levels and upgrade-during-cooldown behavior are defined in P7.
 
 Implementation note (GAME-01 — DONE for its original scope): `PlayerAsteroidCollisionHandler` is integrated with the Player's existing trigger collider, ignores non-Asteroid contacts, consumes one ready Shield charge, and otherwise disables movement/fire, captures score/level/survival time, finishes the run via `GameManager`, then loads `EndGame` through `SceneLoader`. The project owner confirmed successful Unity setup and Play Mode verification of that original one-hit flow; this is manual verification, not an automated test or build result. The revised 10 HP behavior will extend this integration through the planned Stage 1 health and collision tasks.
@@ -184,6 +207,8 @@ The prior standalone SHIELD-FX-01 scope is folded into HIT-PROTECTION-01 and sho
 - Use reusable background tiles instead of a huge map.
 - Recycle tiles after they leave the left edge.
 - Optional slower far-star layer for parallax.
+
+`WORLD-PARALLAX-01` selects the approved two-layer starfield option: preserve the current static space background exactly, and add procedural `FarStars`/`NearStars` using one in-memory soft-circle sprite shared by all SpriteRenderers. Defaults are 45 far stars at `0.2` world units/s and 20 near stars at `0.6` world units/s; expose count, size, opacity, color, speed, sorting and camera fields in Inspector. Both layers use scaled `Time.deltaTime`, recycle positions after crossing the left edge, and map existing normalized positions to changed orthographic camera bounds to keep coverage when the viewport aspect changes. Use the current `Default` sorting layer, between static background order `-100` and gameplay renderers at `0`, with HUD Canvas in Screen Space Overlay. No background texture scrolling, physics, persistent objects or external assets. **DONE:** the owner confirmed successful Unity Play Mode testing with the existing circular stars; no four-pointed star changes are requested. This is manual owner verification, not an automated test or build result.
 
 ## P11 — Runtime Lifecycle & Performance
 
@@ -208,6 +233,12 @@ Suggested prewarm only:
 - Asteroid 32
 - Star 64
 - Effect 24
+
+`POLISH-EXPLOSION-01` reuses the project's existing asteroid explosion prefab in a dedicated shared effect pool. It may grow beyond prewarm during bursts, then reuses the high-water allocation.
+
+`WORLD-PARALLAX-01` creates its configured decorative stars once per Gameplay scene, shares one small runtime sprite/texture, reuses the same objects by repositioning, and destroys its runtime sprite/texture when the scene object is destroyed.
+
+`FIX-POOL-DISPOSE-01` hardens the shared `PrefabPool<T>.Dispose()` lifecycle with Unity-aware destroyed-object checks and idempotent cleanup for scene unload/shutdown. **DONE:** the project owner confirmed the MissingReferenceException is resolved in Unity. This is owner-reported verification; no automated test or build is claimed here.
 
 Pools may grow safely if needed.
 
@@ -238,19 +269,24 @@ Avoid God Objects and unnecessary frameworks.
 
 ## P13 — HUD & Feedback
 
-HUD minimum:
+Gameplay HUD (UI-01) approved scope:
 
-- Score
-- Level
-- Star XP bar
-- Sector
-- Player HP bar showing current HP accurately; reuse the existing HP bar if present and avoid a duplicate.
+- Score display
+- Level display
+- Numeric Star XP text only; no XP progress bar
+- Player HP displayed through the existing HP bar; do not add a duplicate
+- Preserve the approved overall layout and the existing BuildStatusHUD implementation
+- Sector is explicitly excluded from UI-01 and has no display requirement. This does not change DIFF-01 or gameplay mechanics.
+
+UI-01 is DONE. The project owner approved the current Gameplay HUD and confirmed BuildStatusHUD was tested successfully in Unity Play Mode. This is owner-reported manual verification; no new automated test or build result is implied.
 
 Level-up choices use a separate selection UI with one selectable control per offered upgrade. Keep the panel readable and avoid obscuring essential gameplay context.
 
 On an Energy Shield impact, show the existing transparent PNG `ShieldVisual` around the Player, fading in and out within the same `1.0s` post-hit protection window. This is visual-only, adds no collider or collision behavior, and was manually verified by the project owner under HIT-PROTECTION-01. The requested multi-phase fade/pulse/blink refinement is tracked under SHIELD-ANIM-01. Optional brief Player hit feedback belongs in POLISH-01 and must not duplicate the Shield impact effect.
 
 SHIELD-ANIM-01 specifies the existing SpriteRenderer animation only: fade in during `0–0.15s`, pulse subtly during `0.15–0.65s`, blink smoothly twice during `0.65–0.90s`, then fade out completely by `1.0s`. Use scaled protection time, preserve/restore the original sprite tint, and do not add assets, animation clips, Animator components, or gameplay effects. The project owner confirmed successful Unity Play Mode verification; this is manual owner verification, not an automated test or build result.
+
+`POLISH-EXPLOSION-01` is a separate shared asteroid-death visual: reuse only the existing eight-frame `AsteroidExplosion` prefab, with type-specific scale multipliers, no physics components, and no additional SFX. Trigger it from the shared destruction callback so genuine Small/Large, Speed, Homing, Erratic, Splitter, and Fragment deaths each request one pooled effect; ordinary despawns and cleanup do not. Rewind the existing non-looping Animator state on reuse, return after its actual playback completes, and use Normal Animator time so pause freezes it. The project owner confirmed the shared effect works correctly in Unity Play Mode; this is manual verification, not automated testing.
 
 Optional:
 
@@ -259,6 +295,20 @@ Optional:
 - Build status panel (UI-BUILD-01): display Drone count, Shield readiness/cooldown, per-projectile damage, effective Player fire interval, and Player projectiles per volley from the existing gameplay APIs; display only and do not own or recalculate gameplay state.
 
 UI-BUILD-01 is DONE by owner-reported Unity Play Mode verification. The panel intentionally remains text-based; no icon conversion is planned. The owner confirmed stat updates, Shield cooldown display, and new-run reset.
+
+### GAMEPLAY-PAUSE-MENU-01 — Settings và tạm dừng
+
+Đặt nút Settings biểu tượng bánh răng ở góc trên bên phải Gameplay. Panel gọn, ban đầu ẩn, có đúng ba nút: TIẾP TỤC, TẮT TIẾNG/BẬT TIẾNG và THOÁT. Khi mở, panel lấy pause request riêng từ `GameManager`, nên gameplay theo scaled time cùng DIFF-01/tiến hóa Asteroid dừng, còn UI Unity vẫn tương tác được. Khóa nút Settings khi đã có pause request để tránh chồng lên Upgrade Selection. Resume chỉ nhả token của menu; không tự đặt `Time.timeScale` hoặc ghi đè chủ sở hữu pause khác.
+
+Tắt/mở tiếng qua `SfxAudioService` persistent, giữ nguyên volume trong Inspector và lưu lựa chọn mute bằng PlayerPrefs qua các scene/lần mở ứng dụng. Nhãn nút phản ánh trạng thái thực; Click tuân theo mute hiện tại và được handler runtime phát một lần. Exit chủ động bỏ run và quay về MainMenu qua `SceneLoader` mà không gọi `TryFinishRun`, lưu result/lịch sử hoặc phát Game Over SFX; xóa pause ownership tạm thời và chuyển run về Ready. Không thêm điều khiển nhạc, slider, hộp thoại xác nhận hoặc cài đặt khác.
+
+Code nền đã có, nhưng GAMEPLAY-PAUSE-MENU-01 vẫn PARTIAL cho tới khi chủ dự án tạo và nối UI trên Canvas hiện có trong Unity, rồi xác nhận checklist Play Mode. Để trống cả bốn danh sách Button Inspector `On Click()` vì controller tự đăng ký runtime listeners.
+
+### Sound effects (AUDIO-SFX-01)
+
+Use only the owner's eight imported clips: Shoot, Bullet Hit, Asteroid Break, Shield Hit, XP Collect, Level Up, Click, and Game Over. A single persistent `SfxAudioService` is authoritative across scene loads. Calls originate from the existing gameplay/UI event paths: one Shoot sound after a successful player volley, Bullet Hit on a valid asteroid trigger, Asteroid Break only when a projectile destroys an asteroid (including fragments), Shield Hit only after successful absorption, XP Collect on a valid Star pickup, one Level Up sound per `StarXPCollector.LevelUp`, Click in existing menu/result/upgrade selection handlers, and Game Over only after `GameManager.TryFinishRun` succeeds. Never trigger sounds from pool release, despawn, or scene cleanup.
+
+Playback is non-spatial (`spatialBlend = 0`), allows up to seven regular overlapping voices plus one reserved Game Over voice, and uses short per-effect repeat gates to avoid rapid-fire/hit/pickup spam. The Inspector provides master and per-effect volume multipliers. Create and wire the service in MainMenu, Gameplay, and EndGame so each scene can also be launched directly in Editor; `DontDestroyOnLoad` and singleton duplicate rejection retain the first configured service during normal navigation. The owner-supplied clips are in `Assets/Audio/SFX/`. The owner confirms all eight approved SFX are configured in Unity and work in Play Mode; AUDIO-SFX-01 is DONE. Background music is intentionally excluded.
 
 Polish priority:
 

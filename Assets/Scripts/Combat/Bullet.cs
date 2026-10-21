@@ -1,4 +1,5 @@
 using BigInteger = System.Numerics.BigInteger;
+using SpaceExplorer.Audio;
 using UnityEngine;
 using SpaceExplorer.Core.Pooling;
 using SpaceExplorer.Asteroids;
@@ -128,7 +129,8 @@ namespace SpaceExplorer.Combat
             // Mark consumed before applying damage so additional trigger callbacks are ignored.
             BulletPool owner = _owner;
             _isInUse = false;
-            asteroid.TakeDamage(_damageValue);
+            SfxAudioService.PlayBulletHit();
+            asteroid.TakeDamageFromPlayerProjectile(_damageValue);
             owner.Release(this);
         }
 

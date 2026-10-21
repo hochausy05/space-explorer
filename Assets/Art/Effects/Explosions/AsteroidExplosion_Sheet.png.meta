@@ -1,0 +1,447 @@
+fileFormatVersion: 2
+guid: c599171766285534f8c04d7c70a9f5d6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7861782935263666470
+    second: AsteroidExplosion_Sheet2_0
+  - first:
+      213: -8749040470725754360
+    second: AsteroidExplosion_Sheet2_1
+  - first:
+      213: -6485429391677040462
+    second: AsteroidExplosion_Sheet2_2
+  - first:
+      213: 4554981531542815195
+    second: AsteroidExplosion_Sheet2_3
+  - first:
+      213: 5879140276350011405
+    second: AsteroidExplosion_Sheet2_4
+  - first:
+      213: -623983563901530878
+    second: AsteroidExplosion_Sheet2_5
+  - first:
+      213: -5321200424001456939
+    second: AsteroidExplosion_Sheet2_6
+  - first:
+      213: -4726901822310143121
+    second: AsteroidExplosion_Sheet2_7
+  - first:
+      213: -691441658877248041
+    second: AsteroidExplosion_Sheet2_8
+  - first:
+      213: 1191698941119779701
+    second: AsteroidExplosion_Sheet2_9
+  - first:
+      213: 7726528787583086483
+    second: AsteroidExplosion_Sheet2_10
+  - first:
+      213: 2934348403420126032
+    second: AsteroidExplosion_Sheet2_11
+  - first:
+      213: 1448165728711171282
+    second: AsteroidExplosion_Sheet2_12
+  - first:
+      213: 2440094242048883913
+    second: AsteroidExplosion_Sheet2_13
+  - first:
+      213: -4350500479332759417
+    second: AsteroidExplosion_Sheet2_14
+  - first:
+      213: -4390421932313149583
+    second: AsteroidExplosion_Sheet2_15
+  - first:
+      213: 2843519951369910568
+    second: AsteroidExplosion_Sheet2_16
+  - first:
+      213: 7657346470469841716
+    second: AsteroidExplosion_Sheet2_17
+  - first:
+      213: 839496698373500865
+    second: AsteroidExplosion_Sheet2_18
+  - first:
+      213: 1793319314263209361
+    second: AsteroidExplosion_Sheet2_19
+  - first:
+      213: -6986822583980811773
+    second: AsteroidExplosion_Sheet2_20
+  - first:
+      213: 2887739791624079228
+    second: AsteroidExplosion_Sheet2_21
+  - first:
+      213: -7318593762547816178
+    second: AsteroidExplosion_Sheet2_22
+  - first:
+      213: 3973995469704737068
+    second: AsteroidExplosion_Sheet2_23
+  - first:
+      213: -2945545644769685516
+    second: AsteroidExplosion_Sheet2_24
+  - first:
+      213: -3388721944254957485
+    second: AsteroidExplosion_Sheet2_25
+  - first:
+      213: 8339451914537947935
+    second: AsteroidExplosion_Sheet2_26
+  - first:
+      213: 9178045176407432815
+    second: AsteroidExplosion_Sheet2_27
+  - first:
+      213: 7204220959115379860
+    second: AsteroidExplosion_Sheet2_28
+  - first:
+      213: 46551711692704325
+    second: AsteroidExplosion_Sheet2_29
+  - first:
+      213: 720645340971155206
+    second: AsteroidExplosion_Sheet2_30
+  - first:
+      213: 6608036707332605772
+    second: AsteroidExplosion_Sheet2_31
+  - first:
+      213: 5310814324955458148
+    second: AsteroidExplosion_Sheet2_32
+  - first:
+      213: -6583852972452026755
+    second: AsteroidExplosion_Sheet2_33
+  - first:
+      213: -2132045540834638533
+    second: AsteroidExplosion_Sheet2_34
+  - first:
+      213: -170880533216417053
+    second: AsteroidExplosion_Sheet2_35
+  - first:
+      213: 5724204076692732684
+    second: AsteroidExplosion_Sheet2_36
+  - first:
+      213: -6698509346642980117
+    second: AsteroidExplosion_Sheet2_37
+  - first:
+      213: 2952991601262330356
+    second: AsteroidExplosion_Sheet2_38
+  - first:
+      213: -6324424330022280088
+    second: AsteroidExplosion_Sheet2_39
+  - first:
+      213: 5153796529127263986
+    second: AsteroidExplosion_Sheet2_40
+  - first:
+      213: 142696353063813427
+    second: AsteroidExplosion_Sheet2_41
+  - first:
+      213: -5875801004327167342
+    second: AsteroidExplosion_Sheet2_42
+  - first:
+      213: 729431763385922870
+    second: AsteroidExplosion_Sheet2_43
+  - first:
+      213: 8413319108223450136
+    second: AsteroidExplosion_Sheet2_44
+  - first:
+      213: 6330966712943630140
+    second: AsteroidExplosion_Sheet2_45
+  - first:
+      213: -3417967872732895075
+    second: AsteroidExplosion_Sheet2_46
+  - first:
+      213: -6517994387885813370
+    second: AsteroidExplosion_Sheet2_47
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 350
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AsteroidExplosion_Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 444
+        width: 443
+        height: 443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d109b14ff6c29c44887099ae5d902af0
+      internalID: 1546886347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AsteroidExplosion_Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 444
+        width: 443
+        height: 443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4b80c0e3bee4e642bf7350f9c8d48ca
+      internalID: 1083065620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AsteroidExplosion_Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 886
+        y: 444
+        width: 443
+        height: 443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c935b796fa66b1341813d38698b45fc6
+      internalID: 453038503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AsteroidExplosion_Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 1329
+        y: 444
+        width: 443
+        height: 443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3522fc5faa36f945a0d9068da31d299
+      internalID: -1026726825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AsteroidExplosion_Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 443
+        height: 443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 441e2a8dbda49e6498e3ed12184cd792
+      internalID: 1530244963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AsteroidExplosion_Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 443
+        y: 1
+        width: 443
+        height: 443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83f07ea9d0929e64fb47fee76c2336ff
+      internalID: 1778603472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AsteroidExplosion_Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 886
+        y: 1
+        width: 443
+        height: 443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 961163fe30d52074795a1e8ced73ec6c
+      internalID: 1813718763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AsteroidExplosion_Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 1330
+        y: 1
+        width: 443
+        height: 443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3afa0aa120cd7964cbeb8a341b9a3b65
+      internalID: -2042911448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 836192add168391449c5204a0a9a57f2
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":2.0},"gridSpriteSize":{"x":443.0,"y":443.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      AsteroidExplosion_Sheet_0: 1546886347
+      AsteroidExplosion_Sheet_1: 1083065620
+      AsteroidExplosion_Sheet_2: 453038503
+      AsteroidExplosion_Sheet_3: -1026726825
+      AsteroidExplosion_Sheet_4: 1530244963
+      AsteroidExplosion_Sheet_5: 1778603472
+      AsteroidExplosion_Sheet_6: 1813718763
+      AsteroidExplosion_Sheet_7: -2042911448
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

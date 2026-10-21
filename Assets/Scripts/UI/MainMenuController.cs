@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SpaceExplorer.Audio;
 using SpaceExplorer.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -68,26 +69,31 @@ namespace SpaceExplorer.UI
 
         private void HandlePlay()
         {
+            SfxAudioService.PlayClick();
             LoadScene(SceneLoader.Gameplay);
         }
 
         private void HandleInstructions()
         {
+            SfxAudioService.PlayClick();
             ToggleInfoView(InfoView.Instructions);
         }
 
         private void HandleRecords()
         {
+            SfxAudioService.PlayClick();
             ToggleInfoView(InfoView.Records);
         }
 
         private void HandleClose()
         {
+            SfxAudioService.PlayClick();
             CloseInfoPanel();
         }
 
         private void HandleQuit()
         {
+            SfxAudioService.PlayClick();
 #if UNITY_EDITOR
             if (!_editorQuitMessageReported)
             {

@@ -10,6 +10,7 @@ namespace SpaceExplorer.Core.Pooling
         private readonly Transform _root;
         private readonly Stack<T> _available;
         private readonly int _capacity;
+        private readonly bool _expandWhenExhausted;
         private int _totalCount;
         private int _activeCount;
         private bool _disposed;
@@ -19,7 +20,7 @@ namespace SpaceExplorer.Core.Pooling
         public int ActiveCount => _activeCount;
         public int AvailableCount => _available.Count;
 
-        public PrefabPool(T prefab, int capacity, int prewarmCount = 0, Transform parent = null)
+        public PrefabPool(T prefab, int capacity, int prewarmCount = 0, Transform parent = null, bool expandWhenExhausted = false)
         {
             if (prefab == null)
                 throw new ArgumentNullException(nameof(prefab));
@@ -30,6 +31,7 @@ namespace SpaceExplorer.Core.Pooling
 
             _prefab = prefab;
             _capacity = capacity;
+            _expandWhenExhausted = expandWhenExhausted;
             _available = new Stack<T>(capacity);
             var rootObject = new GameObject($"{prefab.name} Pool");
             _root = rootObject.transform;
@@ -51,7 +53,7 @@ namespace SpaceExplorer.Core.Pooling
             }
             else
             {
-                if (_totalCount >= _capacity)
+                if (!_expandWhenExhausted && _totalCount >= _capacity)
                     return null;
                 item = CreateInstance();
             }
@@ -90,10 +92,20 @@ namespace SpaceExplorer.Core.Pooling
                 return;
 
             _disposed = true;
-            if (Application.isPlaying)
-                UnityEngine.Object.Destroy(_root.gameObject);
-            else
-                UnityEngine.Object.DestroyImmediate(_root.gameObject);
+
+            // Scene teardown may destroy this Unity object before the pool owner's OnDestroy runs.
+            Transform root = _root;
+            if (root != null)
+            {
+                GameObject rootObject = root.gameObject;
+                if (rootObject != null)
+                {
+                    if (Application.isPlaying)
+                        UnityEngine.Object.Destroy(rootObject);
+                    else
+                        UnityEngine.Object.DestroyImmediate(rootObject);
+                }
+            }
 
             _available.Clear();
             _totalCount = 0;

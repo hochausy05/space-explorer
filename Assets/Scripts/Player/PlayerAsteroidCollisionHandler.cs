@@ -1,3 +1,4 @@
+using SpaceExplorer.Audio;
 using SpaceExplorer.Asteroids;
 using SpaceExplorer.Combat;
 using SpaceExplorer.Core;
@@ -18,6 +19,14 @@ namespace SpaceExplorer.Player
         [SerializeField, Min(0)] private int _largeAsteroidScorePenalty = 15;
         [SerializeField, Min(0)] private int _speedAsteroidDamage = 5;
         [SerializeField, Min(0)] private int _speedAsteroidScorePenalty = 25;
+        [SerializeField, Min(0)] private int _homingAsteroidDamage = 5;
+        [SerializeField, Min(0)] private int _homingAsteroidScorePenalty = 25;
+        [SerializeField, Min(0)] private int _erraticAsteroidDamage = 5;
+        [SerializeField, Min(0)] private int _erraticAsteroidScorePenalty = 25;
+        [SerializeField, Min(0)] private int _splitterAsteroidDamage = 5;
+        [SerializeField, Min(0)] private int _splitterAsteroidScorePenalty = 25;
+        [SerializeField, Min(0)] private int _fragmentAsteroidDamage = 1;
+        [SerializeField, Min(0)] private int _fragmentAsteroidScorePenalty = 5;
         [SerializeField, Min(0f)] private float _postHitProtectionDuration = 1f;
 
         [Header("Shield Impact Visual")]
@@ -143,11 +152,7 @@ namespace SpaceExplorer.Player
             if (Time.timeAsDouble < _postHitProtectionEndsAt)
                 return;
 
-            int scorePenalty = asteroid.Kind == AsteroidKind.Speed
-                ? Mathf.Max(0, _speedAsteroidScorePenalty)
-                : asteroid.Size == AsteroidSize.Small
-                    ? Mathf.Max(0, _smallAsteroidScorePenalty)
-                    : Mathf.Max(0, _largeAsteroidScorePenalty);
+            int scorePenalty = GetAsteroidScorePenalty(asteroid);
 
             if (!manager.TryApplyScorePenalty(scorePenalty, out string penaltyError))
             {
@@ -157,15 +162,12 @@ namespace SpaceExplorer.Player
 
             if (_energyShield != null && _energyShield.TryAbsorbAsteroidCollision())
             {
+                SfxAudioService.PlayShieldHit();
                 BeginPostHitProtection(showShieldBubble: true);
                 return;
             }
 
-            int damage = asteroid.Kind == AsteroidKind.Speed
-                ? Mathf.Max(0, _speedAsteroidDamage)
-                : asteroid.Size == AsteroidSize.Small
-                    ? Mathf.Max(0, _smallAsteroidDamage)
-                    : Mathf.Max(0, _largeAsteroidDamage);
+            int damage = GetAsteroidDamage(asteroid);
 
             int hpBeforeDamage = _playerHealth.CurrentHP;
             if (_playerHealth.ApplyDamage(damage))
@@ -176,6 +178,36 @@ namespace SpaceExplorer.Player
 
             if (_playerHealth.CurrentHP < hpBeforeDamage)
                 BeginPostHitProtection(showShieldBubble: false);
+        }
+
+        private int GetAsteroidDamage(Asteroid asteroid)
+        {
+            switch (asteroid.Kind)
+            {
+                case AsteroidKind.Speed: return Mathf.Max(0, _speedAsteroidDamage);
+                case AsteroidKind.Homing: return Mathf.Max(0, _homingAsteroidDamage);
+                case AsteroidKind.Erratic: return Mathf.Max(0, _erraticAsteroidDamage);
+                case AsteroidKind.Splitter: return Mathf.Max(0, _splitterAsteroidDamage);
+                case AsteroidKind.Fragment: return Mathf.Max(0, _fragmentAsteroidDamage);
+                default: return asteroid.Size == AsteroidSize.Small
+                    ? Mathf.Max(0, _smallAsteroidDamage)
+                    : Mathf.Max(0, _largeAsteroidDamage);
+            }
+        }
+
+        private int GetAsteroidScorePenalty(Asteroid asteroid)
+        {
+            switch (asteroid.Kind)
+            {
+                case AsteroidKind.Speed: return Mathf.Max(0, _speedAsteroidScorePenalty);
+                case AsteroidKind.Homing: return Mathf.Max(0, _homingAsteroidScorePenalty);
+                case AsteroidKind.Erratic: return Mathf.Max(0, _erraticAsteroidScorePenalty);
+                case AsteroidKind.Splitter: return Mathf.Max(0, _splitterAsteroidScorePenalty);
+                case AsteroidKind.Fragment: return Mathf.Max(0, _fragmentAsteroidScorePenalty);
+                default: return asteroid.Size == AsteroidSize.Small
+                    ? Mathf.Max(0, _smallAsteroidScorePenalty)
+                    : Mathf.Max(0, _largeAsteroidScorePenalty);
+            }
         }
 
         private void FinishRun(GameManager manager)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SpaceExplorer.Audio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -218,7 +219,27 @@ namespace SpaceExplorer.Core
             ApplyTimeScale();
             error = null;
             RecentRunHistory.RecordCompletedRun(result);
+            SfxAudioService.PlayGameOver();
             RunFinished?.Invoke(result);
+            return true;
+        }
+
+        public bool TryAbandonRun(out string error)
+        {
+            if (State != RunState.Playing && State != RunState.Paused)
+            {
+                error = $"Cannot abandon a run while the game is {State}. A run must be Playing or Paused.";
+                return false;
+            }
+
+            State = RunState.Ready;
+            LastResult = null;
+            CurrentScore = 0;
+            _pauseRequests.Clear();
+            _legacyPauseRequest = null;
+            ApplyTimeScale();
+            ScoreChanged?.Invoke(CurrentScore);
+            error = null;
             return true;
         }
 

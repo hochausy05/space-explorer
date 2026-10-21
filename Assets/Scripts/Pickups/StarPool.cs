@@ -44,7 +44,9 @@ namespace SpaceExplorer.Pickups
 
             try
             {
-                _pool = new PrefabPool<StarPickup>(_starPrefab, _capacity, _prewarmCount, transform);
+                // Special asteroid rewards are exact object counts; grow to the run's peak concurrent Star demand,
+                // then reuse those objects through the normal pool lifecycle.
+                _pool = new PrefabPool<StarPickup>(_starPrefab, _capacity, _prewarmCount, transform, expandWhenExhausted: true);
             }
             catch (ArgumentException exception)
             {
@@ -63,6 +65,25 @@ namespace SpaceExplorer.Pickups
                 return false;
 
             star.BeginDrift(this, _camera);
+            return true;
+        }
+
+        public bool TrySpawnBatch(Vector3 position, int count, out int spawnedCount)
+        {
+            spawnedCount = 0;
+            if (count <= 0)
+                return true;
+
+            if (_pool == null || _camera == null)
+                return false;
+
+            for (int i = 0; i < count; i++)
+            {
+                if (!TrySpawn(position))
+                    return false;
+                spawnedCount++;
+            }
+
             return true;
         }
 

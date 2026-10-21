@@ -22,7 +22,8 @@ namespace SpaceExplorer.Asteroids
         [SerializeField, Min(0f)] private float _verticalInset = 0.8f;
         [SerializeField, Min(0f)] private float _rightEdgeOffset = 0.5f;
 
-        [Header("Speed Variant Test")]
+        [Header("Special Asteroid Spawning")]
+        [SerializeField] private bool _automaticSpecialSpawningEnabled;
         [SerializeField, Min(1f)] private float _speedVariantMinimumMultiplier = 1.5f;
         [SerializeField, Min(1f)] private float _speedVariantMaximumMultiplier = 2f;
 
@@ -31,7 +32,11 @@ namespace SpaceExplorer.Asteroids
         private bool _runTimerInitialized;
         private bool _runStartedSubscribed;
         private bool _configurationErrorReported;
+        private bool _specialConfigurationWarningReported;
         private bool _speedPoolWarningReported;
+        private bool _homingPoolWarningReported;
+        private bool _erraticPoolWarningReported;
+        private bool _splitterPoolWarningReported;
 
         private void Awake()
         {
@@ -43,7 +48,6 @@ namespace SpaceExplorer.Asteroids
 
             if (_camera == null)
                 _camera = Camera.main;
-
             if (!IsValidCamera(_camera))
             {
                 FailConfiguration("AsteroidSpawner needs an axis-aligned orthographic gameplay camera.");
@@ -51,15 +55,11 @@ namespace SpaceExplorer.Asteroids
             }
 
             if (_spawnInterval <= 0f)
-            {
                 FailConfiguration("AsteroidSpawner interval must be greater than zero.");
-                return;
-            }
         }
 
         private void Start()
         {
-            // Start runs after every scene object's Awake, including AsteroidPool.Awake.
             if (_pool != null && !_pool.IsReady)
             {
                 FailConfiguration("AsteroidSpawner cannot run because AsteroidPool is not ready.");
@@ -72,8 +72,10 @@ namespace SpaceExplorer.Asteroids
                 return;
             }
 
-            GameManager manager = GameManager.Instance;
-            if (manager != null && manager.State == RunState.Playing && !_runTimerInitialized)
+            if (_automaticSpecialSpawningEnabled && !_pool.AreAllSpecialPoolsReady)
+                WarnSpecialConfigurationOnce();
+
+            if (GameManager.Instance.State == RunState.Playing && !_runTimerInitialized)
                 ResetDifficultyForNewRun();
         }
 
@@ -111,7 +113,7 @@ namespace SpaceExplorer.Asteroids
             if (_timeUntilNextSpawn > 0f)
                 return;
 
-            // Skip catch-up bursts after a hitch; pool capacity remains the active-object limit.
+            // Keep the existing DIFF-01 cadence; no Special-specific cooldown or active-count gate is applied.
             _timeUntilNextSpawn = GetCurrentSpawnInterval();
             SpawnOne();
         }
@@ -124,36 +126,89 @@ namespace SpaceExplorer.Asteroids
 
         private void SpawnOne()
         {
+            if (_automaticSpecialSpawningEnabled)
+            {
+                if (_pool.AreAllSpecialPoolsReady)
+                {
+                    if (Random.value < AsteroidEvolution.GetSpecialSpawnChance(_activeGameplayElapsed))
+                    {
+                        AsteroidKind kind = ChooseSpecialKind();
+                        if (TrySpawnSpecial(kind))
+                            return;
+                    }
+                }
+                else
+                {
+                    WarnSpecialConfigurationOnce();
+                }
+            }
+
+            SpawnOrdinaryAsteroid();
+        }
+
+        private void SpawnOrdinaryAsteroid()
+        {
             AsteroidSize size = Random.value < Mathf.Clamp01(_largeAsteroidProbability)
                 ? AsteroidSize.Large
                 : AsteroidSize.Small;
+            int health = AsteroidEvolution.GetMaximumHealth(size, _activeGameplayElapsed);
+            _pool.TrySpawn(size, GetSpawnPosition(), GetCurrentAsteroidSpeedMultiplier(), health);
+        }
 
-            // A full pool is an expected limit; the next interval will retry without logging each time.
-            Vector3 spawnPosition = GetSpawnPosition();
-            int maximumHealth = AsteroidEvolution.GetMaximumHealth(size, _activeGameplayElapsed);
-            _pool.TrySpawn(size, spawnPosition, GetCurrentAsteroidSpeedMultiplier(), maximumHealth);
+        private bool TrySpawnSpecial(AsteroidKind kind)
+        {
+            Vector3 position = GetSpawnPosition();
+            float difficultySpeed = GetCurrentAsteroidSpeedMultiplier();
+            if (kind == AsteroidKind.Speed)
+            {
+                float minimum = Mathf.Clamp(Mathf.Min(_speedVariantMinimumMultiplier, _speedVariantMaximumMultiplier), 1.5f, 2f);
+                float maximum = Mathf.Clamp(Mathf.Max(_speedVariantMinimumMultiplier, _speedVariantMaximumMultiplier), minimum, 2f);
+                float variantMultiplier = Random.Range(minimum, maximum);
+                int health = AsteroidEvolution.GetSpecialMaximumHealth(kind, _activeGameplayElapsed);
+                if (_pool.TrySpawnSpeed(position, difficultySpeed, variantMultiplier, health) != null)
+                    return true;
+                WarnPoolFailureOnce(kind);
+                return false;
+            }
+
+            int maximumHealth = AsteroidEvolution.GetSpecialMaximumHealth(kind, _activeGameplayElapsed);
+            if (_pool.TrySpawnSpecial(kind, position, difficultySpeed, maximumHealth) != null)
+                return true;
+            WarnPoolFailureOnce(kind);
+            return false;
+        }
+
+        private AsteroidKind ChooseSpecialKind()
+        {
+            float roll = Random.value * 100f;
+            if (roll < 35f)
+                return AsteroidKind.Speed;
+            if (roll < 65f)
+                return AsteroidKind.Erratic;
+            if (roll < 85f)
+                return AsteroidKind.Homing;
+            return AsteroidKind.Splitter;
         }
 
         [ContextMenu("Test/Spawn Speed Asteroid")]
-        private void SpawnSpeedAsteroidForTesting()
+        private void SpawnSpeedAsteroidForTesting() => SpawnSpecialForTesting(AsteroidKind.Speed);
+
+        [ContextMenu("Test/Spawn Homing Asteroid")]
+        private void SpawnHomingAsteroidForTesting() => SpawnSpecialForTesting(AsteroidKind.Homing);
+
+        [ContextMenu("Test/Spawn Erratic Asteroid")]
+        private void SpawnErraticAsteroidForTesting() => SpawnSpecialForTesting(AsteroidKind.Erratic);
+
+        [ContextMenu("Test/Spawn Splitter Asteroid")]
+        private void SpawnSplitterAsteroidForTesting() => SpawnSpecialForTesting(AsteroidKind.Splitter);
+
+        private void SpawnSpecialForTesting(AsteroidKind kind)
         {
             if (!Application.isPlaying || !IsRunActive() || _pool == null || !IsValidCamera(_camera))
                 return;
 
-            float minimum = Mathf.Min(_speedVariantMinimumMultiplier, _speedVariantMaximumMultiplier);
-            float maximum = Mathf.Max(_speedVariantMinimumMultiplier, _speedVariantMaximumMultiplier);
-            float variantMultiplier = Random.Range(minimum, maximum);
-            int maximumHealth = AsteroidEvolution.GetMaximumHealth(AsteroidSize.Small, _activeGameplayElapsed);
-            Asteroid spawned = _pool.TrySpawnSpeed(
-                GetSpawnPosition(),
-                GetCurrentAsteroidSpeedMultiplier() * variantMultiplier,
-                maximumHealth);
-
-            if (spawned == null && !_speedPoolWarningReported)
-            {
-                Debug.LogWarning("Speed Asteroid test spawn failed; assign a valid Speed Asteroid prefab and ensure its pool has capacity.", this);
-                _speedPoolWarningReported = true;
-            }
+            if (!TrySpawnSpecial(kind))
+                WarnPoolFailureOnce(kind);
         }
 
         private Vector3 GetSpawnPosition()
@@ -194,16 +249,49 @@ namespace SpaceExplorer.Asteroids
         private float GetCurrentAsteroidSpeedMultiplier()
         {
             return _initialAsteroidSpeedMultiplier * Mathf.Min(
-                1f + GetDifficultyStep() * _speedMultiplierIncreasePerStep,
-                _maximumSpeedMultiplier);
+                1f + GetDifficultyStep() * _speedMultiplierIncreasePerStep, _maximumSpeedMultiplier);
         }
 
         private float GetCurrentSpawnInterval()
         {
             float frequencyMultiplier = _initialSpawnFrequencyMultiplier * Mathf.Min(
-                1f + GetDifficultyStep() * _frequencyMultiplierIncreasePerStep,
-                _maximumFrequencyMultiplier);
+                1f + GetDifficultyStep() * _frequencyMultiplierIncreasePerStep, _maximumFrequencyMultiplier);
             return _spawnInterval / Mathf.Max(0.01f, frequencyMultiplier);
+        }
+
+        private void WarnSpecialConfigurationOnce()
+        {
+            if (_specialConfigurationWarningReported)
+                return;
+
+            Debug.LogError("Automatic Special Asteroid spawning is enabled but AsteroidPool is missing a Special/fragment prefab, StarPool, or Player target reference. Ordinary Small/Large spawning continues.", this);
+            _specialConfigurationWarningReported = true;
+        }
+
+        private void WarnPoolFailureOnce(AsteroidKind kind)
+        {
+            if (kind == AsteroidKind.Speed)
+            {
+                if (_speedPoolWarningReported) return;
+                _speedPoolWarningReported = true;
+            }
+            else if (kind == AsteroidKind.Homing)
+            {
+                if (_homingPoolWarningReported) return;
+                _homingPoolWarningReported = true;
+            }
+            else if (kind == AsteroidKind.Erratic)
+            {
+                if (_erraticPoolWarningReported) return;
+                _erraticPoolWarningReported = true;
+            }
+            else if (kind == AsteroidKind.Splitter)
+            {
+                if (_splitterPoolWarningReported) return;
+                _splitterPoolWarningReported = true;
+            }
+
+            Debug.LogWarning($"{kind} Asteroid spawn failed; verify its prefab, pool, Player target, and capacity configuration.", this);
         }
 
         private static bool IsValidCamera(Camera camera)
@@ -219,12 +307,11 @@ namespace SpaceExplorer.Asteroids
 
         private void FailConfiguration(string message)
         {
-            if (!_configurationErrorReported)
-            {
-                Debug.LogError(message, this);
-                _configurationErrorReported = true;
-            }
+            if (_configurationErrorReported)
+                return;
 
+            Debug.LogError(message, this);
+            _configurationErrorReported = true;
             enabled = false;
         }
     }

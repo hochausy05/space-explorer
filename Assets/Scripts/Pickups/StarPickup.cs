@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SpaceExplorer.Audio;
 using SpaceExplorer.Core.Pooling;
 using UnityEngine;
 
@@ -153,6 +154,8 @@ namespace SpaceExplorer.Pickups
 
             StarPool owner = _owner;
             _isInUse = false;
+            if (_xpValue > 0)
+                SfxAudioService.PlayXPCollect();
             collector.AddXP(_xpValue);
             owner.Release(this);
         }

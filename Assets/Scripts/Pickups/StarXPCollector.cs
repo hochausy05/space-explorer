@@ -1,4 +1,5 @@
 using System;
+using SpaceExplorer.Audio;
 using SpaceExplorer.Core;
 using UnityEngine;
 
@@ -44,6 +45,7 @@ namespace SpaceExplorer.Pickups
             {
                 XPIntoCurrentLevel -= XPRequiredForNextLevel;
                 CurrentLevel++;
+                SfxAudioService.PlayLevelUp();
                 LevelUp?.Invoke(CurrentLevel);
             }
 

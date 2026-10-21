@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using SpaceExplorer.Audio;
 using SpaceExplorer.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -64,11 +65,13 @@ namespace SpaceExplorer.UI
 
         private void HandlePlayAgain()
         {
+            SfxAudioService.PlayClick();
             LoadScene(SceneLoader.Gameplay);
         }
 
         private void HandleMainMenu()
         {
+            SfxAudioService.PlayClick();
             LoadScene(SceneLoader.MainMenu);
         }
 

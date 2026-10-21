@@ -1,5 +1,6 @@
 using System;
 using BigInteger = System.Numerics.BigInteger;
+using SpaceExplorer.Audio;
 using SpaceExplorer.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -115,12 +116,16 @@ namespace SpaceExplorer.Combat
             _nextFireTime = now + EffectiveFireInterval;
             Vector3 muzzlePosition = transform.position + Vector3.right * _muzzleOffset;
             float centerIndex = (_projectilesPerVolley - 1) * 0.5f;
+            bool spawnedAnyProjectile = false;
             for (int i = 0; i < _projectilesPerVolley; i++)
             {
                 float angle = (i - centerIndex) * _multiShotAngleStepDegrees;
                 Vector2 direction = Quaternion.Euler(0f, 0f, angle) * Vector2.right;
-                _bulletPool.TrySpawn(muzzlePosition, direction, _damagePerProjectile);
+                spawnedAnyProjectile |= _bulletPool.TrySpawn(muzzlePosition, direction, _damagePerProjectile);
             }
+
+            if (spawnedAnyProjectile)
+                SfxAudioService.PlayShoot();
         }
 
         public bool TryApplyMultiShot()

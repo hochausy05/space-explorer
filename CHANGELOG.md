@@ -20,6 +20,105 @@ Sau mỗi prompt có thay đổi repository, thêm một entry theo mẫu:
 - **Tiếp theo:** TASK-ID hoặc bước phù hợp tiếp theo.
 ```
 
+## 2026-10-21 22:59 +07:00 — WORLD-PARALLAX-01, POLISH-EXPLOSION-01 và FIX-POOL-DISPOSE-01: Chốt xác minh Unity
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Cập nhật tài liệu cho ba hạng mục đã được chủ dự án xác nhận hoàn tất; không sửa code, scene, prefab hoặc asset.
+- **Thay đổi:** Đánh dấu `WORLD-PARALLAX-01`, `POLISH-EXPLOSION-01` và `FIX-POOL-DISPOSE-01` là DONE trong TASKS và cập nhật ghi chú trạng thái ở PLAN. Giữ nguyên sao tròn hiện có; không thay bằng sao bốn cánh. Ghi nhận hiệu ứng nổ dùng chung hoạt động và lỗi `MissingReferenceException` đã được xử lý.
+- **Kiểm tra:** Chủ dự án xác nhận WORLD-PARALLAX-01 và POLISH-EXPLOSION-01 hoạt động đúng trong Unity Play Mode, đồng thời xác nhận lỗi `MissingReferenceException` của FIX-POOL-DISPOSE-01 đã được xử lý. Không chạy automated test, build hoặc Unity trong lượt cập nhật tài liệu này.
+- **Chưa kiểm tra / Rủi ro:** Không có kiểm tra mới do Codex thực hiện; các task còn lại giữ nguyên trạng thái.
+- **Tiếp theo:** Tiếp tục task hiện tại theo `NEXT` trong TASKS.
+
+## 2026-10-21 22:44 +07:00 — WORLD-PARALLAX-01: Thêm code nền sao chuyển động hai lớp
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Tạo controller sao nền Far/Near bằng rendering 2D runtime; giữ nguyên background tĩnh, chưa sửa scene.
+- **Thay đổi:** Thêm `ParallaxStarfieldController`, mặc định tạo 45 FarStars chạy `0.2` và 20 NearStars chạy `0.6` world units/giây. Các sao dùng chung một sprite tròn mềm tạo trong bộ nhớ, random kích thước/màu/opacity, đi trái và được tái bố trí bên phải khi qua mép trái. Tự chiếu lại vị trí theo bounds camera khi aspect/viewport đổi; dùng scaled time để pause cùng gameplay. Sorting trên layer `Default` giữa background `-100` và gameplay `0+`, không thêm physics hoặc asset.
+- **Kiểm tra:** Đọc cấu hình scene: camera Orthographic size `5` tại Z `-10`; background tĩnh order `-100`; Player/asteroid/bullet `0`, XP Star `2`, Shield `5`, explosion `10`; Canvas dùng Screen Space Overlay. Chưa chạy Unity compile, build, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Tạo GameObject `ParallaxStarfield` tại root Gameplay, gắn script và gán Main Camera; kiểm tra opacity/size, không lấn gameplay, resize/aspect, pause/resume, scene reload và Console. Không sửa scene/prefab trong lượt này; task giữ PARTIAL.
+- **Tiếp theo:** Lưu GameObject wiring trong Unity và chạy checklist Play Mode của WORLD-PARALLAX-01.
+
+## 2026-10-21 22:33 +07:00 — FIX-POOL-DISPOSE-01: Bảo vệ dọn pool khi scene unload
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Chặn `MissingReferenceException` khi pool root đã bị Unity hủy trước callback `OnDestroy` của pool owner.
+- **Thay đổi:** `PrefabPool<T>.Dispose()` dùng Unity-aware null check cho `Transform` và `GameObject` trước khi truy cập/hủy; `_disposed` vẫn khóa gọi lặp và bookkeeping được xóa. Sửa tại lớp dùng chung nên áp dụng cho Asteroid, Star, Bullet và Explosion pool; không đổi prewarm, reuse hay mở rộng pool.
+- **Kiểm tra:** Truy nguyên stack trace tới `_root.gameObject`; xác nhận các pool liên quan đều gọi cùng `Dispose()` từ `OnDestroy`. `git diff --check` theo file thuộc task đạt. Không chạy Unity compile, automated test, build hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần kiểm tra scene unload và dừng Play Mode khi Explosion đang chạy; xác nhận không còn exception và pool vẫn tái sử dụng bình thường. Không chỉnh scene hoặc prefab.
+- **Tiếp theo:** Chạy kiểm tra thủ công scene unload/shutdown trong Unity để chốt `FIX-POOL-DISPOSE-01`.
+
+## 2026-10-21 22:17 +07:00 — POLISH-EXPLOSION-01: Nền hiệu ứng nổ Asteroid dùng chung
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm code nền để phát animation nổ hiện có khi Asteroid thực sự bị phá hủy; chưa sửa prefab hoặc scene.
+- **Thay đổi:** Thêm `PooledAsteroidExplosion` và `AsteroidExplosionPool`; dùng chung `PrefabPool` có prewarm, mở rộng khi cần, scale riêng cho Small/Large, bốn Special và Fragment. Gọi từ `AsteroidPool.OnAsteroidDestroyed`, sau reward; nhánh Fragment cũng có một hiệu ứng nhưng không đổi reward. Reset Animator về frame đầu khi dùng lại, thu pool theo normalized playback của state hiện hành và dùng Normal scaled time để pause cùng Gameplay. Không thêm physics component hay SFX.
+- **Kiểm tra:** Xác nhận `OnAsteroidDestroyed` chỉ được gọi từ đường Asteroid chết do damage; off-screen recycle gọi `Release` riêng. Đã kiểm tra cấu hình prefab hiện có: SpriteRenderer, Animator/controller, clip 8 frame không loop, thời lượng khoảng 0.333 giây, không có Collider2D/Rigidbody2D. `git diff --check` cho code/tài liệu thuộc task và kiểm tra khoảng trắng file mới đạt. Lệnh toàn repo báo trailing whitespace đã tồn tại trong `Gameplay.unity`; không sửa scene. Chưa chạy Unity compile, automated test, build hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Trong Unity thêm `PooledAsteroidExplosion` lên prefab `AsteroidExplosion` và gán Animator/SpriteRenderer; trên GameObject `AsteroidPool` hiện có thêm `AsteroidExplosionPool`, gán prefab và nối trường `AsteroidPool > Explosion Pool` về component đó. Cần kiểm tra frame đầu/lặp pool, scale thực tế theo PPU, pause/resume, burst, bảy loại, Splitter parent/fragment, scene unload và Console trong Play Mode.
+- **Tiếp theo:** Lưu wiring trên trong Unity và chạy checklist POLISH-EXPLOSION-01; giữ task PARTIAL đến khi chủ dự án xác minh.
+
+## 2026-10-21 21:07 +07:00 — GAMEPLAY-PAUSE-MENU-01: Thêm code nền Settings/Pause
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Tạo nền code cho Settings/Pause trong Gameplay; chưa dựng hoặc sửa scene UI.
+- **Thay đổi:** Thêm `GameplayPauseMenuController` cho Settings, Resume, mute/unmute SFX và Exit về MainMenu. Pause/resume dùng token riêng của `GameManager`; Settings bị khóa khi đã có pause owner khác. Thêm `TryAbandonRun()` để bỏ run không phát sinh result/history/Game Over và đưa trạng thái về Ready. `SfxAudioService` lưu mute bằng PlayerPrefs, áp dụng cho mọi voice hiện tại và sau này mà không đổi mức volume Inspector.
+- **Kiểm tra:** Rà soát API pause, RunFinished/RunStarted, `SceneLoader`, SFX singleton và UpgradeManager; `git diff --check` đạt. Không chạy Unity compile, build, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần tạo UI trong Canvas Gameplay, gán references, để các Button `On Click()` rỗng và xác minh trong Play Mode.
+- **Tiếp theo:** Tạo SettingsButton và SettingsPanel trong Unity theo hướng dẫn Inspector; kiểm tra pause/resume, lựa chọn upgrade, mute, Exit, và run mới.
+
+## 2026-10-21 20:51 +07:00 — UI-01: Chốt phạm vi HUD Gameplay
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Cập nhật tài liệu theo scope HUD đã được chủ dự án duyệt; không sửa UI hoặc gameplay.
+- **Thay đổi:** UI-01 gồm Score, Level, XP dạng số (không có XP progress bar), HP dùng thanh hiện có và giữ bố cục cùng `BuildStatusHUD`. Loại Sector khỏi yêu cầu UI-01; không thay đổi DIFF-01. Chủ dự án xác nhận HUD hiện tại được duyệt và BuildStatusHUD đã được kiểm tra trong Unity Play Mode.
+- **Kiểm tra:** Xác nhận thủ công do chủ dự án báo cáo; không chạy Unity, Play Mode, build hoặc automated test trong lượt này. `git diff --check` được chạy sau cập nhật.
+- **Chưa kiểm tra / Rủi ro:** Không thực hiện kiểm tra mới; các task khác giữ nguyên trạng thái.
+- **Tiếp theo:** `WORLD-01` — nền cuộn vô hạn và parallax tùy chọn.
+
+## 2026-10-21 20:36 +07:00 — AUDIO-SFX-01: Chốt hệ thống hiệu ứng âm thanh
+
+- **Trạng thái:** DONE
+- **Phạm vi:** Ghi nhận xác minh của chủ dự án cho hệ thống tám hiệu ứng âm thanh; không sửa code hoặc cấu hình Unity.
+- **Thay đổi:** Đánh dấu `AUDIO-SFX-01` hoàn tất trong TASKS và PLAN. Chủ dự án xác nhận đã cấu hình đủ tám SFX được duyệt và âm thanh hoạt động trong Unity. Nhạc nền được cố ý loại khỏi phạm vi.
+- **Kiểm tra:** Xác nhận Unity do chủ dự án báo cáo; Codex không chạy compile, build, automated test hoặc Play Mode. `git diff --check` được chạy sau cập nhật.
+- **Chưa kiểm tra / Rủi ro:** Không có kiểm tra tự động mới. Các task chưa hoàn tất giữ nguyên trạng thái.
+- **Tiếp theo:** `WORLD-01` — nền cuộn vô hạn và parallax tùy chọn.
+
+## 2026-10-21 20:10 +07:00 — AUDIO-SFX-01: Thêm service hiệu ứng âm thanh
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Phát tám SFX hiện có theo sự kiện gameplay/UI; không thêm nhạc nền hoặc thay đổi scene/prefab.
+- **Thay đổi:** Thêm `SfxAudioService` persistent, singleton, âm thanh 2D với tám AudioClip reference, master/per-effect volume, tối đa bảy voice thường và một voice ưu tiên Game Over, cùng repeat gate ngắn. Nối sự kiện bắn mỗi volley thành công, Bullet hit, phá hủy do projectile, Shield hấp thụ, Star thu được, từng Level Up, các handler button hiện có và `TryFinishRun` thành công. Thêm task `AUDIO-SFX-01` và đặc tả P13.
+- **Kiểm tra:** Xác nhận đủ tám WAV trong `Assets/Audio/SFX/`; rà soát event call sites, callback UI hiện có và `AudioListener` ở ba scene. `git diff --check` đạt. Chưa chạy Unity compile, build, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần tạo `SfxAudioService` GameObject ở MainMenu, Gameplay, EndGame; gán AudioSource và tám clip cho từng scene, rồi kiểm tra mức âm lượng, polyphony và không lặp âm. Unity cần tự tạo `.meta` cho script mới khi import.
+- **Tiếp theo:** Hoàn tất Inspector wiring và checklist Play Mode của `AUDIO-SFX-01`.
+
+## 2026-10-21 19:27 +07:00 — AST-SPECIAL-CODE-01: Ghi nhận xác minh Special Asteroid
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Chốt phần triển khai Special đã được chủ dự án xác minh; giữ lại các kiểm tra QA chưa được xác nhận.
+- **Thay đổi:** Đánh dấu `AST-SPEED-01`, `AST-SPECIAL-CODE-01`, `AST-SPECIAL-PREFAB-01` và `AST-SPECIAL-SPAWN-01` là DONE. Chủ dự án xác nhận cả bốn loại Special, Splitter Fragments và tự động spawn theo thời gian hoạt động trong Unity Play Mode. Đặt `AST-SPECIAL-QA-01` làm NEXT, vẫn PARTIAL.
+- **Kiểm tra:** Kết quả Play Mode do chủ dự án báo cáo; không chạy Unity, build hoặc automated test trong lượt tài liệu này. `git diff --check` được chạy.
+- **Chưa kiểm tra / Rủi ro:** Chưa xác nhận exhaustive HP stages/caps, pause/reset, reward counts, pool reuse/stress hoặc xác suất tại từng mốc. `AST-EVOL-01` vẫn cần kiểm tra cap, pause, reset và HP spawn-time stability. `UI-01` giữ PARTIAL.
+- **Tiếp theo:** Hoàn tất các mục còn lại của `AST-SPECIAL-QA-01` trong Unity Play Mode.
+
+## 2026-10-21 01:05 +07:00 — AST-SPECIAL-CODE-01: Cập nhật HP tiến hóa cho bốn Special
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Áp dụng bảng HP theo phút riêng cho Speed, Homing, Erratic và Splitter; không đổi HP Small/Large hay cơ chế spawn khác.
+- **Thay đổi:** `AsteroidEvolution.GetSpecialMaximumHealth` chọn HP theo stage từ cùng active Gameplay clock của `AsteroidSpawner`: Speed `3/3/4/5/5/6`, Homing và Erratic `6/6/8/9/11/12`, Splitter `5/5/6/8/9/10` từ stage khởi đầu đến phút 5+. HP được khởi tạo tại spawn; Fragment vẫn 1 HP. Cập nhật P5 và task liên quan; không sửa scene/prefab.
+- **Kiểm tra:** Rà soát `AsteroidSpawner` truyền cùng elapsed clock vào spawn, `Asteroid.BeginRun` đặt current HP bằng maximum HP, và pool reset trước khi tái sử dụng. `git diff --check` trên các file thuộc task đạt. Không chạy Unity compile, automated test hoặc Play Mode.
+- **Chưa kiểm tra / Rủi ro:** Cần kiểm tra thủ công HP mỗi loại ở phút 1, 2, 3, 4, 5; kiểm tra stage 0 khi spawn thử trước phút 1, pause/reset, và xác nhận Asteroid đang hoạt động giữ nguyên HP. Không cần thay đổi Inspector; vẫn cần hoàn tất wiring prefab trước khi kiểm thử tự động spawn.
+- **Tiếp theo:** Hoàn tất thiết lập prefab/Inspector theo `AST-SPECIAL-PREFAB-01`, sau đó kiểm tra HP và hành vi Special trong Play Mode.
+
+## 2026-10-21 00:19 +07:00 — AST-SPECIAL-CODE-01: Hoàn thiện nền code Asteroid đặc biệt
+
+- **Trạng thái:** PARTIAL
+- **Phạm vi:** Thêm nền runtime cho Speed, Homing, Erratic, Splitter, Splitter Fragment và spawn Special tự động; không tạo artwork hoặc sửa scene/prefab YAML.
+- **Thay đổi:** Dùng chung `Asteroid`, `AsteroidPool`, timer active Gameplay của DIFF-01/AST-EVOL-01, damage qua Bullet, collision handler, Score và StarPool. Tốc độ đặc biệt lấy từ Small/Large prefab chuẩn rồi nhân DIFF-01 đúng một lần; Homing bẻ lái tối đa 75°/s trong 3 giây, Erratic dùng sóng mượt, Splitter chỉ tạo hai fragment khi bị projectile phá hủy. Fragment có 1 HP, damage 1/-5 Score, không thưởng và không split. Đã thêm bảng Special chance 0/6/10/14/18/20%, phân bố có điều kiện 35/30/20/15%, context spawn riêng và cờ automatic mặc định tắt. Special pools và StarPool mở rộng khi cạn chỗ rồi tái sử dụng; thiếu cấu hình không ngăn spawn Small/Large.
+- **Kiểm tra:** Rà soát đường gọi damage/reward, reset pool, thời gian pause, stage HP và tham chiếu API; `git diff --check` đạt. Không chạy Unity compile, automated test, build hoặc Play Mode vì Unity Editor đang mở.
+- **Chưa kiểm tra / Rủi ro:** Chưa tạo/gán prefab Homing, Erratic, Splitter, Fragment; chưa gán Speed prefab, Player target hoặc cấu hình collision mới trong Inspector. Chưa xác minh scale collider, chuyển động, reward, xác suất, reset/pause và mở rộng pool trong runtime. `AST-SPECIAL-CODE-01`, prefab integration, spawning và QA đều chưa hoàn tất; `AST-EVOL-01` vẫn chỉ được xác nhận quan sát HP tăng, chưa xác nhận cap/reset/pause.
+- **Tiếp theo:** Hoàn tất `AST-SPEED-01`, sau đó tạo/gán bốn Special prefab và Splitter Fragment theo task `AST-SPECIAL-PREFAB-01`; chỉ bật `AsteroidSpawner > Automatic Special Spawning Enabled` sau khi toàn bộ tham chiếu hợp lệ.
+
 ## 2026-10-20 19:06 +07:00 — FIX-UNITY6-EDITOR-API-01: Hoàn tất thay API tìm component trong harness
 
 - **Trạng thái:** DONE
