@@ -53,12 +53,18 @@ namespace SpaceExplorer.Asteroids
         private bool _isInUse;
         private bool _hasEnteredCamera;
 
+        // Trả về máu hiện tại của Asteroid đang dùng.
         public int CurrentHealth => _currentHealth;
+        // Trả về HP tối đa đã gán lúc spawn hoặc giá trị mặc định của prefab.
         public int MaximumHealth => _currentMaximumHealth > 0 ? _currentMaximumHealth : Mathf.Max(1, _maximumHealth);
+        // Cho biết Asteroid thuộc kích thước Small hay Large.
         public AsteroidSize Size => _size;
+        // Cho biết biến thể đang được pool sử dụng.
         public AsteroidKind Kind => _kind;
+        // Tính khoảng cách tách Fragment dựa trên kích thước collider.
         internal float FragmentSeparation => _collider != null ? Mathf.Max(0.2f, _collider.bounds.extents.y * 1.2f) : 0.5f;
 
+        // Lưu component và đặt Rigidbody2D về cấu hình vật lý của Asteroid.
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -70,29 +76,34 @@ namespace SpaceExplorer.Asteroids
             _rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         }
 
+        // Chọn tốc độ nền ngẫu nhiên một lần cho mỗi lần spawn.
         internal float RollBaseSpeed()
         {
             return Random.Range(_minimumSpeed, Mathf.Max(_minimumSpeed, _maximumSpeed));
         }
 
+        // Khởi chạy Asteroid thường với tốc độ và HP mặc định của prefab.
         public void BeginRun(AsteroidPool owner, Camera camera, AsteroidSize size)
         {
             AsteroidKind kind = size == AsteroidSize.Small ? AsteroidKind.Small : AsteroidKind.Large;
             BeginRun(owner, camera, kind, 1f, _maximumHealth);
         }
 
+        // Khởi chạy Asteroid thường với hệ số tốc độ do pool cung cấp.
         public void BeginRun(AsteroidPool owner, Camera camera, AsteroidSize size, float speedMultiplier)
         {
             AsteroidKind kind = size == AsteroidSize.Small ? AsteroidKind.Small : AsteroidKind.Large;
             BeginRun(owner, camera, kind, speedMultiplier, _maximumHealth);
         }
 
+        // Khởi chạy Asteroid thường với HP tiến hóa đã tính tại thời điểm spawn.
         public void BeginRun(AsteroidPool owner, Camera camera, AsteroidSize size, float speedMultiplier, int maximumHealth)
         {
             AsteroidKind kind = size == AsteroidSize.Small ? AsteroidKind.Small : AsteroidKind.Large;
             BeginRun(owner, camera, kind, speedMultiplier, maximumHealth);
         }
 
+        // Khởi tạo đầy đủ trạng thái cho lần dùng pool này, gồm HP được quyết định lúc spawn.
         internal void BeginRun(
             AsteroidPool owner,
             Camera camera,
@@ -149,26 +160,31 @@ namespace SpaceExplorer.Asteroids
             _rigidbody.angularVelocity = rotation;
         }
 
+        // Đặt hướng bay của Fragment trước khi pool khởi tạo vận tốc.
         internal void SetFragmentDirection(float degrees)
         {
             _fragmentDirectionDegrees = degrees;
         }
 
+        // Nhận sát thương không đến từ đạn Player và không tạo reward bắn hạ.
         public void TakeDamage(int amount)
         {
             ApplyDamage(new BigInteger(amount), causedByPlayerProjectile: false);
         }
 
+        // Nhận sát thương lớn mà không làm tràn kiểu số nguyên thông thường.
         public void TakeDamage(BigInteger amount)
         {
             ApplyDamage(amount, causedByPlayerProjectile: false);
         }
 
+        // Đánh dấu sát thương do đạn Player để chỉ nhánh này tạo reward và SFX phá hủy.
         public void TakeDamageFromPlayerProjectile(BigInteger amount)
         {
             ApplyDamage(amount, causedByPlayerProjectile: true);
         }
 
+        // Khi HP về 0, chỉ đạn Player mới tạo reward và SFX phá hủy qua AsteroidPool.
         private void ApplyDamage(BigInteger amount, bool causedByPlayerProjectile)
         {
             if (!_isInUse || amount <= BigInteger.Zero)
@@ -189,6 +205,7 @@ namespace SpaceExplorer.Asteroids
             owner?.Release(this);
         }
 
+        // Reset biến thể, HP và vật lý trước khi Asteroid được lấy khỏi pool.
         protected override void OnTakenFromPool()
         {
             _owner = null;
@@ -213,6 +230,7 @@ namespace SpaceExplorer.Asteroids
             _rigidbody.angularVelocity = 0f;
         }
 
+        // Xóa trạng thái runtime để Asteroid có thể được tái sử dụng an toàn.
         protected override void OnReturnedToPool()
         {
             _isInUse = false;
@@ -237,6 +255,7 @@ namespace SpaceExplorer.Asteroids
             }
         }
 
+        // Cập nhật chuyển động theo loại Asteroid và thu hồi khi rời vùng chơi.
         private void FixedUpdate()
         {
             if (!_isInUse)
@@ -262,6 +281,7 @@ namespace SpaceExplorer.Asteroids
                 ReturnToPool();
         }
 
+        // Điều chỉnh hướng bay cho Homing trong thời gian cấu hình.
         private void UpdateHomingMovement(float deltaTime)
         {
             if (_variantElapsed < _homingDurationSeconds && _playerTarget != null)
@@ -282,6 +302,7 @@ namespace SpaceExplorer.Asteroids
             _rigidbody.angularVelocity = 0f;
         }
 
+        // Tạo chuyển động dọc dạng sóng hoặc zigzag mà không đổi hướng ngang.
         private void UpdateErraticMovement(float deltaTime)
         {
             _variantElapsed += deltaTime;
@@ -306,6 +327,7 @@ namespace SpaceExplorer.Asteroids
             _rigidbody.angularVelocity = 0f;
         }
 
+        // Kiểm tra camera bounds để trả Asteroid đã rời vùng chơi về pool.
         private bool ShouldReturnToPool()
         {
             Bounds bounds = _renderer.bounds;
@@ -328,6 +350,7 @@ namespace SpaceExplorer.Asteroids
                 || bounds.max.y < bottom || bounds.min.y > top);
         }
 
+        // Trả Asteroid đang hoạt động về pool sở hữu nó.
         private void ReturnToPool()
         {
             if (!_isInUse || _owner == null)
@@ -336,12 +359,14 @@ namespace SpaceExplorer.Asteroids
             _owner.Release(this);
         }
 
+        // Nhận diện các loại Special dùng quy tắc thu hồi riêng.
         private static bool IsSpecial(AsteroidKind kind)
         {
             return kind == AsteroidKind.Speed || kind == AsteroidKind.Homing
                 || kind == AsteroidKind.Erratic || kind == AsteroidKind.Splitter;
         }
 
+        // Chuyển góc độ thành vector hướng chuẩn hóa cho Fragment.
         private static Vector2 DirectionFromDegrees(float degrees)
         {
             float radians = degrees * Mathf.Deg2Rad;

@@ -20,6 +20,7 @@ namespace SpaceExplorer.Pickups
 
         public bool IsReady => _pool != null;
 
+        // Kiểm tra prefab, camera và dung lượng rồi khởi tạo pool Star dùng lại.
         private void Awake()
         {
             if (_starPrefab == null)
@@ -44,8 +45,7 @@ namespace SpaceExplorer.Pickups
 
             try
             {
-                // Special asteroid rewards are exact object counts; grow to the run's peak concurrent Star demand,
-                // then reuse those objects through the normal pool lifecycle.
+                // Phần thưởng Special cần đúng số Star; pool được phép nở để đáp ứng đợt cao điểm rồi tái sử dụng.
                 _pool = new PrefabPool<StarPickup>(_starPrefab, _capacity, _prewarmCount, transform, expandWhenExhausted: true);
             }
             catch (ArgumentException exception)
@@ -54,6 +54,7 @@ namespace SpaceExplorer.Pickups
             }
         }
 
+        // Lấy một Star từ pool, đặt lệch nhẹ và bắt đầu chuyển động trôi.
         public bool TrySpawn(Vector3 position)
         {
             if (_pool == null || _camera == null)
@@ -68,6 +69,7 @@ namespace SpaceExplorer.Pickups
             return true;
         }
 
+        // Sinh đúng số Star được yêu cầu từ pool và báo số lượng thực tế nếu pool gặp lỗi.
         public bool TrySpawnBatch(Vector3 position, int count, out int spawnedCount)
         {
             spawnedCount = 0;
@@ -87,17 +89,20 @@ namespace SpaceExplorer.Pickups
             return true;
         }
 
+        // Thu hồi Star về pool khi được nhặt hoặc rời vùng chơi.
         internal bool Release(StarPickup star)
         {
             return _pool != null && _pool.Release(star);
         }
 
+        // Giải phóng các Star đã tạo khi pool bị hủy.
         private void OnDestroy()
         {
             _pool?.Dispose();
             _pool = null;
         }
 
+        // Báo cấu hình sai một lần và vô hiệu hóa pool để tránh lỗi lặp.
         private void FailConfiguration(string message)
         {
             Debug.LogError(message, this);

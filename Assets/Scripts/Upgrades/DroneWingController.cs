@@ -25,9 +25,11 @@ namespace SpaceExplorer.Upgrades
         private bool _runStartedSubscribed;
 
         public int DroneCount => _droneCount;
+        // Báo liệu còn có thể thêm drone trong giới hạn đã định hay không.
         public bool CanAddDrone => isActiveAndEnabled && _droneCount < MaximumDroneCount;
         public event Action StatsChanged;
 
+        // Lấy vũ khí và sprite nguồn, đồng thời kiểm tra pool đạn dùng chung.
         private void Awake()
         {
             _weaponController = GetComponent<WeaponController>();
@@ -38,6 +40,7 @@ namespace SpaceExplorer.Upgrades
                 FailConfiguration("DroneWingController needs a Drone Sprite or Player sprite fallback, a Player SpriteRenderer, and a WeaponController with its shared BulletPool assigned.");
         }
 
+        // Đăng ký reset số drone khi bắt đầu run mới.
         private void OnEnable()
         {
             if (_runStartedSubscribed)
@@ -47,6 +50,7 @@ namespace SpaceExplorer.Upgrades
             _runStartedSubscribed = true;
         }
 
+        // Hủy đăng ký reset run trước khi controller bị hủy.
         private void OnDestroy()
         {
             if (!_runStartedSubscribed)
@@ -56,6 +60,7 @@ namespace SpaceExplorer.Upgrades
             _runStartedSubscribed = false;
         }
 
+        // Mở một trong hai drone đã tạo hoặc tạo mới; cả hai dùng WeaponController và BulletPool chung.
         public bool TryAddDrone()
         {
             if (!isActiveAndEnabled || !CanAddDrone || _weaponController == null || _sourceRenderer == null)
@@ -79,6 +84,7 @@ namespace SpaceExplorer.Upgrades
             return true;
         }
 
+        // Tạo drone con với sprite, vị trí và WeaponController dùng chung.
         private DroneController CreateDrone(int index)
         {
             var droneObject = new GameObject($"Drone {index + 1}");
@@ -102,6 +108,7 @@ namespace SpaceExplorer.Upgrades
             return drone.enabled ? drone : null;
         }
 
+        // Đưa số drone về 0 và tắt các drone đã tạo để tái sử dụng.
         private void ResetForNewRun()
         {
             _droneCount = 0;
@@ -117,6 +124,7 @@ namespace SpaceExplorer.Upgrades
             StatsChanged?.Invoke();
         }
 
+        // Báo cấu hình lỗi rồi tắt controller để tránh hoạt động thiếu tham chiếu.
         private void FailConfiguration(string message)
         {
             Debug.LogError(message, this);

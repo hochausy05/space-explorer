@@ -14,9 +14,11 @@ namespace SpaceExplorer.Upgrades
         public string Description => _description;
         public Sprite Icon => _icon;
 
-        // Concrete definitions must explicitly declare an implemented effect.
+        // Mỗi lớp nâng cấp cụ thể phải xác nhận hiệu ứng đã được triển khai.
         public abstract bool HasImplementedEffect { get; }
+        // Kiểm tra điều kiện nhận nâng cấp theo trạng thái Player.
         public abstract bool IsEligible(GameObject player);
+        // Thực hiện hiệu ứng nâng cấp lên Player.
         public abstract void Apply(GameObject player);
     }
 }

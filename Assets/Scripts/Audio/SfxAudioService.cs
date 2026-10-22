@@ -26,6 +26,7 @@ namespace SpaceExplorer.Audio
         private const int RegularVoiceCount = GameOverVoiceIndex;
 
         public static SfxAudioService Instance { get; private set; }
+        // Đọc trạng thái mute hiện tại, kể cả khi service chưa được tạo.
         public static bool IsMuted => Instance != null
             ? Instance._isMuted
             : PlayerPrefs.GetInt(MutePreferenceKey, 0) != 0;
@@ -66,11 +67,17 @@ namespace SpaceExplorer.Audio
         private bool _missingClipWarningReported;
         private static bool _missingServiceWarningReported;
 
+        // Phát tiếng bắn một lần cho sự kiện volley của Player.
         public static void PlayShoot() => PlayIfAvailable(Sound.Shoot);
+        // Phát âm thanh khi đạn Player trúng mục tiêu.
         public static void PlayBulletHit() => PlayIfAvailable(Sound.BulletHit);
+        // Phát âm thanh khi Asteroid bị phá hủy bởi đạn.
         public static void PlayAsteroidBreak() => PlayIfAvailable(Sound.AsteroidBreak);
+        // Phát âm thanh khi Energy Shield hấp thụ va chạm.
         public static void PlayShieldHit() => PlayIfAvailable(Sound.ShieldHit);
+        // Phát âm thanh khi Player nhặt được Star XP.
         public static void PlayXPCollect() => PlayIfAvailable(Sound.XPCollect);
+        // Xếp tiếng Level Up để phát đủ âm thanh cho nhiều cấp liên tiếp.
         public static void PlayLevelUp()
         {
             if (Instance != null)
@@ -81,9 +88,12 @@ namespace SpaceExplorer.Audio
 
             WarnMissingServiceOnce();
         }
+        // Phát tiếng nhấn cho nút UI hoặc lựa chọn nâng cấp.
         public static void PlayClick() => PlayIfAvailable(Sound.Click);
+        // Phát tiếng kết thúc run qua kênh ưu tiên riêng.
         public static void PlayGameOver() => PlayIfAvailable(Sound.GameOver);
 
+        // Lưu lựa chọn mute và cập nhật các AudioSource đang phát.
         public static void SetMuted(bool muted)
         {
             PlayerPrefs.SetInt(MutePreferenceKey, muted ? 1 : 0);
@@ -93,6 +103,7 @@ namespace SpaceExplorer.Audio
                 Instance.ApplyMute(muted);
         }
 
+        // Khởi tạo singleton, các voice âm thanh và trạng thái mute đã lưu.
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -143,18 +154,21 @@ namespace SpaceExplorer.Audio
             ReportMissingClipsOnce();
         }
 
+        // Xóa singleton khi đúng instance hiện tại bị hủy.
         private void OnDestroy()
         {
             if (Instance == this)
                 Instance = null;
         }
 
+        // Phát tiếp tiếng Level Up đang chờ khi voice trước đã rảnh.
         private void Update()
         {
             if (_pendingLevelUpSounds > 0)
                 TryPlayNextLevelUp();
         }
 
+        // Chuyển yêu cầu phát âm thanh tới service nếu service đang tồn tại.
         private static void PlayIfAvailable(Sound sound)
         {
             if (Instance != null)
@@ -166,6 +180,7 @@ namespace SpaceExplorer.Audio
             WarnMissingServiceOnce();
         }
 
+        // Chỉ cảnh báo một lần khi scene chưa có SfxAudioService.
         private static void WarnMissingServiceOnce()
         {
             if (_missingServiceWarningReported)
@@ -175,6 +190,7 @@ namespace SpaceExplorer.Audio
             _missingServiceWarningReported = true;
         }
 
+        // Xếp âm thanh Level Up để nhiều cấp nhận từ một lần cộng XP không bị mất tiếng.
         private void QueueLevelUp()
         {
             if (_isMuted || _levelUpClip == null)
@@ -184,6 +200,7 @@ namespace SpaceExplorer.Audio
             TryPlayNextLevelUp();
         }
 
+        // Phát âm thanh Level Up kế tiếp nếu có voice trống.
         private void TryPlayNextLevelUp()
         {
             if (_pendingLevelUpSounds <= 0 || _levelUpClip == null)
@@ -203,6 +220,7 @@ namespace SpaceExplorer.Audio
             PlayOnVoice(Sound.LevelUp, voiceIndex);
         }
 
+        // Chọn voice rảnh và giới hạn nhịp lặp để nhiều sự kiện không làm âm thanh dồn quá mức.
         private void Play(Sound sound)
         {
             if (_isMuted)
@@ -228,6 +246,7 @@ namespace SpaceExplorer.Audio
             _lastPlayedAt[soundIndex] = now;
         }
 
+        // Gán clip và âm lượng cho một voice rồi bắt đầu phát.
         private void PlayOnVoice(Sound sound, int voiceIndex)
         {
             AudioSource voice = _voices[voiceIndex];
@@ -236,6 +255,7 @@ namespace SpaceExplorer.Audio
             voice.Play();
         }
 
+        // Cập nhật mute cho trạng thái service và toàn bộ voice.
         private void ApplyMute(bool muted)
         {
             _isMuted = muted;
@@ -252,6 +272,7 @@ namespace SpaceExplorer.Audio
             }
         }
 
+        // Chỉ dùng voice Game Over riêng khi nó đang rảnh.
         private int FindFreeGameOverVoice()
         {
             return _voices[GameOverVoiceIndex] != null && !_voices[GameOverVoiceIndex].isPlaying
@@ -259,6 +280,7 @@ namespace SpaceExplorer.Audio
                 : -1;
         }
 
+        // Tìm voice thường rảnh theo thứ tự vòng để âm ngắn có thể chồng nhau.
         private int FindFreeRegularVoice()
         {
             for (int offset = 0; offset < RegularVoiceCount; offset++)
@@ -274,6 +296,7 @@ namespace SpaceExplorer.Audio
             return -1;
         }
 
+        // Đặt AudioSource thành âm thanh 2D, không tự phát và không lặp.
         private AudioSource ConfigureVoice(AudioSource voice)
         {
             voice.playOnAwake = false;
@@ -283,6 +306,7 @@ namespace SpaceExplorer.Audio
             return voice;
         }
 
+        // Lấy AudioClip tương ứng với loại âm thanh được yêu cầu.
         private AudioClip GetClip(Sound sound)
         {
             switch (sound)
@@ -299,6 +323,7 @@ namespace SpaceExplorer.Audio
             }
         }
 
+        // Lấy mức âm lượng riêng cho từng loại âm thanh.
         private float GetEffectVolume(Sound sound)
         {
             switch (sound)
@@ -315,6 +340,7 @@ namespace SpaceExplorer.Audio
             }
         }
 
+        // Giới hạn nhịp phát lặp để sự kiện dồn dập không gây âm quá nhiều.
         private double GetRepeatInterval(Sound sound)
         {
             switch (sound)
@@ -331,6 +357,7 @@ namespace SpaceExplorer.Audio
             }
         }
 
+        // Báo thiếu clip một lần để người dùng gán đủ âm thanh trong Inspector.
         private void ReportMissingClipsOnce()
         {
             if (_missingClipWarningReported)

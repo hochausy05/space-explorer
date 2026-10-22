@@ -19,6 +19,7 @@ namespace SpaceExplorer.Upgrades
             || _upgradeType == WeaponUpgradeType.RapidFire
             || _upgradeType == WeaponUpgradeType.DamageUp;
 
+        // Kiểm tra loại nâng cấp và giới hạn tương ứng trên WeaponController.
         public override bool IsEligible(GameObject player)
         {
             if (!HasImplementedEffect || player == null || !player.TryGetComponent(out WeaponController weapon))
@@ -33,6 +34,7 @@ namespace SpaceExplorer.Upgrades
             };
         }
 
+        // Gọi đúng API của vũ khí để áp dụng hiệu ứng đã chọn.
         public override void Apply(GameObject player)
         {
             if (!HasImplementedEffect || player == null || !player.TryGetComponent(out WeaponController weapon))

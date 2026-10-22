@@ -15,7 +15,9 @@ namespace SpaceExplorer.Upgrades
         private int _level;
 
         public int Level => _level;
+        // Chỉ cho nâng cấp khi controller đang hoạt động và còn cấp trống.
         public bool CanUpgrade => isActiveAndEnabled && _level < MaximumLevel;
+        // Trả bán kính hút tương ứng cấp Star Magnet hiện tại.
         public float AttractionRadius => _level switch
         {
             1 => 3f,
@@ -24,12 +26,14 @@ namespace SpaceExplorer.Upgrades
             _ => 0f
         };
 
+        // Đăng ký vòng đời run và tìm GameManager để theo dõi trạng thái chơi.
         private void OnEnable()
         {
             GameManager.RunStarted += ResetForNewRun;
             BindGameManager();
         }
 
+        // Hủy đăng ký, ngắt liên kết và trả các Star về chuyển động tự nhiên.
         private void OnDisable()
         {
             GameManager.RunStarted -= ResetForNewRun;
@@ -37,6 +41,7 @@ namespace SpaceExplorer.Upgrades
             ClearAttractionTargets();
         }
 
+        // Duyệt danh sách Star đang hoạt động để cập nhật mục tiêu hút mà không tìm toàn scene.
         private void FixedUpdate()
         {
             BindGameManager();
@@ -64,6 +69,7 @@ namespace SpaceExplorer.Upgrades
             }
         }
 
+        // Đặt lại cấp hút và xóa mọi mục tiêu Star của run trước.
         private void ResetForNewRun()
         {
             _level = 0;
@@ -71,11 +77,13 @@ namespace SpaceExplorer.Upgrades
             BindGameManager();
         }
 
+        // Dừng hút Star khi GameManager kết thúc run.
         private void HandleRunFinished(RunResult result)
         {
             ClearAttractionTargets();
         }
 
+        // Tăng cấp Star Magnet nếu còn dưới giới hạn tối đa.
         public bool TryUpgrade()
         {
             if (!CanUpgrade)
@@ -85,6 +93,7 @@ namespace SpaceExplorer.Upgrades
             return true;
         }
 
+        // Đồng bộ đăng ký RunFinished với GameManager hiện hành.
         private void BindGameManager()
         {
             GameManager current = GameManager.Instance;
@@ -97,6 +106,7 @@ namespace SpaceExplorer.Upgrades
                 _gameManager.RunFinished += HandleRunFinished;
         }
 
+        // Hủy đăng ký RunFinished và xóa tham chiếu GameManager.
         private void UnbindGameManager()
         {
             if (_gameManager != null)
@@ -105,6 +115,7 @@ namespace SpaceExplorer.Upgrades
             _gameManager = null;
         }
 
+        // Xóa mục tiêu hút khỏi mọi Star đang hoạt động.
         private void ClearAttractionTargets()
         {
             for (int i = 0; i < StarPickup.ActiveCount; i++)

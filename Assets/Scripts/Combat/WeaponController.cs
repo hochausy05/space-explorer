@@ -37,14 +37,20 @@ namespace SpaceExplorer.Combat
 
         public int ProjectilesPerVolley => _projectilesPerVolley;
         public BigInteger DamagePerProjectile => _damagePerProjectile;
+        // Trả số lần Damage Up đã áp dụng so với sát thương gốc.
         public BigInteger DamageUpgradeLevel => _damagePerProjectile - BaseProjectileDamage;
+        // Tính khoảng bắn nền từ giá trị Inspector và hệ số cân bằng.
         public float BaseFireInterval => _fireInterval * _baseFireIntervalMultiplier;
         public BulletPool SharedBulletPool => _bulletPool;
+        // Báo trạng thái giữ nút bắn để PlayerController áp dụng giảm tốc độ phù hợp.
         public bool IsFireHeld => _fireAction != null && _fireAction.IsPressed();
+        // Tính khoảng bắn sau khi trừ Rapid Fire, nhưng không thấp hơn giới hạn.
         public float EffectiveFireInterval => _rapidFireUpgradeCount == 0
             ? BaseFireInterval
             : Mathf.Max(BaseFireInterval - RapidFireReduction * _rapidFireUpgradeCount, MinimumFireInterval);
+        // Kiểm tra volley còn chỗ để thêm đạn trước khi đạt giới hạn.
         public bool CanUpgradeMultiShot => _projectilesPerVolley < MaximumProjectileCount;
+        // Chỉ cho chọn Rapid Fire khi cấp tiếp theo giảm được khoảng bắn thực tế.
         public bool CanUpgradeRapidFire
         {
             get
@@ -58,6 +64,7 @@ namespace SpaceExplorer.Combat
         }
         public bool CanUpgradeDamage => true;
 
+        // Kiểm tra Input Action và pool cần thiết trước khi nhận thao tác bắn.
         private void Awake()
         {
             if (_inputActions == null)
@@ -77,6 +84,7 @@ namespace SpaceExplorer.Combat
                 FailConfiguration("WeaponController needs a BulletPool assigned.");
         }
 
+        // Đăng ký reset run và bật Input Action khi component hoạt động.
         private void OnEnable()
         {
             if (!_runStartedSubscribed)
@@ -88,11 +96,13 @@ namespace SpaceExplorer.Combat
             _fireAction?.Enable();
         }
 
+        // Tắt Input Action khi component không còn hoạt động.
         private void OnDisable()
         {
             _fireAction?.Disable();
         }
 
+        // Gỡ callback reset run trước khi WeaponController bị hủy.
         private void OnDestroy()
         {
             if (_runStartedSubscribed)
@@ -102,6 +112,7 @@ namespace SpaceExplorer.Combat
             }
         }
 
+        // Bắn theo khoảng thời gian cấu hình; các viên trong một volley dùng chung hướng bắn đối xứng.
         private void Update()
         {
             GameManager manager = GameManager.Instance;
@@ -128,6 +139,7 @@ namespace SpaceExplorer.Combat
                 SfxAudioService.PlayShoot();
         }
 
+        // Chỉ nâng Multi Shot khi chưa đạt giới hạn số đạn trong một volley.
         public bool TryApplyMultiShot()
         {
             if (!CanUpgradeMultiShot)
@@ -138,6 +150,7 @@ namespace SpaceExplorer.Combat
             return true;
         }
 
+        // Giảm khoảng bắn nếu Rapid Fire còn cải thiện được thời gian chờ.
         public bool TryApplyRapidFire()
         {
             if (!CanUpgradeRapidFire)
@@ -148,6 +161,7 @@ namespace SpaceExplorer.Combat
             return true;
         }
 
+        // Tăng sát thương mỗi viên và báo HUD cập nhật chỉ số.
         public bool TryApplyDamageUp()
         {
             if (!CanUpgradeDamage)
@@ -158,6 +172,7 @@ namespace SpaceExplorer.Combat
             return true;
         }
 
+        // Khôi phục chỉ số vũ khí ban đầu khi GameManager bắt đầu run mới.
         private void ResetRunUpgrades()
         {
             _projectilesPerVolley = BaseProjectileCount;
@@ -167,6 +182,7 @@ namespace SpaceExplorer.Combat
             StatsChanged?.Invoke();
         }
 
+        // Dừng component và ghi lỗi khi thiếu Input Action hoặc BulletPool.
         private void FailConfiguration(string message)
         {
             Debug.LogError(message, this);

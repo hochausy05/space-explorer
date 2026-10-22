@@ -22,6 +22,7 @@ namespace SpaceExplorer.Combat
         private float _remainingLifetime;
         private bool _isInUse;
 
+        // Lấy component cần dùng và xác nhận collider đã được lưu dạng trigger trong prefab.
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -46,21 +47,25 @@ namespace SpaceExplorer.Combat
             _rigidbody.constraints |= RigidbodyConstraints2D.FreezeRotation;
         }
 
+        // Khởi chạy đạn theo hướng phải với sát thương mặc định của prefab.
         public void Launch(BulletPool owner, Camera camera)
         {
             Launch(owner, camera, Vector2.right);
         }
 
+        // Khởi chạy đạn theo hướng chỉ định với sát thương mặc định.
         public void Launch(BulletPool owner, Camera camera, Vector2 direction)
         {
             Launch(owner, camera, direction, new BigInteger(_configuredDamage));
         }
 
+        // Chuyển sát thương int sang dạng lớn trước khi dùng overload chung.
         public void Launch(BulletPool owner, Camera camera, Vector2 direction, int damage)
         {
             Launch(owner, camera, direction, new BigInteger(damage));
         }
 
+        // Gắn lại pool/camera và đặt sát thương, thời hạn, vận tốc cho viên đạn vừa lấy khỏi pool.
         public void Launch(BulletPool owner, Camera camera, Vector2 direction, BigInteger damage)
         {
             if (!_isInUse || owner == null || camera == null)
@@ -80,6 +85,7 @@ namespace SpaceExplorer.Combat
             _rigidbody.linearVelocity = direction.normalized * _speed;
         }
 
+        // Reset trạng thái chuyển động và sát thương khi lấy đạn khỏi pool.
         protected override void OnTakenFromPool()
         {
             if (_rigidbody == null)
@@ -94,6 +100,7 @@ namespace SpaceExplorer.Combat
             _rigidbody.angularVelocity = 0f;
         }
 
+        // Xóa vận tốc và liên kết runtime khi trả đạn về pool.
         protected override void OnReturnedToPool()
         {
             _isInUse = false;
@@ -108,6 +115,7 @@ namespace SpaceExplorer.Combat
             }
         }
 
+        // Giảm thời hạn đạn và thu hồi khi hết giờ hoặc rời camera.
         private void FixedUpdate()
         {
             if (!_isInUse)
@@ -118,6 +126,7 @@ namespace SpaceExplorer.Combat
                 ReturnToPool();
         }
 
+        // Chỉ Asteroid mới nhận sát thương; đánh dấu đạn đã dùng trước callback để tránh hit lặp.
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!_isInUse || _owner == null || other == null)
@@ -126,7 +135,7 @@ namespace SpaceExplorer.Combat
             if (!other.TryGetComponent(out Asteroid asteroid))
                 return;
 
-            // Mark consumed before applying damage so additional trigger callbacks are ignored.
+            // Đánh dấu đạn đã dùng trước khi gây sát thương để callback kế tiếp bị bỏ qua.
             BulletPool owner = _owner;
             _isInUse = false;
             SfxAudioService.PlayBulletHit();
@@ -134,6 +143,7 @@ namespace SpaceExplorer.Combat
             owner.Release(this);
         }
 
+        // So sánh bounds của đạn với camera để không giữ đạn ngoài màn hình.
         private bool IsOutsideCamera()
         {
             if (_camera == null || _renderer == null)
@@ -150,6 +160,7 @@ namespace SpaceExplorer.Combat
                 || bounds.min.y > cameraPosition.y + halfHeight;
         }
 
+        // Trả đạn một lần về pool đang sở hữu nó.
         private void ReturnToPool()
         {
             if (!_isInUse || _owner == null)
@@ -159,6 +170,7 @@ namespace SpaceExplorer.Combat
             _owner.Release(this);
         }
 
+        // Tắt component và báo lỗi khi prefab thiếu cấu hình bắt buộc.
         private void FailConfiguration(string message)
         {
             Debug.LogError(message, this);

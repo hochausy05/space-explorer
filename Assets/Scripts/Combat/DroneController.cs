@@ -10,6 +10,7 @@ namespace SpaceExplorer.Combat
         private double _nextFireTime;
         private bool _initialized;
 
+        // Gắn WeaponController dùng chung và chuẩn bị lịch bắn cho Drone.
         public void Initialize(WeaponController weaponController, float muzzleOffset)
         {
             if (weaponController == null || weaponController.SharedBulletPool == null)
@@ -24,17 +25,20 @@ namespace SpaceExplorer.Combat
             PrepareForActivation();
         }
 
+        // Đặt lịch bắn mới mỗi khi Drone được kích hoạt lại.
         public void PrepareForActivation()
         {
             if (_initialized && _weaponController != null)
                 _nextFireTime = Time.timeAsDouble + _weaponController.BaseFireInterval;
         }
 
+        // Xóa lịch bắn cũ khi bắt đầu một run mới.
         public void ResetForNewRun()
         {
             _nextFireTime = 0d;
         }
 
+        // Drone chỉ bắn khi run đang chơi và dùng pool, nhịp bắn cùng sát thương cơ bản của Player.
         private void Update()
         {
             if (!_initialized || _weaponController == null)

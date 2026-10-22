@@ -12,9 +12,11 @@ namespace SpaceExplorer.UI
         [SerializeField] private Text _survivalTimeText;
         [SerializeField] private Text _levelText;
 
+        // Xác nhận đủ bốn nhãn để một hàng kỷ lục có thể hiển thị dữ liệu.
         public bool IsConfigured => _matchNumberText != null && _scoreText != null
             && _survivalTimeText != null && _levelText != null;
 
+        // Ẩn Text mẫu gắn trên hàng gốc để chỉ hiện các cột đã cấu hình.
         private void Awake()
         {
             Text sampleText = GetComponent<Text>();
@@ -22,6 +24,7 @@ namespace SpaceExplorer.UI
                 sampleText.enabled = false;
         }
 
+        // Điền số trận, Score, thời gian sống và Level vào hàng hiển thị.
         public void SetRecord(int matchNumber, RecentRunRecord record)
         {
             if (!IsConfigured || record == null)
@@ -33,6 +36,7 @@ namespace SpaceExplorer.UI
             _levelText.text = record.PlayerLevel.ToString(CultureInfo.InvariantCulture);
         }
 
+        // Hiển thị thời gian theo phút và giây, giữ tổng phút cho run dài.
         private static string FormatMinutesAndSeconds(float seconds)
         {
             double safeSeconds = seconds;

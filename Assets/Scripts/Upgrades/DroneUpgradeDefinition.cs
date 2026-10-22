@@ -7,6 +7,7 @@ namespace SpaceExplorer.Upgrades
     {
         public override bool HasImplementedEffect => true;
 
+        // Chỉ cho chọn Drone Wing khi Player còn chỗ nhận drone.
         public override bool IsEligible(GameObject player)
         {
             return player != null
@@ -14,6 +15,7 @@ namespace SpaceExplorer.Upgrades
                 && droneWing.CanAddDrone;
         }
 
+        // Yêu cầu bộ điều khiển Player thêm một drone nếu tham chiếu hợp lệ.
         public override void Apply(GameObject player)
         {
             if (player != null && player.TryGetComponent(out DroneWingController droneWing))

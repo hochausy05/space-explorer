@@ -55,6 +55,7 @@ namespace SpaceExplorer.Upgrades
             public readonly int Second;
             public readonly int Third;
 
+            // Lưu ba chỉ số đã chọn để lấy một bộ lựa chọn khác nếu cần.
             public ChoiceIndices(int first, int second, int third)
             {
                 First = first;
@@ -68,6 +69,7 @@ namespace SpaceExplorer.Upgrades
             public readonly int Level;
             public readonly bool IsEditorTest;
 
+            // Gắn cấp yêu cầu với nguồn production hoặc kịch bản kiểm thử Editor.
             public LevelUpRequest(int level, bool isEditorTest)
             {
                 Level = level;
@@ -75,6 +77,7 @@ namespace SpaceExplorer.Upgrades
             }
         }
 
+        // Đăng ký sự kiện lên cấp và tiếp tục xử lý hàng đợi còn giữ lại.
         private void OnEnable()
         {
             if (_collector == null)
@@ -86,17 +89,18 @@ namespace SpaceExplorer.Upgrades
             _collector.LevelUp += HandleLevelUp;
             SubscribeRunStarted();
 
-            // A selection is kept at the queue head until accepted, so re-enabling can safely retry it.
+            // Giữ yêu cầu ở đầu hàng đợi đến khi panel nhận thành công để có thể thử lại.
             _waitingForPanel = false;
             ProcessPendingLevels();
         }
 
+        // Hủy đăng ký lên cấp, vô hiệu callback cũ và trả pause token do manager sở hữu.
         private void OnDisable()
         {
             if (_collector != null)
                 _collector.LevelUp -= HandleLevelUp;
 
-            // Invalidate any callback captured by the old enabled lifetime, but retain queued requests.
+            // Vô hiệu callback của vòng đời cũ nhưng giữ nguyên các yêu cầu đang chờ.
             _runVersion++;
             _isApplyingSelection = false;
             _waitingForPanel = false;
@@ -104,6 +108,7 @@ namespace SpaceExplorer.Upgrades
             UnbindGameManager();
         }
 
+        // Hủy mọi đăng ký sự kiện còn lại trước khi UpgradeManager bị hủy.
         private void OnDestroy()
         {
             if (_runStartedSubscribed)
@@ -115,6 +120,7 @@ namespace SpaceExplorer.Upgrades
             UnbindGameManager();
         }
 
+        // Theo dõi GameManager và thử lại yêu cầu khi panel được cấu hình lại.
         private void Update()
         {
             int previousBindingVersion = _gameManagerBindingVersion;
@@ -144,6 +150,7 @@ namespace SpaceExplorer.Upgrades
             }
         }
 
+        // Xếp yêu cầu lên cấp vào hàng đợi nếu run vẫn còn hoạt động.
         private void HandleLevelUp(int level)
         {
             TryBindGameManager();
@@ -154,6 +161,7 @@ namespace SpaceExplorer.Upgrades
             ProcessPendingLevels();
         }
 
+        // Xử lý lần lượt yêu cầu lên cấp; chỉ pause khi có lựa chọn hợp lệ và panel dùng được.
         private void ProcessPendingLevels()
         {
             if (_gameManager == null && !TryBindGameManager())
@@ -184,7 +192,7 @@ namespace SpaceExplorer.Upgrades
 
                     if (_choices.Count == 0)
                     {
-                        // No fake option or empty panel: consume only this request, then continue in order.
+                        // Không tạo lựa chọn giả hoặc panel rỗng; chỉ bỏ yêu cầu này rồi xử lý yêu cầu kế.
                         _pendingLevels.Dequeue();
                         ClearEditorMocksWhenNoTestRequests();
                         continue;
@@ -218,7 +226,7 @@ namespace SpaceExplorer.Upgrades
                         break;
                     }
 
-                    // Show can fail after configuration was inspected. Release immediately and retain the queue head.
+                    // Nếu Show thất bại, trả pause ngay và giữ yêu cầu đầu hàng đợi để thử lại.
                     ReportConfigurationError("UpgradeSelectionPanel rejected a non-empty choice list; the request remains queued.");
                     _selectionActive = false;
                     _selectionToken++;
@@ -245,6 +253,7 @@ namespace SpaceExplorer.Upgrades
             }
         }
 
+        // Tạo lựa chọn hợp lệ từ danh sách đăng ký hoặc dữ liệu giả lập trong Editor.
         private void BuildEligibleChoices(LevelUpRequest request)
         {
             _choices.Clear();
@@ -273,6 +282,7 @@ namespace SpaceExplorer.Upgrades
             SelectEligibleChoices(isEditorTest: false);
         }
 
+        // Lọc hiệu ứng chưa cài, ID trùng và điều kiện nhận trước khi thêm nâng cấp.
         private void TryAddEligible(IUpgradeOption upgrade)
         {
             if (upgrade == null)
@@ -298,6 +308,7 @@ namespace SpaceExplorer.Upgrades
             }
         }
 
+        // Chọn ngẫu nhiên tối đa ba nâng cấp hợp lệ và tránh lặp nguyên bộ ở lượt sau.
         private void SelectEligibleChoices(bool isEditorTest)
         {
             if (_eligibleChoices.Count == 0)
@@ -319,7 +330,7 @@ namespace SpaceExplorer.Upgrades
 
             if (hasPreviousChoiceSet && MatchesPreviousChoiceSet(previousChoiceIds))
             {
-                // Choose uniformly from every alternative set; this is finite and cannot retry forever.
+                // Chọn đều giữa các bộ thay thế; danh sách hữu hạn nên không thể lặp thử vô hạn.
                 SelectAlternativeChoiceSet(previousChoiceIds);
                 return;
             }
@@ -327,6 +338,7 @@ namespace SpaceExplorer.Upgrades
             AddShuffledChoices(0, 1, 2);
         }
 
+        // Xáo trộn danh sách bằng Fisher–Yates để các lựa chọn có cơ hội đồng đều.
         private void ShuffleEligibleChoices()
         {
             for (int i = _eligibleChoices.Count - 1; i > 0; i--)
@@ -338,6 +350,7 @@ namespace SpaceExplorer.Upgrades
             }
         }
 
+        // Kiểm tra ba mục đầu sau xáo trộn có trùng bộ lựa chọn trước đó hay không.
         private bool MatchesPreviousChoiceSet(HashSet<string> previousChoiceIds)
         {
             if (previousChoiceIds.Count != MaximumChoices)
@@ -352,6 +365,7 @@ namespace SpaceExplorer.Upgrades
             return true;
         }
 
+        // Chọn ngẫu nhiên một bộ ba khác mà không dùng vòng thử lại vô hạn.
         private void SelectAlternativeChoiceSet(HashSet<string> previousChoiceIds)
         {
             _alternativeChoiceSets.Clear();
@@ -369,7 +383,7 @@ namespace SpaceExplorer.Upgrades
                 }
             }
 
-            // More than three eligible options guarantee at least one alternative set.
+            // Khi có hơn ba nâng cấp hợp lệ, luôn tồn tại ít nhất một bộ thay thế.
             if (_alternativeChoiceSets.Count == 0)
             {
                 AddShuffledChoices(0, 1, 2);
@@ -380,6 +394,7 @@ namespace SpaceExplorer.Upgrades
             AddShuffledChoices(selected.First, selected.Second, selected.Third);
         }
 
+        // So sánh ba ID theo tập hợp, không phụ thuộc thứ tự nút hiển thị.
         private bool IsPreviousChoiceSet(HashSet<string> previousChoiceIds, int first, int second, int third)
         {
             return previousChoiceIds.Contains(_eligibleChoices[first].Id)
@@ -387,6 +402,7 @@ namespace SpaceExplorer.Upgrades
                 && previousChoiceIds.Contains(_eligibleChoices[third].Id);
         }
 
+        // Thêm ba nâng cấp theo thứ tự đã xáo trộn vào danh sách hiển thị.
         private void AddShuffledChoices(int first, int second, int third)
         {
             _choices.Add(_eligibleChoices[first]);
@@ -394,6 +410,7 @@ namespace SpaceExplorer.Upgrades
             _choices.Add(_eligibleChoices[third]);
         }
 
+        // Lưu ID vừa hiển thị để tránh lặp nguyên bộ ở lần chọn kế tiếp.
         private void RecordPreviousChoiceSet(bool isEditorTest)
         {
             HashSet<string> previousChoiceIds = isEditorTest
@@ -409,6 +426,7 @@ namespace SpaceExplorer.Upgrades
                 _hasPreviousProductionChoiceSet = true;
         }
 
+        // Xóa lịch sử bộ lựa chọn khi run bắt đầu hoặc kết thúc.
         private void ClearPreviousChoiceSets()
         {
             _previousProductionChoiceIds.Clear();
@@ -417,6 +435,7 @@ namespace SpaceExplorer.Upgrades
             _hasPreviousEditorChoiceSet = false;
         }
 
+        // Token chặn callback cũ; lấy yêu cầu khỏi hàng đợi trước khi áp dụng hiệu ứng một lần.
         private void HandleChoiceSelected(int index, int selectionToken)
         {
             if (!_selectionActive || _isApplyingSelection || selectionToken != _selectionToken
@@ -429,7 +448,7 @@ namespace SpaceExplorer.Upgrades
             _selectionActive = false;
             _selectionToken++;
             _isApplyingSelection = true;
-            _pendingLevels.Dequeue(); // Consume before calling user effect code, which may disable this component.
+            _pendingLevels.Dequeue(); // Bỏ yêu cầu trước khi gọi effect vì effect có thể tắt component.
             ClearEditorMocksWhenNoTestRequests();
             _selectionPanel.Hide();
 
@@ -439,7 +458,7 @@ namespace SpaceExplorer.Upgrades
                 bool stillCurrent = IsSelectionApplicationCurrent(runVersion);
                 bool eligible = effectImplemented && stillCurrent && selectedUpgrade.IsEligible(_collector.gameObject);
 
-                // Eligibility is option code too; it may synchronously disable this manager or finish the run.
+                // Kiểm tra điều kiện nhận có thể đổi trạng thái ngay, nên cần xác nhận run vẫn hợp lệ.
                 stillCurrent = IsSelectionApplicationCurrent(runVersion);
                 if (stillCurrent && eligible)
                     selectedUpgrade.Apply(_collector.gameObject);
@@ -460,24 +479,27 @@ namespace SpaceExplorer.Upgrades
             ProcessPendingLevels();
         }
 
+        // Xác nhận callback còn thuộc run hiện tại và gameplay vẫn pause để chọn.
         private bool IsSelectionApplicationCurrent(int runVersion)
         {
             return runVersion == _runVersion && isActiveAndEnabled && _gameManager != null
                 && _gameManager.State == RunState.Paused;
         }
 
+        // Dọn hàng đợi và lựa chọn khi GameManager kết thúc run.
         private void HandleRunFinished(RunResult result)
         {
             ResetForFinishedRun();
         }
 
+        // Vô hiệu callback và xóa lựa chọn sau khi run hoàn tất.
         private void ResetForFinishedRun()
         {
             _runVersion++;
             ClearPreviousChoiceSets();
             ClearPendingLevels();
             _isApplyingSelection = false;
-            _hasPauseRequest = false; // GameManager invalidates all requests before publishing RunFinished.
+            _hasPauseRequest = false; // GameManager thu hồi mọi pause request trước khi phát RunFinished.
             _pauseToken = default;
             InvalidateSelection(releasePause: false);
 #if UNITY_EDITOR
@@ -485,6 +507,7 @@ namespace SpaceExplorer.Upgrades
 #endif
         }
 
+        // Reset hàng đợi và lịch sử lựa chọn cho run mới.
         private void HandleRunStarted()
         {
             _runVersion++;
@@ -499,6 +522,7 @@ namespace SpaceExplorer.Upgrades
 #endif
         }
 
+        // Đóng lựa chọn hiện tại và tăng token để callback cũ mất hiệu lực.
         private void InvalidateSelection(bool releasePause)
         {
             _selectionActive = false;
@@ -516,18 +540,21 @@ namespace SpaceExplorer.Upgrades
             }
         }
 
+        // Lên lịch thử lại sau một khoảng nghỉ để tránh lặp liên tục.
         private void WaitForPanelRepair()
         {
             _waitingForPanel = true;
             _nextPanelRetryTime = Time.unscaledTime + PanelRetryInterval;
         }
 
+        // Xóa các yêu cầu cấp đang chờ và trạng thái đợi panel.
         private void ClearPendingLevels()
         {
             _pendingLevels.Clear();
             _waitingForPanel = false;
         }
 
+        // Xóa mock Editor khi hàng đợi không còn yêu cầu kiểm thử.
         private void ClearEditorMocksWhenNoTestRequests()
         {
 #if UNITY_EDITOR
@@ -541,6 +568,7 @@ namespace SpaceExplorer.Upgrades
 #endif
         }
 
+        // Chỉ trả pause token mà UpgradeManager đã tự nhận.
         private void ReleaseOwnedPauseRequest()
         {
             if (!_hasPauseRequest)
@@ -553,12 +581,14 @@ namespace SpaceExplorer.Upgrades
                 _gameManager.TryReleasePauseRequest(token, out _);
         }
 
+        // Báo lỗi cấu hình rồi tắt manager để tránh xử lý lựa chọn không an toàn.
         private void FailConfiguration(string message)
         {
             ReportConfigurationError(message);
             enabled = false;
         }
 
+        // Ghi lỗi cấu hình tối đa một lần để tránh log lặp.
         private void ReportConfigurationError(string message)
         {
             if (_configurationErrorReported)
@@ -568,16 +598,18 @@ namespace SpaceExplorer.Upgrades
             _configurationErrorReported = true;
         }
 
+        // Đăng ký một lần sự kiện bắt đầu run để xóa trạng thái cũ.
         private void SubscribeRunStarted()
         {
             if (_runStartedSubscribed)
                 return;
 
-            // Keep this lifecycle-only subscription through disable so a new run still clears retained requests.
+            // Giữ đăng ký vòng đời qua lúc disable để run mới vẫn xóa các yêu cầu cũ.
             GameManager.RunStarted += HandleRunStarted;
             _runStartedSubscribed = true;
         }
 
+        // Liên kết GameManager đang hoạt động và dọn trạng thái của manager cũ.
         private bool TryBindGameManager()
         {
             GameManager authoritative = GameManager.Instance;
@@ -608,6 +640,7 @@ namespace SpaceExplorer.Upgrades
             return true;
         }
 
+        // Hủy đăng ký RunFinished khỏi GameManager đang được theo dõi.
         private void UnbindGameManager()
         {
             GameManager previous = _gameManager;
@@ -618,6 +651,7 @@ namespace SpaceExplorer.Upgrades
         }
 
 #if UNITY_EDITOR
+        // Tạo yêu cầu kiểm thử Editor khi không có yêu cầu gameplay đang chờ.
         public bool BeginEditorTestScenario(IReadOnlyList<IUpgradeOption> mockUpgrades, int queuedLevelUps, out string error)
         {
             if (!Application.isEditor || !Application.isPlaying || mockUpgrades == null || mockUpgrades.Count == 0
@@ -653,6 +687,7 @@ namespace SpaceExplorer.Upgrades
             return true;
         }
 
+        // Xóa yêu cầu giả lập còn lại rồi tiếp tục xử lý hàng đợi gameplay.
         public void StopEditorTestScenario()
         {
             if (_selectionActive && _pendingLevels.Count > 0 && _pendingLevels.Peek().IsEditorTest)
@@ -666,6 +701,7 @@ namespace SpaceExplorer.Upgrades
             ProcessPendingLevels();
         }
 
+        // Lọc yêu cầu Editor khỏi hàng đợi nhưng giữ nguyên yêu cầu gameplay.
         private void RemovePendingEditorTestRequests()
         {
             int requestCount = _pendingLevels.Count;

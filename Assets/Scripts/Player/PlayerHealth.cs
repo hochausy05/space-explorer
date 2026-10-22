@@ -12,28 +12,32 @@ namespace SpaceExplorer.Player
 
         public int CurrentHP => _currentHP;
         public int MaximumHP => MaximumHitPoints;
+        // Giữ tên MaxHP tương thích với các thành phần HUD đang dùng.
         public int MaxHP => MaximumHP;
 
         public event Action<int, int> HealthChanged;
 
+        // Khởi tạo HP và đăng ký reset máu khi một run mới bắt đầu.
         private void Awake()
         {
             _currentHP = MaximumHP;
             GameManager.RunStarted += ResetForNewRun;
         }
 
+        // Hủy đăng ký sự kiện để GameManager không giữ callback cũ.
         private void OnDestroy()
         {
             GameManager.RunStarted -= ResetForNewRun;
         }
 
+        // Đưa máu về mức tối đa đầu run và báo cho HUD cập nhật ngay.
         public void ResetForNewRun()
         {
             _currentHP = MaximumHP;
             HealthChanged?.Invoke(_currentHP, MaximumHP);
         }
 
-        /// <returns>True when this damage reduced Player HP to zero.</returns>
+        // Trừ HP trong giới hạn hợp lệ, phát sự kiện và báo đúng khi máu về 0.
         public bool ApplyDamage(int amount)
         {
             if (amount <= 0 || _currentHP <= 0)

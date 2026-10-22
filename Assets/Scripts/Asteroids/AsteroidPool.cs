@@ -70,11 +70,14 @@ namespace SpaceExplorer.Asteroids
         private bool _starCapacityWarningReported;
         private bool _explosionPoolWarningReported;
 
+        // Kiểm tra hai pool Asteroid thường đã được tạo thành công.
         public bool IsReady => _smallPool != null && _largePool != null;
+        // Kiểm tra toàn bộ pool Special và Fragment trước khi bật spawn tự động.
         public bool AreAllSpecialPoolsReady => _speedPool != null && _homingPool != null
             && _erraticPool != null && _splitterPool != null && _fragmentPool != null
             && _starPool != null && _starPool.IsReady && _playerTarget != null;
 
+        // Kiểm tra prefab và tạo các pool cho loại Asteroid đã cấu hình.
         private void Awake()
         {
             if (_smallAsteroidPrefab == null || _largeAsteroidPrefab == null)
@@ -123,28 +126,32 @@ namespace SpaceExplorer.Asteroids
             _fragmentPool = CreateSpecialPool(_splitterFragmentPrefab, "Splitter fragment");
         }
 
+        // Sinh Small hoặc Large với thông số mặc định lấy từ pool.
         public Asteroid TrySpawn(AsteroidSize size, Vector3 position)
         {
             return TrySpawn(size, position, 1f);
         }
 
+        // Sinh Asteroid thường với hệ số tốc độ được chỉ định.
         public Asteroid TrySpawn(AsteroidSize size, Vector3 position, float speedMultiplier)
         {
             return TrySpawn(size, position, speedMultiplier, 0);
         }
 
+        // Sinh Asteroid thường với tốc độ và HP đã tính lúc spawn.
         public Asteroid TrySpawn(AsteroidSize size, Vector3 position, float speedMultiplier, int maximumHealth)
         {
             AsteroidKind kind = size == AsteroidSize.Small ? AsteroidKind.Small : AsteroidKind.Large;
             return TrySpawnKind(kind, position, speedMultiplier, maximumHealth, useStandardSpeed: true);
         }
 
-        // Compatibility overload for the original Speed test spawn, where the caller supplies the full multiplier.
+        // Giữ overload cũ cho công cụ thử Speed; hệ số truyền vào là tổng hệ số tốc độ.
         public Asteroid TrySpawnSpeed(Vector3 position, float speedMultiplier, int maximumHealth)
         {
             return TrySpawnKind(AsteroidKind.Speed, position, speedMultiplier, maximumHealth, useStandardSpeed: false);
         }
 
+        // Sinh Speed với hệ số DIFF-01 và hệ số biến thể tách riêng.
         public Asteroid TrySpawnSpeed(Vector3 position, float difficultySpeedMultiplier, float variantMultiplier, int maximumHealth)
         {
             return TrySpawnKind(AsteroidKind.Speed, position,
@@ -152,6 +159,7 @@ namespace SpaceExplorer.Asteroids
                 maximumHealth, useStandardSpeed: false);
         }
 
+        // Sinh một loại Special đã đăng ký với HP và độ khó hiện tại.
         public Asteroid TrySpawnSpecial(AsteroidKind kind, Vector3 position, float difficultySpeedMultiplier, int maximumHealth)
         {
             if (kind != AsteroidKind.Homing && kind != AsteroidKind.Erratic && kind != AsteroidKind.Splitter)
@@ -160,6 +168,7 @@ namespace SpaceExplorer.Asteroids
             return TrySpawnKind(kind, position, difficultySpeedMultiplier, maximumHealth, useStandardSpeed: false);
         }
 
+        // Tạo hai Fragment theo hai hướng đối diện và không cấp reward cho chúng.
         internal bool TrySpawnFragments(Vector3 parentPosition, float separation, float difficultySpeedMultiplier)
         {
             if (_fragmentPool == null)
@@ -173,6 +182,7 @@ namespace SpaceExplorer.Asteroids
             return first != null && second != null;
         }
 
+        // Tập trung reward, Star và hiệu ứng tại một điểm để đường phá hủy không thưởng lặp.
         internal void OnAsteroidDestroyed(AsteroidKind kind, Vector3 position, bool causedByPlayerProjectile,
             float fragmentSeparation, float difficultySpeedMultiplier)
         {
@@ -206,6 +216,7 @@ namespace SpaceExplorer.Asteroids
             }
         }
 
+        // Phát hiệu ứng nổ nếu pool hiệu ứng đã được cấu hình.
         private void PlayDestructionExplosion(AsteroidKind kind, Vector3 position)
         {
             if (_explosionPool != null)
@@ -221,6 +232,7 @@ namespace SpaceExplorer.Asteroids
             _explosionPoolWarningReported = true;
         }
 
+        // Trả Asteroid về pool tương ứng với loại hiện tại.
         internal bool Release(Asteroid asteroid)
         {
             return (_smallPool != null && _smallPool.Release(asteroid))
@@ -234,6 +246,7 @@ namespace SpaceExplorer.Asteroids
 
         private bool _fragmentPoolWarningReported;
 
+        // Lấy Fragment khỏi pool rồi đặt hướng và vận tốc cho lần spawn.
         private Asteroid TrySpawnFragment(Vector3 position, float directionDegrees, float difficultySpeedMultiplier)
         {
             Asteroid fragment = GetFromPool(_fragmentPool, position);
@@ -246,6 +259,7 @@ namespace SpaceExplorer.Asteroids
             return fragment;
         }
 
+        // Nhận Asteroid từ pool và khởi tạo dữ liệu theo loại được yêu cầu.
         private Asteroid TrySpawnKind(AsteroidKind kind, Vector3 position, float speedMultiplier, int maximumHealth, bool useStandardSpeed)
         {
             PrefabPool<Asteroid> pool = GetPool(kind);
@@ -270,6 +284,7 @@ namespace SpaceExplorer.Asteroids
             return asteroid;
         }
 
+        // Lấy object khỏi pool; trả null nếu pool chưa sẵn sàng hoặc hết chỗ.
         private Asteroid GetFromPool(PrefabPool<Asteroid> pool, Vector3 position)
         {
             if (pool == null)
@@ -278,6 +293,7 @@ namespace SpaceExplorer.Asteroids
             return pool.Get(position, Quaternion.identity);
         }
 
+        // Tạo pool Special mở rộng khi cần và dừng nếu prefab không hợp lệ.
         private PrefabPool<Asteroid> CreateSpecialPool(Asteroid prefab, string label)
         {
             if (prefab == null)
@@ -295,6 +311,7 @@ namespace SpaceExplorer.Asteroids
             }
         }
 
+        // Chọn điểm thưởng theo loại Asteroid bị phá hủy.
         private int GetScoreReward(AsteroidKind kind)
         {
             switch (kind)
@@ -309,6 +326,7 @@ namespace SpaceExplorer.Asteroids
             }
         }
 
+        // Chọn số Star rơi theo loại Asteroid bị phá hủy.
         private int GetStarReward(AsteroidKind kind)
         {
             switch (kind)
@@ -323,6 +341,7 @@ namespace SpaceExplorer.Asteroids
             }
         }
 
+        // Trả pool phù hợp với loại Asteroid được yêu cầu.
         private PrefabPool<Asteroid> GetPool(AsteroidKind kind)
         {
             switch (kind)
@@ -338,6 +357,7 @@ namespace SpaceExplorer.Asteroids
             }
         }
 
+        // Trả prefab phù hợp để dùng khi tạo pool theo loại.
         private Asteroid GetPrefab(AsteroidKind kind)
         {
             switch (kind)
@@ -353,11 +373,13 @@ namespace SpaceExplorer.Asteroids
             }
         }
 
+        // Giải phóng các pool khi AsteroidPool bị hủy.
         private void OnDestroy()
         {
             DisposePools();
         }
 
+        // Dọn lần lượt mọi pool đã khởi tạo, kể cả khi một pool chưa tồn tại.
         private void DisposePools()
         {
             _smallPool?.Dispose();
@@ -370,6 +392,7 @@ namespace SpaceExplorer.Asteroids
             _smallPool = _largePool = _speedPool = _homingPool = _erraticPool = _splitterPool = _fragmentPool = null;
         }
 
+        // Báo lỗi cấu hình một lần để tránh tiếp tục tạo pool không hợp lệ.
         private void FailConfiguration(string message)
         {
             if (_configurationErrorReported)

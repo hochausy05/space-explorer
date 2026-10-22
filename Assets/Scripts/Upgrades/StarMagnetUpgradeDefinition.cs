@@ -7,6 +7,7 @@ namespace SpaceExplorer.Upgrades
     {
         public override bool HasImplementedEffect => true;
 
+        // Chỉ cho chọn Star Magnet khi Player có controller và còn cấp trống.
         public override bool IsEligible(GameObject player)
         {
             return player != null
@@ -14,6 +15,7 @@ namespace SpaceExplorer.Upgrades
                 && magnet.CanUpgrade;
         }
 
+        // Gọi controller trên Player để tăng một cấp Star Magnet.
         public override void Apply(GameObject player)
         {
             if (player != null && player.TryGetComponent(out StarMagnetController magnet))

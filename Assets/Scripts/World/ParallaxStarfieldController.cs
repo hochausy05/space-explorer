@@ -9,6 +9,7 @@ namespace SpaceExplorer.World
             public Transform Transform;
             public float HalfSize;
 
+            // Lưu Transform và nửa kích thước để di chuyển, tái bố trí sao đúng biên.
             public StarVisual(Transform transform, float halfSize)
             {
                 Transform = transform;
@@ -54,6 +55,7 @@ namespace SpaceExplorer.World
         private bool _hasPreviousCameraBounds;
         private bool _configurationErrorReported;
 
+        // Kiểm tra camera rồi tạo sprite dùng chung và hai lớp sao parallax.
         private void Awake()
         {
             if (_gameplayCamera == null)
@@ -81,6 +83,7 @@ namespace SpaceExplorer.World
             _hasPreviousCameraBounds = true;
         }
 
+        // Cập nhật biên camera và di chuyển các lớp sao theo thời gian có xét Time.timeScale.
         private void Update()
         {
             if (_gameplayCamera == null || !_gameplayCamera.orthographic)
@@ -93,12 +96,13 @@ namespace SpaceExplorer.World
             _previousCameraBounds = bounds;
             _hasPreviousCameraBounds = true;
 
-            // Scaled time freezes both layers during Settings pause and level-up selection.
+            // Thời gian theo Time.timeScale dừng cả hai lớp khi Settings hoặc chọn nâng cấp pause game.
             float deltaTime = Time.deltaTime;
             MoveLayer(_farStars, _farSpeed, deltaTime, bounds);
             MoveLayer(_nearStars, _nearSpeed, deltaTime, bounds);
         }
 
+        // Tạo trước toàn bộ sao của một lớp và cho mọi renderer dùng chung sprite runtime.
         private StarVisual[] CreateLayer(string layerName, int count, float minimumSize, float maximumSize,
             float minimumOpacity, float maximumOpacity, Color color, int sortingOrder, Bounds bounds)
         {
@@ -139,6 +143,7 @@ namespace SpaceExplorer.World
             return stars;
         }
 
+        // Di chuyển sao liên tục và tái dùng cùng object ở mép phải thay vì tạo/hủy theo vòng lặp.
         private void MoveLayer(StarVisual[] stars, float speed, float deltaTime, Bounds bounds)
         {
             if (stars == null || deltaTime <= 0f)
@@ -168,12 +173,14 @@ namespace SpaceExplorer.World
             }
         }
 
+        // Áp dụng lại vị trí cho hai lớp sao khi kích thước hoặc vị trí camera đổi.
         private void ReprojectStars(Bounds oldBounds, Bounds newBounds)
         {
             ReprojectLayer(_farStars, oldBounds, newBounds);
             ReprojectLayer(_nearStars, oldBounds, newBounds);
         }
 
+        // Chuyển vị trí sao theo tỷ lệ từ biên camera cũ sang biên mới.
         private void ReprojectLayer(StarVisual[] stars, Bounds oldBounds, Bounds newBounds)
         {
             if (stars == null)
@@ -198,6 +205,7 @@ namespace SpaceExplorer.World
             }
         }
 
+        // Tạo sprite sao tròn mềm trong bộ nhớ để các renderer cùng sử dụng.
         private Sprite CreateSoftStarSprite()
         {
             int resolution = Mathf.Clamp(_spriteResolution, 8, 64);
@@ -235,6 +243,7 @@ namespace SpaceExplorer.World
             return sprite;
         }
 
+        // Chọn vị trí ngẫu nhiên trong camera, có chừa khoảng trống theo kích thước sao.
         private Vector3 RandomVisiblePosition(Bounds bounds, float inset)
         {
             return new Vector3(
@@ -243,11 +252,13 @@ namespace SpaceExplorer.World
                 _worldZ);
         }
 
+        // Chọn tọa độ dọc ngẫu nhiên bên trong vùng camera.
         private static float RandomVisibleY(Bounds bounds, float inset)
         {
             return RandomVisibleCoordinate(bounds.min.y, bounds.max.y, bounds.center.y, inset);
         }
 
+        // Chọn tọa độ trong đoạn an toàn hoặc trả tâm nếu vật thể quá lớn.
         private static float RandomVisibleCoordinate(float minimum, float maximum, float center, float inset)
         {
             float low = minimum + inset;
@@ -255,6 +266,7 @@ namespace SpaceExplorer.World
             return high < low ? center : Random.Range(low, high);
         }
 
+        // Tính hình chữ nhật world-space mà camera orthographic đang hiển thị.
         private Bounds GetCameraBounds()
         {
             float halfHeight = _gameplayCamera.orthographicSize;
@@ -264,6 +276,7 @@ namespace SpaceExplorer.World
             return new Bounds(center, new Vector3(halfWidth * 2f, halfHeight * 2f, 0f));
         }
 
+        // So sánh vị trí và kích thước camera với sai số nhỏ để tránh cập nhật thừa.
         private static bool CameraBoundsChanged(Bounds previous, Bounds current)
         {
             const float tolerance = 0.0001f;
@@ -271,6 +284,7 @@ namespace SpaceExplorer.World
                 || (previous.size - current.size).sqrMagnitude > tolerance * tolerance;
         }
 
+        // Giải phóng sprite và texture runtime khi starfield bị hủy.
         private void OnDestroy()
         {
             if (_softStarSprite != null)
@@ -290,6 +304,7 @@ namespace SpaceExplorer.World
             }
         }
 
+        // Báo cấu hình lỗi một lần rồi tắt starfield nếu thiếu camera hợp lệ.
         private void FailConfiguration(string message)
         {
             if (_configurationErrorReported)

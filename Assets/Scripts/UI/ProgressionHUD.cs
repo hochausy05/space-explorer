@@ -24,6 +24,7 @@ namespace SpaceExplorer.UI
         private bool _configurationErrorReported;
         private GameManager _gameManager;
 
+        // Đăng ký nhận thay đổi XP/HP và hiển thị các giá trị ban đầu trên HUD.
         private void OnEnable()
         {
             if (_playerHealth == null && _collector != null)
@@ -60,12 +61,13 @@ namespace SpaceExplorer.UI
             BindScoreSource();
         }
 
+        // Thử liên kết lại Score sau khi mọi đối tượng trong scene đã khởi tạo.
         private void Start()
         {
-            // Start retries after all scene Awake calls in case the persistent manager initialized later.
             BindScoreSource();
         }
 
+        // Hủy đăng ký XP, HP và Score khi HUD bị tắt.
         private void OnDisable()
         {
             if (_collector != null)
@@ -77,6 +79,7 @@ namespace SpaceExplorer.UI
             _gameManager = null;
         }
 
+        // Liên kết với GameManager hiện tại và làm mới Score mà không giữ tham chiếu cũ.
         private void BindScoreSource()
         {
             GameManager manager = GameManager.Instance;
@@ -94,12 +97,14 @@ namespace SpaceExplorer.UI
                 RefreshScore(_gameManager.CurrentScore);
         }
 
+        // Hiển thị giá trị Score do GameManager cung cấp.
         private void RefreshScore(int score)
         {
             if (_scoreLabel != null)
                 _scoreLabel.text = $"SCORE: {score}";
         }
 
+        // Hiển thị Level và lượng XP hiện có trong cấp hiện tại.
         private void RefreshProgression()
         {
             if (_collector == null)
@@ -115,6 +120,7 @@ namespace SpaceExplorer.UI
             }
         }
 
+        // Cập nhật thanh HP theo tỷ lệ máu hiện tại trên mức tối đa.
         private void RefreshHealth(int currentHP, int maximumHP)
         {
             int safeMaximumHP = Mathf.Max(1, maximumHP);

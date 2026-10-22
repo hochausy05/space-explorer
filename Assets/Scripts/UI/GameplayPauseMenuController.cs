@@ -22,6 +22,7 @@ namespace SpaceExplorer.UI
         private bool _transitionStarted;
         private bool _configurationErrorReported;
 
+        // Ẩn Settings lúc đầu, cập nhật nhãn âm thanh và kiểm tra tham chiếu UI.
         private void Awake()
         {
             SetPanelVisible(false);
@@ -29,6 +30,7 @@ namespace SpaceExplorer.UI
             ReportMissingReferencesOnce();
         }
 
+        // Gắn callback các nút và liên kết với GameManager đang quản lý run.
         private void OnEnable()
         {
             AddButtonListener(_settingsButton, HandleSettings);
@@ -39,6 +41,7 @@ namespace SpaceExplorer.UI
             RefreshSettingsButton();
         }
 
+        // Gỡ callback, trả pause token do menu sở hữu và ngắt liên kết sự kiện.
         private void OnDisable()
         {
             RemoveButtonListener(_settingsButton, HandleSettings);
@@ -57,6 +60,7 @@ namespace SpaceExplorer.UI
             UnbindGameManager();
         }
 
+        // Theo dõi run kết thúc để đóng panel và cập nhật trạng thái nút Settings.
         private void Update()
         {
             TryBindGameManager();
@@ -68,6 +72,7 @@ namespace SpaceExplorer.UI
             RefreshSettingsButton();
         }
 
+        // Menu chỉ lấy pause token khi run đang chạy và chưa có owner pause khác.
         private void HandleSettings()
         {
             SfxAudioService.PlayClick();
@@ -89,6 +94,7 @@ namespace SpaceExplorer.UI
             RefreshSettingsButton();
         }
 
+        // Hủy pause token của menu và tiếp tục gameplay nếu run còn hoạt động.
         private void HandleResume()
         {
             SfxAudioService.PlayClick();
@@ -103,14 +109,16 @@ namespace SpaceExplorer.UI
             RefreshSettingsButton();
         }
 
+        // Phát tiếng click, đổi trạng thái tắt tiếng và cập nhật nhãn nút.
         private void HandleMute()
         {
-            // The click is heard when unmuting only if SFX were already enabled.
+            // Tiếng click chỉ nghe được khi bật tiếng nếu SFX đang không bị tắt.
             SfxAudioService.PlayClick();
             SfxAudioService.SetMuted(!SfxAudioService.IsMuted);
             RefreshMuteLabel();
         }
 
+        // Bỏ run chưa hoàn tất sau khi SceneLoader chấp nhận MainMenu để tránh mất dữ liệu do lỗi cấu hình.
         private void HandleExit()
         {
             SfxAudioService.PlayClick();
@@ -126,27 +134,29 @@ namespace SpaceExplorer.UI
                 return;
             }
 
-            // Scene loading is synchronous here; abandon only after MainMenu is accepted so a
-            // missing Build Settings entry cannot discard the still-running session.
+            // Chỉ bỏ run sau khi SceneLoader nhận MainMenu để lỗi Build Settings không làm mất phiên đang chơi.
             if (!manager.TryAbandonRun(out string abandonError))
                 Debug.LogError($"Gameplay was left, but the run could not be abandoned: {abandonError}");
         }
 
+        // Xóa pause cũ và đóng Settings khi GameManager bắt đầu run mới.
         private void HandleRunStarted()
         {
-            _hasPauseRequest = false; // GameManager clears all old pause requests when a run starts.
+            _hasPauseRequest = false; // GameManager đã xóa các pause request cũ khi bắt đầu run.
             _transitionStarted = false;
             SetPanelVisible(false);
             RefreshMuteLabel();
         }
 
+        // Xóa trạng thái pause riêng và đóng Settings khi run kết thúc.
         private void HandleRunFinished(RunResult result)
         {
-            _hasPauseRequest = false; // Finishing a run invalidates every pause token.
+            _hasPauseRequest = false; // Kết thúc run làm mọi pause token hết hiệu lực.
             _transitionStarted = true;
             SetPanelVisible(false);
         }
 
+        // Khóa menu và ẩn panel sau khi kết thúc run.
         private void CloseAfterRunEnd()
         {
             _hasPauseRequest = false;
@@ -154,6 +164,7 @@ namespace SpaceExplorer.UI
             SetPanelVisible(false);
         }
 
+        // Chỉ cho mở Settings khi run chạy và không có hệ thống khác giữ pause.
         private void RefreshSettingsButton()
         {
             if (_settingsButton == null)
@@ -165,12 +176,14 @@ namespace SpaceExplorer.UI
                 && !_transitionStarted;
         }
 
+        // Hiển thị hành động hiện tại để người chơi biết có thể bật hay tắt tiếng.
         private void RefreshMuteLabel()
         {
             if (_muteButtonLabel != null)
                 _muteButtonLabel.text = SfxAudioService.IsMuted ? "BẬT TIẾNG" : "TẮT TIẾNG";
         }
 
+        // Liên kết GameManager hiện tại và đăng ký sự kiện không trùng lặp.
         private bool TryBindGameManager()
         {
             GameManager authoritative = GameManager.Instance;
@@ -189,6 +202,7 @@ namespace SpaceExplorer.UI
             return true;
         }
 
+        // Hủy đăng ký sự kiện và xóa tham chiếu GameManager đã liên kết.
         private void UnbindGameManager()
         {
             if (_gameManager != null)
@@ -198,6 +212,7 @@ namespace SpaceExplorer.UI
             _gameManager = null;
         }
 
+        // Kiểm tra đủ tham chiếu Settings và báo thiếu cấu hình một lần.
         private void ReportMissingReferencesOnce()
         {
             if (_configurationErrorReported || (_settingsButton != null && _settingsPanel != null
@@ -207,6 +222,7 @@ namespace SpaceExplorer.UI
             ReportConfigurationError("GameplayPauseMenuController requires Settings, panel, Resume, Mute, mute label, and Exit references.");
         }
 
+        // Ghi lỗi cấu hình tối đa một lần để tránh log lặp trong vòng đời menu.
         private void ReportConfigurationError(string message)
         {
             if (_configurationErrorReported)
@@ -216,12 +232,14 @@ namespace SpaceExplorer.UI
             _configurationErrorReported = true;
         }
 
+        // Bật hoặc ẩn panel nếu trạng thái hiện tại khác yêu cầu.
         private void SetPanelVisible(bool visible)
         {
             if (_settingsPanel != null && _settingsPanel.activeSelf != visible)
                 _settingsPanel.SetActive(visible);
         }
 
+        // Đăng ký callback runtime mà không để lại bản đăng ký trùng.
         private static void AddButtonListener(Button button, UnityAction callback)
         {
             if (button == null)
@@ -231,6 +249,7 @@ namespace SpaceExplorer.UI
             button.onClick.AddListener(callback);
         }
 
+        // Gỡ callback runtime khi menu không còn hoạt động.
         private static void RemoveButtonListener(Button button, UnityAction callback)
         {
             if (button != null)

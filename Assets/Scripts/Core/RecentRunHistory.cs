@@ -23,6 +23,7 @@ namespace SpaceExplorer.Core
             public List<RecentRunRecord> Records = new List<RecentRunRecord>();
         }
 
+        // Đọc lịch sử JSON đã lưu và trả danh sách rỗng nếu chưa có dữ liệu hợp lệ.
         public static List<RecentRunRecord> LoadRecentRuns()
         {
             if (!PlayerPrefs.HasKey(PlayerPrefsKey))
@@ -48,6 +49,7 @@ namespace SpaceExplorer.Core
             }
         }
 
+        // Đưa run hoàn tất lên đầu danh sách và cắt lịch sử về tối đa 20 bản ghi.
         public static void RecordCompletedRun(RunResult result)
         {
             List<RecentRunRecord> records = LoadRecentRuns();

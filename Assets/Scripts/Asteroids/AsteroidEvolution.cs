@@ -1,13 +1,14 @@
 namespace SpaceExplorer.Asteroids
 {
     /// <summary>
-    /// Resolves standard asteroid health from active Gameplay time at spawn.
-    /// Keep type-specific evolution rules centralized for future asteroid types.
+    /// Tính HP tối đa theo thời gian Gameplay tại lúc spawn.
+    /// Gom quy tắc từng loại tại đây để các biến thể dùng chung cách tính.
     /// </summary>
     public static class AsteroidEvolution
     {
         public const double StageDurationSeconds = 60d;
 
+        // Tính HP tối đa của Small hoặc Large theo stage hiện tại.
         public static int GetMaximumHealth(AsteroidSize size, double activeGameplayElapsedSeconds)
         {
             int stage = GetStage(activeGameplayElapsedSeconds);
@@ -23,6 +24,7 @@ namespace SpaceExplorer.Asteroids
             }
         }
 
+        // Tính HP riêng của từng Special; Fragment luôn có đúng 1 HP.
         public static int GetSpecialMaximumHealth(AsteroidKind kind, double activeGameplayElapsedSeconds)
         {
             int stage = GetStage(activeGameplayElapsedSeconds);
@@ -65,6 +67,7 @@ namespace SpaceExplorer.Asteroids
             }
         }
 
+        // Quy đổi thời gian chơi đã pause-aware thành stage và giữ stage cuối ở mức tối đa.
         public static int GetStage(double activeGameplayElapsedSeconds)
         {
             if (!(activeGameplayElapsedSeconds > 0d))
@@ -76,6 +79,7 @@ namespace SpaceExplorer.Asteroids
             return (int)(activeGameplayElapsedSeconds / StageDurationSeconds);
         }
 
+        // Trả về xác suất spawn Special ứng với phút chơi hiện tại.
         public static float GetSpecialSpawnChance(double activeGameplayElapsedSeconds)
         {
             switch (GetStage(activeGameplayElapsedSeconds))

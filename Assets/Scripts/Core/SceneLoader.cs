@@ -9,12 +9,14 @@ namespace SpaceExplorer.Core
         public const string Gameplay = "Gameplay";
         public const string EndGame = "EndGame";
 
+        // Tải scene đã đăng ký; ghi lỗi nếu tên scene hoặc Build Settings không hợp lệ.
         public static void Load(string sceneName)
         {
             if (!TryLoad(sceneName, out string error))
                 Debug.LogError(error);
         }
 
+        // Chỉ tải scene đã đăng ký trong Build Settings và trả lỗi rõ nếu cấu hình thiếu.
         public static bool TryLoad(string sceneName, out string error)
         {
             string scenePath;

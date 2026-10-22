@@ -22,6 +22,7 @@ namespace SpaceExplorer.UI
         private bool _transitionStarted;
         private bool _configurationErrorReported;
 
+        // Gắn callback điều hướng, hiển thị kết quả và kiểm tra tham chiếu khi màn hình bật.
         private void OnEnable()
         {
             AddButtonListener(_playAgainButton, HandlePlayAgain);
@@ -30,18 +31,20 @@ namespace SpaceExplorer.UI
             ReportMissingReferencesOnce();
         }
 
+        // Đọc lại kết quả sau khi scene hoạt động để nhận manager tồn tại xuyên scene.
         private void Start()
         {
-            // Refresh after scene activation in case the persistent manager initialized later.
             RefreshResultLabels();
         }
 
+        // Gỡ callback runtime khỏi hai nút khi màn hình bị tắt.
         private void OnDisable()
         {
             RemoveButtonListener(_playAgainButton, HandlePlayAgain);
             RemoveButtonListener(_mainMenuButton, HandleMainMenu);
         }
 
+        // Đọc snapshot authoritative từ GameManager; màn hình vẫn dùng được nếu không có kết quả.
         private void RefreshResultLabels()
         {
             GameManager manager = GameManager.Instance;
@@ -63,18 +66,21 @@ namespace SpaceExplorer.UI
             SetLabel(_statusLabel, string.Empty);
         }
 
+        // Phát âm thanh xác nhận rồi yêu cầu mở Gameplay để chơi lại.
         private void HandlePlayAgain()
         {
             SfxAudioService.PlayClick();
             LoadScene(SceneLoader.Gameplay);
         }
 
+        // Phát âm thanh xác nhận rồi yêu cầu quay về MainMenu.
         private void HandleMainMenu()
         {
             SfxAudioService.PlayClick();
             LoadScene(SceneLoader.MainMenu);
         }
 
+        // Chặn click lặp trong lúc chuyển scene và mở lại nút nếu SceneLoader báo lỗi.
         private void LoadScene(string sceneName)
         {
             if (_transitionStarted)
@@ -88,6 +94,7 @@ namespace SpaceExplorer.UI
             Debug.LogError($"EndGame could not load '{sceneName}': {error}", this);
         }
 
+        // Thêm callback runtime sau khi gỡ bản trùng để mỗi nút chỉ gọi một lần.
         private static void AddButtonListener(Button button, UnityEngine.Events.UnityAction callback)
         {
             if (button == null)
@@ -97,18 +104,21 @@ namespace SpaceExplorer.UI
             button.onClick.AddListener(callback);
         }
 
+        // Gỡ callback runtime nếu Button vẫn còn tồn tại.
         private static void RemoveButtonListener(Button button, UnityEngine.Events.UnityAction callback)
         {
             if (button != null)
                 button.onClick.RemoveListener(callback);
         }
 
+        // Gán nội dung cho nhãn khi tham chiếu đã được nối trong Inspector.
         private static void SetLabel(Text label, string value)
         {
             if (label != null)
                 label.text = value;
         }
 
+        // Báo thiếu nhãn hoặc nút một lần mà không chặn điều hướng còn dùng được.
         private void ReportMissingReferencesOnce()
         {
             if (_configurationErrorReported)
@@ -122,6 +132,7 @@ namespace SpaceExplorer.UI
             _configurationErrorReported = true;
         }
 
+        // Định dạng thời gian thành giờ, phút và giây kể cả khi run dài hơn một giờ.
         private static string FormatSurvivalTime(float seconds)
         {
             double safeSeconds = seconds;

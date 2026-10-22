@@ -38,6 +38,7 @@ namespace SpaceExplorer.Asteroids
         private bool _erraticPoolWarningReported;
         private bool _splitterPoolWarningReported;
 
+        // Lấy reference cần thiết và kiểm tra thiết lập spawn ban đầu.
         private void Awake()
         {
             if (_pool == null)
@@ -58,6 +59,7 @@ namespace SpaceExplorer.Asteroids
                 FailConfiguration("AsteroidSpawner interval must be greater than zero.");
         }
 
+        // Khởi tạo lịch spawn nếu run đã bắt đầu trước khi component Start chạy.
         private void Start()
         {
             if (_pool != null && !_pool.IsReady)
@@ -79,6 +81,7 @@ namespace SpaceExplorer.Asteroids
                 ResetDifficultyForNewRun();
         }
 
+        // Đăng ký reset đồng hồ khi một run mới bắt đầu.
         private void OnEnable()
         {
             if (!_runStartedSubscribed)
@@ -88,6 +91,7 @@ namespace SpaceExplorer.Asteroids
             }
         }
 
+        // Hủy đăng ký sự kiện để tránh giữ callback sau khi tắt component.
         private void OnDisable()
         {
             if (_runStartedSubscribed)
@@ -97,6 +101,7 @@ namespace SpaceExplorer.Asteroids
             }
         }
 
+        // Đồng hồ chỉ tăng khi GameManager đang Playing; cùng thời gian này điều khiển stage và cadence.
         private void Update()
         {
             if (_pool == null || !IsValidCamera(_camera))
@@ -113,17 +118,19 @@ namespace SpaceExplorer.Asteroids
             if (_timeUntilNextSpawn > 0f)
                 return;
 
-            // Keep the existing DIFF-01 cadence; no Special-specific cooldown or active-count gate is applied.
+            // Giữ cadence DIFF-01; không thêm giới hạn số lượng hay cooldown riêng cho Special.
             _timeUntilNextSpawn = GetCurrentSpawnInterval();
             SpawnOne();
         }
 
+        // Chỉ cho phép spawn khi GameManager xác nhận run đang Playing.
         private bool IsRunActive()
         {
             GameManager manager = GameManager.Instance;
             return manager != null && manager.State == RunState.Playing;
         }
 
+        // Thử Special theo xác suất hiện tại, nếu không spawn được thì giữ luồng Small/Large.
         private void SpawnOne()
         {
             if (_automaticSpecialSpawningEnabled)
@@ -146,6 +153,7 @@ namespace SpaceExplorer.Asteroids
             SpawnOrdinaryAsteroid();
         }
 
+        // Sinh Asteroid thường sau khi lượt thử Special không được chọn hoặc thất bại.
         private void SpawnOrdinaryAsteroid()
         {
             AsteroidSize size = Random.value < Mathf.Clamp01(_largeAsteroidProbability)
@@ -155,6 +163,7 @@ namespace SpaceExplorer.Asteroids
             _pool.TrySpawn(size, GetSpawnPosition(), GetCurrentAsteroidSpeedMultiplier(), health);
         }
 
+        // Thử sinh Special bằng pool, áp dụng HP và tốc độ theo thời gian chơi.
         private bool TrySpawnSpecial(AsteroidKind kind)
         {
             Vector3 position = GetSpawnPosition();
@@ -178,6 +187,7 @@ namespace SpaceExplorer.Asteroids
             return false;
         }
 
+        // Chọn loại Special theo tỷ lệ phân phối đã cấu hình trong thiết kế.
         private AsteroidKind ChooseSpecialKind()
         {
             float roll = Random.value * 100f;
@@ -190,18 +200,23 @@ namespace SpaceExplorer.Asteroids
             return AsteroidKind.Splitter;
         }
 
+        // Tạo Speed Asteroid thủ công từ Context Menu khi đang Play Mode.
         [ContextMenu("Test/Spawn Speed Asteroid")]
         private void SpawnSpeedAsteroidForTesting() => SpawnSpecialForTesting(AsteroidKind.Speed);
 
+        // Tạo Homing Asteroid thủ công từ Context Menu khi đang Play Mode.
         [ContextMenu("Test/Spawn Homing Asteroid")]
         private void SpawnHomingAsteroidForTesting() => SpawnSpecialForTesting(AsteroidKind.Homing);
 
+        // Tạo Erratic Asteroid thủ công từ Context Menu khi đang Play Mode.
         [ContextMenu("Test/Spawn Erratic Asteroid")]
         private void SpawnErraticAsteroidForTesting() => SpawnSpecialForTesting(AsteroidKind.Erratic);
 
+        // Tạo Splitter Asteroid thủ công từ Context Menu khi đang Play Mode.
         [ContextMenu("Test/Spawn Splitter Asteroid")]
         private void SpawnSplitterAsteroidForTesting() => SpawnSpecialForTesting(AsteroidKind.Splitter);
 
+        // Chặn spawn thử ngoài Play Mode hoặc khi pool/camera/run chưa hợp lệ.
         private void SpawnSpecialForTesting(AsteroidKind kind)
         {
             if (!Application.isPlaying || !IsRunActive() || _pool == null || !IsValidCamera(_camera))
@@ -211,6 +226,7 @@ namespace SpaceExplorer.Asteroids
                 WarnPoolFailureOnce(kind);
         }
 
+        // Chọn vị trí ngoài mép phải và giới hạn Y khỏi sát mép camera.
         private Vector3 GetSpawnPosition()
         {
             float halfHeight = _camera.orthographicSize;
@@ -223,6 +239,7 @@ namespace SpaceExplorer.Asteroids
             return new Vector3(cameraPosition.x + halfWidth + _rightEdgeOffset, spawnY, _pool.transform.position.z);
         }
 
+        // Reset đồng hồ độ khó và thời gian chờ spawn cho run mới.
         private void ResetDifficultyForNewRun()
         {
             _activeGameplayElapsed = 0d;
@@ -230,6 +247,7 @@ namespace SpaceExplorer.Asteroids
             _runTimerInitialized = true;
         }
 
+        // Tính số bước DIFF-01 đã trôi qua, có giới hạn theo các hệ số tối đa.
         private int GetDifficultyStep()
         {
             if (_difficultyStepSeconds <= 0f)
@@ -246,12 +264,14 @@ namespace SpaceExplorer.Asteroids
             return (int)System.Math.Min(System.Math.Min(steps, maximumSteps), int.MaxValue);
         }
 
+        // Tính hệ số tốc độ áp dụng cho Asteroid mới được sinh.
         private float GetCurrentAsteroidSpeedMultiplier()
         {
             return _initialAsteroidSpeedMultiplier * Mathf.Min(
                 1f + GetDifficultyStep() * _speedMultiplierIncreasePerStep, _maximumSpeedMultiplier);
         }
 
+        // Tính khoảng chờ spawn mới theo hệ số tần suất hiện tại.
         private float GetCurrentSpawnInterval()
         {
             float frequencyMultiplier = _initialSpawnFrequencyMultiplier * Mathf.Min(
@@ -259,6 +279,7 @@ namespace SpaceExplorer.Asteroids
             return _spawnInterval / Mathf.Max(0.01f, frequencyMultiplier);
         }
 
+        // Báo thiếu cấu hình Special một lần nhưng vẫn giữ spawn thường hoạt động.
         private void WarnSpecialConfigurationOnce()
         {
             if (_specialConfigurationWarningReported)
@@ -268,6 +289,7 @@ namespace SpaceExplorer.Asteroids
             _specialConfigurationWarningReported = true;
         }
 
+        // Báo lỗi pool theo từng loại Special, mỗi loại chỉ ghi một cảnh báo.
         private void WarnPoolFailureOnce(AsteroidKind kind)
         {
             if (kind == AsteroidKind.Speed)
@@ -294,6 +316,7 @@ namespace SpaceExplorer.Asteroids
             Debug.LogWarning($"{kind} Asteroid spawn failed; verify its prefab, pool, Player target, and capacity configuration.", this);
         }
 
+        // Chỉ nhận camera orthographic, không nghiêng và có aspect hợp lệ.
         private static bool IsValidCamera(Camera camera)
         {
             if (camera == null || !camera.orthographic || camera.aspect <= 0f)
@@ -305,6 +328,7 @@ namespace SpaceExplorer.Asteroids
                 && Mathf.Abs(Mathf.DeltaAngle(0f, angles.z)) < 0.01f;
         }
 
+        // Dừng spawner sau lỗi cấu hình và chỉ ghi lỗi một lần.
         private void FailConfiguration(string message)
         {
             if (_configurationErrorReported)

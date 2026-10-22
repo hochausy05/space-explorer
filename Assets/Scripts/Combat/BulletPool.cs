@@ -19,6 +19,7 @@ namespace SpaceExplorer.Combat
 
         public bool IsReady => _pool != null;
 
+        // Tạo pool và kiểm tra prefab, camera cùng số lượng prewarm.
         private void Awake()
         {
             if (_bulletPrefab == null)
@@ -51,11 +52,13 @@ namespace SpaceExplorer.Combat
             }
         }
 
+        // Bắn đạn với hướng phải và sát thương đã cấu hình trong prefab.
         public bool TrySpawn(Vector3 position)
         {
             return TrySpawn(position, Vector2.right, BigInteger.Zero, hasDamageOverride: false);
         }
 
+        // Kiểm tra sát thương rồi chuyển yêu cầu sang overload dùng BigInteger.
         public bool TrySpawn(Vector3 position, Vector2 direction, int damage)
         {
             if (damage < 1)
@@ -64,6 +67,7 @@ namespace SpaceExplorer.Combat
             return TrySpawn(position, direction, new BigInteger(damage));
         }
 
+        // Từ chối sát thương không hợp lệ trước khi lấy đạn khỏi pool.
         public bool TrySpawn(Vector3 position, Vector2 direction, BigInteger damage)
         {
             if (damage < BigInteger.One)
@@ -72,6 +76,7 @@ namespace SpaceExplorer.Combat
             return TrySpawn(position, direction, damage, hasDamageOverride: true);
         }
 
+        // Lấy đạn từ pool rồi gán hướng và sát thương trước khi đưa vào gameplay.
         private bool TrySpawn(Vector3 position, Vector2 direction, BigInteger damage, bool hasDamageOverride)
         {
             if (_pool == null || _camera == null)
@@ -88,17 +93,20 @@ namespace SpaceExplorer.Combat
             return true;
         }
 
+        // Trả đạn về pool nếu pool còn tồn tại.
         internal bool Release(Bullet bullet)
         {
             return _pool != null && _pool.Release(bullet);
         }
 
+        // Dọn pool khi chủ sở hữu bị hủy hoặc scene được đóng.
         private void OnDestroy()
         {
             _pool?.Dispose();
             _pool = null;
         }
 
+        // Báo cấu hình sai một lần và ngừng component để tránh lỗi lặp.
         private void FailConfiguration(string message)
         {
             Debug.LogError(message, this);

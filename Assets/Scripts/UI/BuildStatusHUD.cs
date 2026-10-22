@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace SpaceExplorer.UI
 {
-    /// <summary>Displays current Player build values without owning or changing gameplay state.</summary>
+    /// <summary>Hiển thị chỉ số nâng cấp hiện tại mà không tự thay đổi trạng thái gameplay.</summary>
     public sealed class BuildStatusHUD : MonoBehaviour
     {
         private const float ShieldRefreshInterval = 0.1f;
@@ -30,6 +30,7 @@ namespace SpaceExplorer.UI
         private EnergyShieldState _lastShieldState;
         private bool _configurationErrorReported;
 
+        // Kiểm tra tham chiếu Player, đăng ký sự kiện chỉ số và hiển thị giá trị ban đầu.
         private void OnEnable()
         {
             if (!ResolveReferences())
@@ -46,6 +47,7 @@ namespace SpaceExplorer.UI
             RefreshAll();
         }
 
+        // Hủy mọi đăng ký sự kiện để tránh callback vào HUD đã tắt.
         private void OnDisable()
         {
             if (_droneWing != null)
@@ -57,6 +59,7 @@ namespace SpaceExplorer.UI
             GameManager.RunStarted -= RefreshAll;
         }
 
+        // Làm mới đồng hồ Shield khi cooldown đổi dù không có event cho mỗi phần giây.
         private void Update()
         {
             if (_energyShield == null || Time.unscaledTime < _nextShieldRefresh)
@@ -70,6 +73,7 @@ namespace SpaceExplorer.UI
             RefreshShield();
         }
 
+        // Tìm các component cần thiết trên Player và xác nhận cấu hình HUD đầy đủ.
         private bool ResolveReferences()
         {
             if (_player == null || _droneValue == null || _shieldValue == null || _damageValue == null
@@ -82,6 +86,7 @@ namespace SpaceExplorer.UI
             return _droneWing != null && _energyShield != null && _weapon != null;
         }
 
+        // Làm mới đồng thời drone, Shield và các chỉ số vũ khí.
         private void RefreshAll()
         {
             RefreshDrone();
@@ -89,12 +94,14 @@ namespace SpaceExplorer.UI
             RefreshWeaponStats();
         }
 
+        // Hiển thị số drone hiện có trên tổng số tối đa.
         private void RefreshDrone()
         {
             if (_droneWing != null && _droneValue != null)
                 _droneValue.text = $"{_droneWing.DroneCount}/{DroneWingController.MaximumDroneCount}";
         }
 
+        // Hiển thị trạng thái Shield hoặc thời gian cooldown còn lại.
         private void RefreshShield()
         {
             if (_energyShield == null || _shieldValue == null)
@@ -116,6 +123,7 @@ namespace SpaceExplorer.UI
             _lastShieldState = _energyShield.State;
         }
 
+        // Cập nhật sát thương, nhịp bắn và số đạn mỗi loạt từ WeaponController.
         private void RefreshWeaponStats()
         {
             if (_weapon == null)
@@ -129,6 +137,7 @@ namespace SpaceExplorer.UI
                 _multiShotValue.text = _weapon.ProjectilesPerVolley.ToString(CultureInfo.InvariantCulture);
         }
 
+        // Báo thiếu Player hoặc nhãn HUD một lần để lỗi cấu hình không lặp.
         private void ReportConfigurationError()
         {
             if (_configurationErrorReported)

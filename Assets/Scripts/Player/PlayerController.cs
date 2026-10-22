@@ -24,6 +24,7 @@ namespace SpaceExplorer.Player
         private Vector2 _moveInput;
         private Vector2 _velocity;
 
+        // Lấy Rigidbody/collider và kiểm tra Input Actions cùng camera cần cho điều khiển.
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -63,11 +64,13 @@ namespace SpaceExplorer.Player
                 FailConfiguration("Player movement needs the Player's enabled Collider2D to calculate movement bounds.");
         }
 
+        // Bật hành động di chuyển khi Player được bật.
         private void OnEnable()
         {
             _moveAction?.Enable();
         }
 
+        // Tắt input và xóa vận tốc lưu khi Player bị vô hiệu hóa.
         private void OnDisable()
         {
             _moveAction?.Disable();
@@ -75,6 +78,7 @@ namespace SpaceExplorer.Player
             _velocity = Vector2.zero;
         }
 
+        // Đọc hướng bàn phím mỗi frame và giới hạn độ dài input.
         private void Update()
         {
             if (_moveAction == null)
@@ -83,6 +87,7 @@ namespace SpaceExplorer.Player
             _moveInput = Vector2.ClampMagnitude(_moveAction.ReadValue<Vector2>(), 1f);
         }
 
+        // Làm mượt vận tốc rồi di chuyển Rigidbody2D trong nhịp vật lý để va chạm ổn định.
         private void FixedUpdate()
         {
             if (_rigidbody == null || _camera == null || _playerCollider == null || !_playerCollider.enabled)
@@ -115,6 +120,7 @@ namespace SpaceExplorer.Player
             _rigidbody.MovePosition(boundedPosition);
         }
 
+        // Tính giới hạn từ collider và bù độ lệch tâm collider so với Rigidbody2D.
         private bool TryGetMovementBounds(out Vector2 minimum, out Vector2 maximum)
         {
             Bounds colliderBounds = _playerCollider.bounds;
@@ -124,13 +130,13 @@ namespace SpaceExplorer.Player
             float halfWidth = halfHeight * _camera.aspect;
             Vector3 cameraPosition = _camera.transform.position;
 
-            // Recalculate every physics step so camera or viewport size changes are reflected.
+            // Tính lại mỗi nhịp vật lý để nhận thay đổi camera hoặc kích thước khung nhìn.
             float minimumX = cameraPosition.x - halfWidth + extents.x - colliderOffset.x;
             float maximumX = cameraPosition.x + halfWidth - extents.x - colliderOffset.x;
             float minimumY = cameraPosition.y - halfHeight + extents.y - colliderOffset.y;
             float maximumY = cameraPosition.y + halfHeight - extents.y - colliderOffset.y;
 
-            // If the viewport is smaller than the collider, center the collider on that axis.
+            // Nếu khung nhìn nhỏ hơn collider, đặt collider ở giữa theo trục đó.
             if (minimumX > maximumX)
                 minimumX = maximumX = cameraPosition.x - colliderOffset.x;
             if (minimumY > maximumY)
@@ -141,6 +147,7 @@ namespace SpaceExplorer.Player
             return true;
         }
 
+        // Dừng điều khiển nếu cấu hình sai và chỉ log lỗi một lần.
         private void FailConfiguration(string message)
         {
             Debug.LogError(message, this);

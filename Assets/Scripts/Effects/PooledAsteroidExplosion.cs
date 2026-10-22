@@ -13,6 +13,7 @@ namespace SpaceExplorer.Effects
         private Vector3 _prefabScale;
         private bool _isPlaying;
 
+        // Tìm Animator/SpriteRenderer và đặt animation dùng scaled time để pause cùng game.
         private void Awake()
         {
             if (_animator == null)
@@ -25,10 +26,11 @@ namespace SpaceExplorer.Effects
             if (_animator == null || _animator.runtimeAnimatorController == null || _spriteRenderer == null)
                 return;
 
-            // Normal Animator time follows Time.timeScale and therefore pauses with Gameplay.
+            // Animator dùng scaled time nên animation cũng dừng khi Gameplay pause.
             _animator.updateMode = AnimatorUpdateMode.Normal;
         }
 
+        // Kiểm tra prefab có Animator, SpriteRenderer và không có thành phần vật lý.
         internal bool TryValidate(out string error)
         {
             if (_animator == null)
@@ -58,6 +60,7 @@ namespace SpaceExplorer.Effects
             return true;
         }
 
+        // Đặt lại scale và Animator trước mỗi lần dùng để hiệu ứng pool luôn chạy từ đầu.
         internal bool BeginPlayback(AsteroidExplosionPool owner, float scaleMultiplier)
         {
             if (owner == null || _animator == null || _spriteRenderer == null || !_animator.isActiveAndEnabled)
@@ -73,6 +76,7 @@ namespace SpaceExplorer.Effects
             return true;
         }
 
+        // Theo dõi clip hiện tại và trả hiệu ứng khi animation chạy xong.
         private void Update()
         {
             if (!_isPlaying)
@@ -92,19 +96,22 @@ namespace SpaceExplorer.Effects
                 ReturnToPool();
         }
 
+        // Trả hiệu ứng về pool nếu hệ thống khác tắt object khi nó đang chạy.
         private void OnDisable()
         {
-            // If another system disables an in-use effect, reclaim its pool slot as well.
+            // Nếu hệ thống khác tắt hiệu ứng đang chạy, trả slot về pool để có thể dùng lại.
             if (_isPlaying)
                 ReturnToPool();
         }
 
+        // Xóa owner và trạng thái phát khi lấy object khỏi pool.
         protected override void OnTakenFromPool()
         {
             _owner = null;
             _isPlaying = false;
         }
 
+        // Ẩn renderer và xóa trạng thái trước lần tái sử dụng tiếp theo.
         protected override void OnReturnedToPool()
         {
             _isPlaying = false;
@@ -113,6 +120,7 @@ namespace SpaceExplorer.Effects
                 _spriteRenderer.enabled = false;
         }
 
+        // Đưa Animator về frame đầu và lưu mã state để theo dõi thời lượng phát.
         private bool ResetAnimation()
         {
             if (_animator == null || !_animator.isActiveAndEnabled || _animator.layerCount == 0)
@@ -129,6 +137,7 @@ namespace SpaceExplorer.Effects
             return true;
         }
 
+        // Trả hiệu ứng hiện tại về pool và xóa liên kết owner trước callback.
         private void ReturnToPool()
         {
             AsteroidExplosionPool owner = _owner;

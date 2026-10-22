@@ -34,11 +34,13 @@ namespace SpaceExplorer.Pickups
 
         public static int ActiveCount => ActiveStars.Count;
 
+        // Trả về Star đang hoạt động theo chỉ số để bộ hút không cần tìm toàn scene.
         public static StarPickup GetActiveAt(int index)
         {
             return index >= 0 && index < ActiveStars.Count ? ActiveStars[index] : null;
         }
 
+        // Lấy component vật lý và cấu hình Star thành vật thể trôi, không bị trọng lực kéo.
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -51,6 +53,7 @@ namespace SpaceExplorer.Pickups
             _rigidbody.constraints |= RigidbodyConstraints2D.FreezeRotation;
         }
 
+        // Khởi tạo hướng trôi ngẫu nhiên và lưu pool/camera để Star tự thu hồi đúng lúc.
         public void BeginDrift(StarPool owner, Camera camera)
         {
             if (!_isInUse || owner == null || camera == null || !camera.orthographic)
@@ -70,6 +73,7 @@ namespace SpaceExplorer.Pickups
             _rigidbody.angularVelocity = 0f;
         }
 
+        // Gán Player làm mục tiêu để Star Magnet kéo Star về phía người chơi.
         public void SetAttractionTarget(Transform target, float speed)
         {
             if (!_isInUse || target == null || speed <= 0f)
@@ -79,12 +83,14 @@ namespace SpaceExplorer.Pickups
             _attractionSpeed = speed;
         }
 
+        // Xóa mục tiêu hút để Star trở lại chuyển động trôi tự nhiên.
         public void ClearAttractionTarget()
         {
             _attractionTarget = null;
             _attractionSpeed = 0f;
         }
 
+        // Đăng ký Star đang được pool sử dụng vào danh sách phục vụ Star Magnet.
         private void OnEnable()
         {
             if (!_isInUse || _isRegisteredActive)
@@ -94,17 +100,20 @@ namespace SpaceExplorer.Pickups
             _isRegisteredActive = true;
         }
 
+        // Bỏ mục tiêu và danh sách khi Star bị tắt hoặc trả về pool.
         private void OnDisable()
         {
             ClearAttractionTarget();
             UnregisterActiveStar();
         }
 
+        // Đảm bảo Star bị hủy cũng được gỡ khỏi danh sách đang hoạt động.
         private void OnDestroy()
         {
             UnregisterActiveStar();
         }
 
+        // Xóa trạng thái cũ và vận tốc khi lấy Star mới từ pool.
         protected override void OnTakenFromPool()
         {
             if (_rigidbody == null)
@@ -119,6 +128,7 @@ namespace SpaceExplorer.Pickups
             _rigidbody.angularVelocity = 0f;
         }
 
+        // Dọn tham chiếu và vận tốc trước khi Star được tái sử dụng.
         protected override void OnReturnedToPool()
         {
             _isInUse = false;
@@ -133,6 +143,7 @@ namespace SpaceExplorer.Pickups
             }
         }
 
+        // Thu hồi Star nếu cấu hình sai hoặc ra khỏi camera; nếu không thì cập nhật chuyển động.
         private void FixedUpdate()
         {
             if (!_isInUse)
@@ -147,6 +158,7 @@ namespace SpaceExplorer.Pickups
             UpdateMovement();
         }
 
+        // Chỉ khi Player chạm Star mới cộng XP; sau đó thu hồi object để tránh cộng lặp.
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!_isInUse || _owner == null || other == null || !other.TryGetComponent(out StarXPCollector collector))
@@ -160,12 +172,14 @@ namespace SpaceExplorer.Pickups
             owner.Release(this);
         }
 
+        // Kiểm tra Star đã trôi hoàn toàn qua mép trái camera hay chưa.
         private bool IsOutsideLeftEdge()
         {
             float cameraLeft = _camera.transform.position.x - _camera.orthographicSize * _camera.aspect;
             return _renderer.bounds.max.x < cameraLeft;
         }
 
+        // Star Magnet đổi vận tốc dần về Player; khi không bị hút, Star tiếp tục drift ban đầu.
         private void UpdateMovement()
         {
             Vector2 desiredVelocity = _driftVelocity;
@@ -192,7 +206,7 @@ namespace SpaceExplorer.Pickups
                     desiredVelocity,
                     acceleration * Time.fixedDeltaTime);
 
-                // Keep the next physics step within the remaining distance to avoid passing the target.
+                // Giới hạn vận tốc bước vật lý kế tiếp để Star không vượt qua Player.
                 float maximumSafeSpeed = distance / Time.fixedDeltaTime;
                 if (distance > 0f && nextVelocity.sqrMagnitude > maximumSafeSpeed * maximumSafeSpeed)
                     nextVelocity = nextVelocity.normalized * maximumSafeSpeed;
@@ -207,6 +221,7 @@ namespace SpaceExplorer.Pickups
                 acceleration * Time.fixedDeltaTime);
         }
 
+        // Gỡ Star khỏi danh sách dùng chung để bộ hút không giữ object đã ngừng hoạt động.
         private void UnregisterActiveStar()
         {
             if (!_isRegisteredActive)
@@ -216,6 +231,7 @@ namespace SpaceExplorer.Pickups
             _isRegisteredActive = false;
         }
 
+        // Trả Star về pool tối đa một lần nếu pool vẫn sở hữu nó.
         private void ReturnToPool()
         {
             if (!_isInUse || _owner == null)

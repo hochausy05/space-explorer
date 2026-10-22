@@ -24,8 +24,10 @@ namespace SpaceExplorer.Effects
         private PrefabPool<PooledAsteroidExplosion> _pool;
         private bool _configurationErrorReported;
 
+        // Kiểm tra pool hiệu ứng đã sẵn sàng nhận yêu cầu phát nổ.
         public bool IsReady => _pool != null;
 
+        // Kiểm tra prefab và tạo pool hiệu ứng dùng chung cho các loại Asteroid.
         private void Awake()
         {
             if (_explosionPrefab == null)
@@ -48,7 +50,7 @@ namespace SpaceExplorer.Effects
 
             try
             {
-                // Leave the effect pool root at the scene root so pool-host transforms cannot move effects.
+                // Đặt root của pool ở cấp scene để transform của host không kéo lệch hiệu ứng.
                 _pool = new PrefabPool<PooledAsteroidExplosion>(
                     _explosionPrefab, _initialCapacity, _prewarmCount, expandWhenExhausted: true);
             }
@@ -58,6 +60,7 @@ namespace SpaceExplorer.Effects
             }
         }
 
+        // Nhận hiệu ứng từ pool, đặt vị trí và kích cỡ theo loại Asteroid.
         public bool Play(AsteroidKind kind, Vector3 worldPosition)
         {
             if (_pool == null)
@@ -75,11 +78,13 @@ namespace SpaceExplorer.Effects
             return false;
         }
 
+        // Nhận yêu cầu trả hiệu ứng từ object đã chạy xong.
         internal void Release(PooledAsteroidExplosion effect)
         {
             _pool?.Release(effect);
         }
 
+        // Chọn hệ số scale riêng cho từng loại Asteroid.
         private float GetScaleMultiplier(AsteroidKind kind)
         {
             switch (kind)
@@ -95,12 +100,14 @@ namespace SpaceExplorer.Effects
             }
         }
 
+        // Giải phóng pool khi scene hoặc chủ hiệu ứng bị hủy.
         private void OnDestroy()
         {
             _pool?.Dispose();
             _pool = null;
         }
 
+        // Dừng hoạt động và chỉ ghi lỗi cấu hình một lần.
         private void FailConfiguration(string message)
         {
             if (_configurationErrorReported)

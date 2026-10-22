@@ -39,6 +39,7 @@ namespace SpaceExplorer.UI
         private bool _configurationErrorReported;
         private bool _editorQuitMessageReported;
 
+        // Đóng panel thông tin và ẩn hàng mẫu trước khi kiểm tra cấu hình menu.
         private void Awake()
         {
             CloseInfoPanel();
@@ -49,6 +50,7 @@ namespace SpaceExplorer.UI
             ReportMissingReferencesOnce();
         }
 
+        // Gắn callback runtime cho các nút menu khi scene được bật.
         private void OnEnable()
         {
             AddButtonListener(_playButton, HandlePlay);
@@ -58,6 +60,7 @@ namespace SpaceExplorer.UI
             AddButtonListener(_closeButton, HandleClose);
         }
 
+        // Gỡ callback đã gắn để tránh gọi lặp khi menu được bật lại.
         private void OnDisable()
         {
             RemoveButtonListener(_playButton, HandlePlay);
@@ -67,30 +70,35 @@ namespace SpaceExplorer.UI
             RemoveButtonListener(_closeButton, HandleClose);
         }
 
+        // Mở Gameplay trực tiếp để GameManager bắt đầu run mới.
         private void HandlePlay()
         {
             SfxAudioService.PlayClick();
             LoadScene(SceneLoader.Gameplay);
         }
 
+        // Hiển thị hoặc đóng phần hướng dẫn trong InfoPanel.
         private void HandleInstructions()
         {
             SfxAudioService.PlayClick();
             ToggleInfoView(InfoView.Instructions);
         }
 
+        // Hiển thị hoặc đóng danh sách các run gần đây.
         private void HandleRecords()
         {
             SfxAudioService.PlayClick();
             ToggleInfoView(InfoView.Records);
         }
 
+        // Đóng toàn bộ InfoPanel khi người chơi bấm nút Close.
         private void HandleClose()
         {
             SfxAudioService.PlayClick();
             CloseInfoPanel();
         }
 
+        // Thoát ứng dụng trong bản build; ở Editor chỉ ghi hướng dẫn kiểm thử.
         private void HandleQuit()
         {
             SfxAudioService.PlayClick();
@@ -109,6 +117,7 @@ namespace SpaceExplorer.UI
 #endif
         }
 
+        // Dùng chung InfoPanel cho Instructions hoặc Records và đóng panel khi bấm lại mục đang mở.
         private void ToggleInfoView(InfoView requestedView)
         {
             if (_infoPanel == null)
@@ -131,6 +140,7 @@ namespace SpaceExplorer.UI
                 RefreshRecordsList();
         }
 
+        // Nạp lịch sử mới nhất trước và tái sử dụng các row đã tạo khi mở Records lần sau.
         private void RefreshRecordsList()
         {
             HideSpawnedRows();
@@ -177,6 +187,7 @@ namespace SpaceExplorer.UI
             }
         }
 
+        // Ẩn các hàng đã tạo để danh sách được cập nhật khi mở Records lần sau.
         private void HideSpawnedRows()
         {
             for (int i = 0; i < _spawnedRows.Count; i++)
@@ -186,6 +197,7 @@ namespace SpaceExplorer.UI
             }
         }
 
+        // Tải scene đích một lần và mở khóa thử lại nếu SceneLoader báo lỗi.
         private void LoadScene(string sceneName)
         {
             if (_transitionStarted)
@@ -199,6 +211,7 @@ namespace SpaceExplorer.UI
             Debug.LogError($"MainMenu could not load '{sceneName}': {error}", this);
         }
 
+        // Đặt lại lựa chọn nội dung và ẩn toàn bộ InfoPanel.
         private void CloseInfoPanel()
         {
             _activeView = InfoView.None;
@@ -208,6 +221,7 @@ namespace SpaceExplorer.UI
             SetActive(_infoPanel, false);
         }
 
+        // Kiểm tra các nút, nội dung và danh sách Records đã được gán.
         private void ReportMissingReferencesOnce()
         {
             if (_configurationErrorReported)
@@ -222,6 +236,7 @@ namespace SpaceExplorer.UI
             ReportConfigurationError("MainMenuController is missing one or more button, panel, instruction, records, or row references.");
         }
 
+        // Báo lỗi cấu hình một lần để menu không tạo log lặp.
         private void ReportConfigurationError(string message)
         {
             if (_configurationErrorReported)
@@ -231,12 +246,14 @@ namespace SpaceExplorer.UI
             _configurationErrorReported = true;
         }
 
+        // Đổi trạng thái hiển thị của đối tượng nếu tham chiếu hợp lệ.
         private static void SetActive(GameObject target, bool active)
         {
             if (target != null && target.activeSelf != active)
                 target.SetActive(active);
         }
 
+        // Gắn callback runtime sau khi loại bỏ bản đăng ký trùng.
         private static void AddButtonListener(Button button, UnityEngine.Events.UnityAction callback)
         {
             if (button == null)
@@ -246,6 +263,7 @@ namespace SpaceExplorer.UI
             button.onClick.AddListener(callback);
         }
 
+        // Gỡ callback runtime khỏi nút khi controller bị tắt.
         private static void RemoveButtonListener(Button button, UnityEngine.Events.UnityAction callback)
         {
             if (button != null)

@@ -7,6 +7,7 @@ namespace SpaceExplorer.Upgrades
     {
         public override bool HasImplementedEffect => true;
 
+        // Chỉ cho chọn Shield khi Player có controller và chưa đạt cấp tối đa.
         public override bool IsEligible(GameObject player)
         {
             return player != null
@@ -14,6 +15,7 @@ namespace SpaceExplorer.Upgrades
                 && shield.CanUpgrade;
         }
 
+        // Gọi controller trên Player để tăng một cấp Shield.
         public override void Apply(GameObject player)
         {
             if (player != null && player.TryGetComponent(out EnergyShieldController shield))

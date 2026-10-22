@@ -18,6 +18,7 @@ namespace SpaceExplorer.UI
 
         public bool IsConfigured
         {
+            // Xác nhận mọi lựa chọn có Button, tên, mô tả và icon hợp lệ.
             get
             {
                 if (!enabled || _buttons == null || _labels == null || _descriptions == null || _icons == null
@@ -38,12 +39,14 @@ namespace SpaceExplorer.UI
         private Action<int, int> _onChoiceSelected;
         private UnityAction[] _runtimeCallbacks;
 
+        // Ẩn panel ban đầu nếu chưa có luồng chọn nâng cấp gọi Show.
         private void Awake()
         {
             if (_onChoiceSelected == null)
                 Hide();
         }
 
+        // Điền nội dung từng lựa chọn và gắn callback runtime mang token để bỏ qua click cũ.
         public bool Show(IReadOnlyList<IUpgradeOption> choices, int selectionToken, Action<int, int> onChoiceSelected)
         {
             if (choices == null || choices.Count == 0 || onChoiceSelected == null || !IsConfigured)
@@ -60,7 +63,7 @@ namespace SpaceExplorer.UI
                     return false;
             }
 
-            // Set the callback before activation: an initially inactive panel runs Awake on activation.
+            // Gán callback trước khi bật panel vì Awake có thể chạy ngay lúc kích hoạt.
             _onChoiceSelected = onChoiceSelected;
             if (!gameObject.activeSelf)
                 gameObject.SetActive(true);
@@ -100,6 +103,7 @@ namespace SpaceExplorer.UI
             return true;
         }
 
+        // Ẩn panel, xóa nội dung và gỡ callback runtime của các lựa chọn.
         public void Hide()
         {
             RemoveRuntimeListeners();
@@ -113,6 +117,7 @@ namespace SpaceExplorer.UI
                 gameObject.SetActive(false);
         }
 
+        // Xóa tên, mô tả và biểu tượng cũ trước khi panel được tái sử dụng.
         private void ClearPresentation(int index)
         {
             if (_labels != null && index < _labels.Length && _labels[index] != null)
@@ -122,6 +127,7 @@ namespace SpaceExplorer.UI
             SetIcon(index, null);
         }
 
+        // Gán icon của nâng cấp và ẩn ảnh khi definition không có icon.
         private void SetIcon(int index, Sprite sprite)
         {
             if (_icons == null || index >= _icons.Length || _icons[index] == null)
@@ -131,6 +137,7 @@ namespace SpaceExplorer.UI
             _icons[index].enabled = sprite != null;
         }
 
+        // Gỡ callback runtime đã tạo, không đụng tới listener được lưu trong Inspector.
         private void RemoveRuntimeListeners()
         {
             if (_buttons == null || _runtimeCallbacks == null)

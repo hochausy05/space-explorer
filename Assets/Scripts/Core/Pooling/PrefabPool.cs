@@ -20,6 +20,7 @@ namespace SpaceExplorer.Core.Pooling
         public int ActiveCount => _activeCount;
         public int AvailableCount => _available.Count;
 
+        // Tạo root, khởi tạo danh sách và prewarm số object được yêu cầu.
         public PrefabPool(T prefab, int capacity, int prewarmCount = 0, Transform parent = null, bool expandWhenExhausted = false)
         {
             if (prefab == null)
@@ -41,6 +42,7 @@ namespace SpaceExplorer.Core.Pooling
                 _available.Push(CreateInstance());
         }
 
+        // Lấy object đã rảnh hoặc tạo theo chính sách pool, rồi khởi tạo trạng thái lease.
         public T Get(Vector3 position, Quaternion rotation)
         {
             if (_disposed)
@@ -66,7 +68,7 @@ namespace SpaceExplorer.Core.Pooling
                 throw new InvalidOperationException("Pool returned an object that was already leased or belongs to another pool.");
             }
 
-            // A pool callback may release the object immediately; don't reactivate it in that case.
+            // Callback lấy object có thể trả nó ngay; khi đó không kích hoạt lại.
             if (!item.IsLeasedTo(this))
                 return null;
 
@@ -76,6 +78,7 @@ namespace SpaceExplorer.Core.Pooling
             return item;
         }
 
+        // Trả object đang lease về danh sách sẵn dùng nếu thuộc pool này.
         public bool Release(T item)
         {
             if (_disposed || item == null || !item.TryReturn(this))
@@ -86,6 +89,7 @@ namespace SpaceExplorer.Core.Pooling
             return true;
         }
 
+        // Dọn pool an toàn khi scene đã hủy root trước owner; gọi lặp không gây lỗi.
         public void Dispose()
         {
             if (_disposed)
@@ -93,7 +97,7 @@ namespace SpaceExplorer.Core.Pooling
 
             _disposed = true;
 
-            // Scene teardown may destroy this Unity object before the pool owner's OnDestroy runs.
+            // Scene có thể hủy root trước khi OnDestroy của chủ pool được gọi.
             Transform root = _root;
             if (root != null)
             {
@@ -112,6 +116,7 @@ namespace SpaceExplorer.Core.Pooling
             _activeCount = 0;
         }
 
+        // Tạo object từ prefab, gán owner pool và tăng tổng số lượng.
         private T CreateInstance()
         {
             T item = UnityEngine.Object.Instantiate(_prefab, _root, false);

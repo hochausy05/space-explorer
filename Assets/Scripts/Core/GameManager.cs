@@ -13,6 +13,7 @@ namespace SpaceExplorer.Core
         public RunState State { get; private set; } = RunState.Ready;
         public RunResult? LastResult { get; private set; }
         public int CurrentScore { get; private set; }
+        // Cho biết có bao nhiêu hệ thống đang giữ yêu cầu pause.
         public int ActivePauseRequestCount => _pauseRequests.Count;
 
         public static event Action RunStarted;
@@ -28,15 +29,18 @@ namespace SpaceExplorer.Core
             internal readonly GameManager Owner;
             internal readonly int Id;
 
+        // Tạo token gắn với đúng GameManager để mỗi hệ thống giữ quyền pause riêng.
             internal PauseRequestToken(GameManager owner, int id)
             {
                 Owner = owner;
                 Id = id;
             }
 
+            // Token chỉ hợp lệ khi có owner còn tồn tại và mã dương.
             public bool IsValid => Owner != null && Id > 0;
         }
 
+        // Đặt singleton duy nhất và giữ GameManager qua các lần đổi scene.
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -50,18 +54,21 @@ namespace SpaceExplorer.Core
             SceneManager.sceneLoaded += HandleSceneLoaded;
         }
 
+        // Bắt đầu run nếu game được mở trực tiếp vào Gameplay.
         private void Start()
         {
             if (SceneManager.GetActiveScene().name == SceneLoader.Gameplay)
                 BeginRunForGameplay();
         }
 
+        // Bắt đầu run mới mỗi khi scene Gameplay được tải.
         private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (scene.name == SceneLoader.Gameplay)
                 BeginRunForGameplay();
         }
 
+        // Chuyển run về trạng thái bắt đầu rồi chạy lifecycle hiện có.
         private void BeginRunForGameplay()
         {
             if (State == RunState.Finished && !TryResetRun(out string resetError))
@@ -74,6 +81,7 @@ namespace SpaceExplorer.Core
                 Debug.LogError(beginError, this);
         }
 
+        // Gỡ đăng ký scene callback và xóa singleton khi instance bị hủy.
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= HandleSceneLoaded;
@@ -81,6 +89,7 @@ namespace SpaceExplorer.Core
                 Instance = null;
         }
 
+        // Chỉ bắt đầu từ Ready; xóa kết quả cũ, reset Score và phát tín hiệu cho hệ thống trong run.
         public bool TryBeginRun(out string error)
         {
             if (State != RunState.Ready)
@@ -98,6 +107,7 @@ namespace SpaceExplorer.Core
             return true;
         }
 
+        // Cộng điểm chỉ khi run đang Playing và số điểm hợp lệ.
         public bool TryAddScore(int amount)
         {
             if (State != RunState.Playing || amount <= 0)
@@ -108,6 +118,7 @@ namespace SpaceExplorer.Core
             return true;
         }
 
+        // Trừ điểm trong giới hạn không âm và phát thay đổi Score.
         public bool TryApplyScorePenalty(int amount, out string error)
         {
             if (State != RunState.Playing && State != RunState.Paused)
@@ -133,6 +144,7 @@ namespace SpaceExplorer.Core
             return true;
         }
 
+        // Tạo yêu cầu pause tương thích cũ, không cho cùng caller pause hai lần.
         public bool TryPauseRun(out string error)
         {
             if (State != RunState.Playing && State != RunState.Paused)
@@ -151,6 +163,7 @@ namespace SpaceExplorer.Core
             return true;
         }
 
+        // Nhả đúng yêu cầu pause cũ do chính GameManager lưu giữ.
         public bool TryResumeRun(out string error)
         {
             if (State != RunState.Paused || !_legacyPauseRequest.HasValue)
@@ -164,6 +177,7 @@ namespace SpaceExplorer.Core
             return TryReleasePauseRequest(token, out error);
         }
 
+        // Mỗi bên giữ token riêng để chỉ có thể gỡ yêu cầu pause do chính mình tạo.
         public bool TryAcquirePauseRequest(out PauseRequestToken token, out string error)
         {
             token = default;
@@ -185,6 +199,7 @@ namespace SpaceExplorer.Core
             return true;
         }
 
+        // Chỉ trở lại Playing khi token hợp lệ được nhả và không còn bên nào yêu cầu pause.
         public bool TryReleasePauseRequest(PauseRequestToken token, out string error)
         {
             if (token.Owner != this || token.Id <= 0 || !_pauseRequests.Remove(token.Id))
@@ -204,6 +219,7 @@ namespace SpaceExplorer.Core
             return true;
         }
 
+        // Chốt snapshot, lưu lịch sử và phát sự kiện kết thúc chỉ khi run chưa kết thúc.
         public bool TryFinishRun(RunResult result, out string error)
         {
             if (State != RunState.Playing && State != RunState.Paused)
@@ -224,6 +240,7 @@ namespace SpaceExplorer.Core
             return true;
         }
 
+        // Rời run chưa hoàn tất mà không ghi lịch sử hoặc tạo kết quả Game Over.
         public bool TryAbandonRun(out string error)
         {
             if (State != RunState.Playing && State != RunState.Paused)
@@ -243,6 +260,7 @@ namespace SpaceExplorer.Core
             return true;
         }
 
+        // Chuyển trạng thái run về Ready sau khi kết thúc.
         public bool TryResetRun(out string error)
         {
             if (State != RunState.Finished)
@@ -257,11 +275,13 @@ namespace SpaceExplorer.Core
             return true;
         }
 
+        // Đồng bộ timeScale với trạng thái Playing, Paused hoặc Finished.
         private void ApplyTimeScale()
         {
             Time.timeScale = State == RunState.Paused || State == RunState.Finished ? 0f : 1f;
         }
 
+        // Tạo thông báo khi chuyển trạng thái không hợp lệ.
         private bool RejectTransition(string action, RunState requiredState, out string error)
         {
             error = $"Cannot {action} while the game is {State}. The required state is {requiredState}.";

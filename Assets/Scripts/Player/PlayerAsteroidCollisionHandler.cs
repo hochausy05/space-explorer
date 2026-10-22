@@ -53,6 +53,7 @@ namespace SpaceExplorer.Player
         private bool _shieldVisualVisible;
         private bool _shieldVisualConfigurationWarningReported;
 
+        // Chọn handler duy nhất, lấy component Player và thiết lập liên kết run.
         private void Awake()
         {
             PlayerAsteroidCollisionHandler[] handlers = GetComponents<PlayerAsteroidCollisionHandler>();
@@ -106,6 +107,7 @@ namespace SpaceExplorer.Player
                 HandleRunStarted();
         }
 
+        // Hủy đăng ký các sự kiện GameManager khi handler bị hủy.
         private void OnDestroy()
         {
             GameManager.RunStarted -= HandleRunStarted;
@@ -113,6 +115,7 @@ namespace SpaceExplorer.Player
                 _runManager.RunFinished -= HandleRunFinished;
         }
 
+        // Cập nhật thời lượng bảo vệ và hiệu ứng Shield theo thời gian gameplay.
         private void Update()
         {
             if (!_shieldVisualVisible)
@@ -132,6 +135,7 @@ namespace SpaceExplorer.Player
             SetShieldVisualAppearance(alpha, brightness);
         }
 
+        // Mỗi va chạm được xử lý theo thứ tự: bỏ qua bảo vệ, trừ điểm, thử Shield rồi mới trừ máu.
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (_gameOverStarted || !other.TryGetComponent(out Asteroid asteroid))
@@ -180,6 +184,7 @@ namespace SpaceExplorer.Player
                 BeginPostHitProtection(showShieldBubble: false);
         }
 
+        // Trả sát thương HP theo loại Asteroid và giá trị đã cấu hình trong Inspector.
         private int GetAsteroidDamage(Asteroid asteroid)
         {
             switch (asteroid.Kind)
@@ -195,6 +200,7 @@ namespace SpaceExplorer.Player
             }
         }
 
+        // Trả mức phạt Score theo loại Asteroid mà Player vừa chạm phải.
         private int GetAsteroidScorePenalty(Asteroid asteroid)
         {
             switch (asteroid.Kind)
@@ -210,6 +216,7 @@ namespace SpaceExplorer.Player
             }
         }
 
+        // Chụp kết quả cuối run một lần rồi chuyển sang EndGame qua SceneLoader.
         private void FinishRun(GameManager manager)
         {
             if (!_hasRunStartTime)
@@ -238,6 +245,7 @@ namespace SpaceExplorer.Player
                 Debug.LogError(sceneError, this);
         }
 
+        // Đặt lại bộ khử va chạm và thời gian bảo vệ khi run mới bắt đầu.
         private void HandleRunStarted()
         {
             BindRunFinishedEvent();
@@ -249,6 +257,7 @@ namespace SpaceExplorer.Player
             _hasRunStartTime = true;
         }
 
+        // Theo dõi GameManager hiện tại để dọn hiệu ứng khi run kết thúc.
         private void BindRunFinishedEvent()
         {
             GameManager manager = GameManager.Instance;
@@ -263,11 +272,13 @@ namespace SpaceExplorer.Player
                 _runManager.RunFinished += HandleRunFinished;
         }
 
+        // Xóa trạng thái bảo vệ và ẩn hình Shield sau khi run kết thúc.
         private void HandleRunFinished(RunResult _)
         {
             ClearPostHitProtection();
         }
 
+        // Bắt đầu cửa sổ miễn va chạm; chỉ hit được Shield hấp thụ mới hiện bubble.
         private void BeginPostHitProtection(bool showShieldBubble)
         {
             double now = Time.timeAsDouble;
@@ -292,6 +303,7 @@ namespace SpaceExplorer.Player
             }
         }
 
+        // Xóa thời gian bảo vệ và khôi phục trạng thái hiển thị gốc của Shield.
         private void ClearPostHitProtection()
         {
             _postHitProtectionStartedAt = 0d;
@@ -299,6 +311,7 @@ namespace SpaceExplorer.Player
             HideShieldVisual();
         }
 
+        // Ẩn hình Shield và phục hồi màu gốc trước lần hiển thị tiếp theo.
         private void HideShieldVisual()
         {
             _shieldVisualVisible = false;
@@ -309,6 +322,7 @@ namespace SpaceExplorer.Player
             }
         }
 
+        // Tìm SpriteRenderer ShieldVisual dưới Player, lưu màu và ẩn lúc khởi tạo.
         private bool ConfigureShieldVisual()
         {
             if (_shieldVisual == null)
@@ -326,11 +340,13 @@ namespace SpaceExplorer.Player
             return true;
         }
 
+        // Xác nhận hình Shield là con của Player nên sẽ đi theo tàu.
         private bool FollowsPlayer(Transform rendererTransform)
         {
             return rendererTransform.IsChildOf(transform);
         }
 
+        // Tính fade, nhịp sáng và nhấp nháy theo tiến độ cửa sổ bảo vệ.
         private static void EvaluateShieldVisualAnimation(float progress, float fadeInFraction,
             float fadeOutFraction, out float alpha, out float brightness)
         {
@@ -369,6 +385,7 @@ namespace SpaceExplorer.Player
             brightness = 1f;
         }
 
+        // Áp dụng độ sáng và alpha lên màu gốc của hình Shield.
         private void SetShieldVisualAppearance(float alpha, float brightness)
         {
             if (_shieldVisual == null)
@@ -382,6 +399,7 @@ namespace SpaceExplorer.Player
             _shieldVisual.color = color;
         }
 
+        // Báo cấu hình sai một lần rồi tắt handler để tránh lỗi runtime lặp lại.
         private void FailConfiguration(string message)
         {
             if (!_configurationErrorReported)
